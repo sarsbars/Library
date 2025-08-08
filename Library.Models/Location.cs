@@ -7,8 +7,8 @@ namespace Library.Models {
         BoyeOgundiyaAcademicLibrary,
         HallResearchCenter,
         HuaKnowledgeInstitute,
-        MitchellLearningCommons,
-        SolomonMemorialLibrary
+        MitchellMemorialLibrary,
+        SolomonLearningCommons
     }
     public class Location {
         [Key]

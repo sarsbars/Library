@@ -13,7 +13,7 @@ namespace Library.Models {
     public class Location {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int LocationId { get; set; }
+        public int LocationID { get; set; }
 
         [Required]
         public LocationNameType LocationName { get; set; }

@@ -20,11 +20,11 @@ namespace Library.Models {
     public class User {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int UserId { get; set; }
+        public int UserID { get; set; }
 
         [Required]
         [ForeignKey("Location")]
-        public int LocationId { get; set; }
+        public int LocationID { get; set; }
 
         [Required]
         [StringLength(100)]

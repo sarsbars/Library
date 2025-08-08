@@ -12,19 +12,19 @@ namespace Library.Models {
     public class Loan {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int LoanId { get; set; }
+        public int LoanID { get; set; }
 
         [Required]
         [ForeignKey("Location")]
-        public int LocationId { get; set; }
+        public int LocationID { get; set; }
 
         [Required]
         [ForeignKey("Book")]
-        public int BookId { get; set; }
+        public int BookID { get; set; }
 
         [Required]
         [ForeignKey("User")]
-        public int UserId { get; set; }
+        public int UserID { get; set; }
 
         [Required]
         public DateTime DueDate { get; set; }

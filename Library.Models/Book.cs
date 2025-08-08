@@ -30,14 +30,14 @@ namespace Library.Models {
     public class Book {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int BookId { get; set; }
+        public int BookID { get; set; }
 
         [Required]
         [ForeignKey("Location")]
-        public int LocationId { get; set; }
+        public int LocationID { get; set; }
 
         [ForeignKey("Loan")]
-        public int? LoanId { get; set; }
+        public int? LoanID { get; set; }
 
         [Required]
         [StringLength(13, MinimumLength = 10)]

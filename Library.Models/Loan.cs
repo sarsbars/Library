@@ -9,6 +9,7 @@ namespace Library.Models {
         Overdue,
         OnHold
     }
+
     public class Loan {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

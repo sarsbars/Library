@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -36,9 +37,6 @@ namespace Library.Models {
         [ForeignKey("Location")]
         public int LocationID { get; set; }
 
-        [ForeignKey("Loan")]
-        public int? LoanID { get; set; }
-
         [Required]
         [StringLength(13, MinimumLength = 10)]
         public string ISBN { get; set; }
@@ -61,11 +59,11 @@ namespace Library.Models {
         public ConditionType Condition { get; set; }
 
         [Required]
-        public bool IsAvailable { get; set; } 
+        public bool IsAvailable { get; set; }
 
-        public int LocationInLibrary { get; set; } // Like shelf number
+        public int LocationInLibrary { get; set; }
 
         public virtual Location Location { get; set; }
-        public virtual Loan Loan { get; set; }
+        public virtual ICollection<Loan> Loans { get; set; } = new List<Loan>();
     }
 }

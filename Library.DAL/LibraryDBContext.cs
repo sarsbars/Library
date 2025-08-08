@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Library.Models;
 
 namespace Library.DAL {
-    public class LibraryDbContext : IdentityDbContext {
-        public LibraryDbContext(DbContextOptions<LibraryDbContext> options)
+    public class LibraryDBContext : IdentityDbContext {
+        public LibraryDBContext(DbContextOptions<LibraryDBContext> options)
             : base(options) {
         }
 
@@ -16,18 +16,19 @@ namespace Library.DAL {
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
 
-            // Books
+            // Book-Loan one-to-many
+            modelBuilder.Entity<Book>()
+                .HasMany(b => b.Loans)
+                .WithOne(l => l.Book)
+                .HasForeignKey(l => l.BookID)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Book-Location one-to-many
             modelBuilder.Entity<Book>()
                 .HasOne(b => b.Location)
                 .WithMany(l => l.Books)
                 .HasForeignKey(b => b.LocationID)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Book>()
-                .HasOne(b => b.Loan)
-                .WithOne(l => l.Book)
-                .HasForeignKey<Book>(b => b.LoanID)
-                .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<Book>()
                 .Property(b => b.Genre)
@@ -37,19 +38,14 @@ namespace Library.DAL {
                 .Property(b => b.Condition)
                 .HasConversion<int>();
 
-            // Loans
+            // Loan-Location one-to-many
             modelBuilder.Entity<Loan>()
                 .HasOne(l => l.Location)
                 .WithMany(loc => loc.Loans)
                 .HasForeignKey(l => l.LocationID)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Loan>()
-                .HasOne(l => l.Book)
-                .WithOne(b => b.Loan)
-                .HasForeignKey<Loan>(l => l.BookID)
-                .OnDelete(DeleteBehavior.Cascade);
-
+            // Loan-User one-to-many
             modelBuilder.Entity<Loan>()
                 .HasOne(l => l.User)
                 .WithMany(u => u.Loans)
@@ -60,7 +56,7 @@ namespace Library.DAL {
                 .Property(l => l.LoanStatus)
                 .HasConversion<int>();
 
-            // Users
+            // User-Location one-to-many
             modelBuilder.Entity<User>()
                 .HasOne(u => u.Location)
                 .WithMany(l => l.Users)
@@ -80,24 +76,7 @@ namespace Library.DAL {
                 .Property(l => l.LocationName)
                 .HasConversion<int>();
 
-            modelBuilder.Entity<Location>()
-                .HasMany(l => l.Books)
-                .WithOne(b => b.Location)
-                .HasForeignKey(b => b.LocationID);
-
-            modelBuilder.Entity<Location>()
-                .HasMany(l => l.Loans)
-                .WithOne(l => l.Location)
-                .HasForeignKey(l => l.LocationID);
-
-            modelBuilder.Entity<Location>()
-                .HasMany(l => l.Users)
-                .WithOne(u => u.Location)
-                .HasForeignKey(u => u.LocationID);
-
             // Seed Data
-
-            // Locations
             modelBuilder.Entity<Location>().HasData(
                 new Location { LocationID = 1, LocationName = LocationNameType.BoyeOgundiyaAcademicLibrary, Address = "100 Boye-Ogundiya Way", PhoneNumber = "1234567890" },
                 new Location { LocationID = 2, LocationName = LocationNameType.HallResearchCenter, Address = "200 Hall Street", PhoneNumber = "1234567891" },
@@ -106,14 +85,12 @@ namespace Library.DAL {
                 new Location { LocationID = 5, LocationName = LocationNameType.SolomonLearningCommons, Address = "500 Solomon Boulevard", PhoneNumber = "1234567894" }
             );
 
-            // Users
             modelBuilder.Entity<User>().HasData(
                 new User { UserID = 1, LocationID = 1, Name = "Admin User", Role = RoleType.Admin, Gender = GenderType.PreferNotToDisclose, Email = "admin@library.com", PhoneNumber = "1234567890", Address = "100 Boye-Ogundiya Way" },
                 new User { UserID = 2, LocationID = 2, Name = "Staff User", Role = RoleType.Staff, Gender = GenderType.Male, Email = "staff@library.com", PhoneNumber = "1234567891", Address = "200 Hall Street" },
                 new User { UserID = 3, LocationID = 3, Name = "Reader User", Role = RoleType.Reader, Gender = GenderType.Female, Email = "reader@library.com", PhoneNumber = "1234567892", Address = "300 Hua Avenue" }
             );
 
-            // Books
             modelBuilder.Entity<Book>().HasData(
                 new Book { BookID = 1, LocationID = 4, ISBN = "9780140186390", Title = "East of Eden", Author = "John Steinbeck", PublicationDate = new DateTime(1952, 9, 19), Genre = GenreType.Fiction, Condition = ConditionType.Used, IsAvailable = true, LocationInLibrary = 101 },
                 new Book { BookID = 2, LocationID = 3, ISBN = "9781526630810", Title = "Piranesi", Author = "Susanna Clarke", PublicationDate = new DateTime(2020, 9, 15), Genre = GenreType.Fantasy, Condition = ConditionType.New, IsAvailable = false, LocationInLibrary = 102 },
@@ -123,7 +100,6 @@ namespace Library.DAL {
                 new Book { BookID = 6, LocationID = 1, ISBN = "9781423103349", Title = "One Piece, Vol. 1: Romance Dawn", Author = "Eiichiro Oda", PublicationDate = new DateTime(1997, 12, 24), Genre = GenreType.Manga, Condition = ConditionType.Used, IsAvailable = false, LocationInLibrary = 106 }
             );
 
-            // Loans
             modelBuilder.Entity<Loan>().HasData(
                 new Loan { LoanID = 1, LocationID = 3, BookID = 2, UserID = 3, DueDate = new DateTime(2025, 8, 15), DateBorrowed = new DateTime(2025, 8, 1), LoanStatus = LoanStatusType.TakenOut },
                 new Loan { LoanID = 2, LocationID = 3, BookID = 3, UserID = 2, DueDate = new DateTime(2025, 7, 31), DateBorrowed = new DateTime(2025, 7, 17), LoanStatus = LoanStatusType.Overdue },

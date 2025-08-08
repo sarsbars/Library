@@ -1,10 +1,71 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Library.Models {
-    internal class Book {
+    public enum ConditionType {
+        Mint,
+        New,
+        Used,
+        Damaged
+    }
+
+    public enum GenreType {
+        Fiction,
+        NonFiction,
+        ScienceFiction,
+        Mystery,
+        Romance,
+        Fantasy,
+        Childrens,
+        Humour,
+        Technology,
+        Science,
+        Textbooks,
+        GraphicNovel,
+        Magazine,
+        Manga
+    }
+
+    public class Book {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int BookId { get; set; }
+
+        [Required]
+        [ForeignKey("Location")]
+        public int LocationId { get; set; }
+
+        [ForeignKey("Loan")]
+        public int? LoanId { get; set; }
+
+        [Required]
+        [StringLength(13, MinimumLength = 10)]
+        public string ISBN { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        public string Title { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        public string Author { get; set; }
+
+        [Required]
+        public DateTime PublicationDate { get; set; }
+
+        [Required]
+        public GenreType Genre { get; set; }
+
+        [Required]
+        public ConditionType Condition { get; set; }
+
+        [Required]
+        public bool IsAvailable { get; set; } 
+
+        public int LocationInLibrary { get; set; } // Like shelf number
+
+        public virtual Location Location { get; set; }
+        public virtual Loan Loan { get; set; }
     }
 }

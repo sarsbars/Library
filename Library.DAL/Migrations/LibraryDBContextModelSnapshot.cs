@@ -49,9 +49,6 @@ namespace Library.DAL.Migrations
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("LoanID")
-                        .HasColumnType("int");
-
                     b.Property<int>("LocationID")
                         .HasColumnType("int");
 
@@ -181,8 +178,7 @@ namespace Library.DAL.Migrations
 
                     b.HasKey("LoanID");
 
-                    b.HasIndex("BookID")
-                        .IsUnique();
+                    b.HasIndex("BookID");
 
                     b.HasIndex("LocationID");
 
@@ -578,8 +574,8 @@ namespace Library.DAL.Migrations
             modelBuilder.Entity("Library.Models.Loan", b =>
                 {
                     b.HasOne("Library.Models.Book", "Book")
-                        .WithOne("Loan")
-                        .HasForeignKey("Library.Models.Loan", "BookID")
+                        .WithMany("Loans")
+                        .HasForeignKey("BookID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -666,8 +662,7 @@ namespace Library.DAL.Migrations
 
             modelBuilder.Entity("Library.Models.Book", b =>
                 {
-                    b.Navigation("Loan")
-                        .IsRequired();
+                    b.Navigation("Loans");
                 });
 
             modelBuilder.Entity("Library.Models.Location", b =>

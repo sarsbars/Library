@@ -22,6 +22,14 @@
         </select>
     </div>
     <div>
+        <label asp-for="IsAvailable">Availability:</label>
+        <select asp-for="IsAvailable" class="form-select">
+            <option value="">-- Any --</option>
+            <option value="true">Available</option>
+            <option value="false">Unavailable</option>
+        </select>
+    </div>
+    <div>
         <label asp-for="Location">Location:</label>
         <select asp-for="Location" asp-items="Html.GetEnumSelectList<LocationNameType>()" class="form-select">
             <option value="">-- Any --</option>

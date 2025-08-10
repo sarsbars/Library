@@ -33,7 +33,8 @@ namespace Library.Controllers {
                 (!filters.Genre.HasValue || b.Genre == filters.Genre) &&
                 (!filters.Condition.HasValue || b.Condition == filters.Condition) &&
                 (string.IsNullOrEmpty(filters.Author) || b.Author == filters.Author) &&
-                (!filters.Location.HasValue || b.Location.LocationName == filters.Location))
+                (!filters.Location.HasValue || b.Location.LocationName == filters.Location) &&
+                (!filters.IsAvailable.HasValue || b.IsAvailable == filters.IsAvailable))
                 .ToList();
 
             List<string> authors = _bookService.GetBooks()
@@ -60,7 +61,7 @@ namespace Library.Controllers {
         [Route("Books/Details/{BookID}")]
         public IActionResult Details(int BookID) {
             Book book = _bookService.GetBookByID(BookID);
-            if(book == null) {
+            if(book == null ) {
                 return NotFound();
             }
             return View(book);

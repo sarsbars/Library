@@ -27,6 +27,7 @@ namespace Library.Controllers {
             });
         }
 
+        [HttpPost]
         public IActionResult FilterBooks(BookFilterViewModel filters) {
             List<Book> filteredBooks = _bookService.GetBooks().Where(b =>
                 (!filters.Genre.HasValue || b.Genre == filters.Genre) &&
@@ -58,7 +59,11 @@ namespace Library.Controllers {
         [HttpGet]
         [Route("Books/Details/{BookID}")]
         public IActionResult Details(int BookID) {
-            return View();
+            Book book = _bookService.GetBookByID(BookID);
+            if(book == null) {
+                return NotFound();
+            }
+            return View(book);
         }
 
         [HttpGet]

@@ -8,7 +8,9 @@ namespace Library.BLL {
         public BookService (BookRepository bookRepository) {
             _bookRepository = bookRepository;
         }
-
+        public Book GetBookByID(int ID) {
+            return _bookRepository.GetBookByID(ID);
+        }
         public List<Book> GetBooks() {
             return _bookRepository.GetBooks();
         }

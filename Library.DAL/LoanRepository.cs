@@ -17,6 +17,14 @@ namespace Library.DAL {
                 .ToList();
         }
 
+        public Loan GetLoanById(int id) {
+            return _context.Loans
+                .Include(l => l.Book)
+                .Include(l => l.Location)
+                .Include(l => l.User)
+                .FirstOrDefault(l => l.LoanID == id);
+        }
+
        public void AddLoan(Loan loan) {
             _context.Loans.Add(loan);
             _context.SaveChanges();

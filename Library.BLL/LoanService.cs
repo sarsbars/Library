@@ -1,9 +1,5 @@
 ﻿using Library.DAL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Library.Models;
 
 namespace Library.BLL {
     public class LoanService {
@@ -13,6 +9,19 @@ namespace Library.BLL {
             _loanRepository = loanRepository;
         }
 
-        public 
+        public List<Loan> GetLoans() {
+            return _loanRepository.GetLoans();
+        }
+
+        public Loan GetLoanById(int id) {
+            return _loanRepository.GetLoanById(id);
+        }
+
+        public void AddLoan(Loan loan) {
+            if(loan == null) {
+                throw new ArgumentNullException(nameof(loan), "Loan cannot be null");
+            }
+            _loanRepository.AddLoan(loan);
+        }
     }
 }

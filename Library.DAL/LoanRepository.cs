@@ -12,7 +12,11 @@ namespace Library.DAL {
         public List<Loan> GetLoans() {
             return _context.Loans
                 .Include(l => l.Book)
-                .Incluse
+                .Include(l => l.Location)
+                .Include(l => l.User)
+                .ToList();
         }
+
+       
     }
 }

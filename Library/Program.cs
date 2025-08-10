@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Library.DAL;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Library.BLL;
 
 namespace Library {
     public class Program {
@@ -29,6 +30,9 @@ namespace Library {
             // Add Identity services
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<LibraryDBContext>();
+
+            builder.Services.AddScoped<BookRepository>();
+            builder.Services.AddScoped<BookService>();
 
             var app = builder.Build();
 

@@ -11,7 +11,25 @@ namespace Library.Controllers {
 
         public IActionResult Index () {
             List<Book> books = _bookService.GetBooks();
-            return View(books);
+            return View(new BookFilterViewModel {
+                Books = books
+            });
+        }
+
+        public IActionResult FilterBooks(BookFilterViewModel filters) {
+            List<Book> filteredBooks = _bookService.GetBooks().Where(b =>
+                (!filters.Genre.HasValue || b.Genre == filters.Genre) &&
+                (!filters.Condition.HasValue || b.Condition == filters.Condition))
+                .ToList();
+            filters.Books = filteredBooks;
+            return View("Index", filters);
+        }
+
+        public IActionResult ClearFilters() {
+            List<Book> books = _bookService.GetBooks();
+            return View(new BookFilterViewModel {
+                Books = books
+            });
         }
 
         [HttpGet]

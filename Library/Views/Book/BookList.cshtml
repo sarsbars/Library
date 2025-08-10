@@ -1,0 +1,19 @@
+﻿@model List<Book>
+
+@if(!Model.Any())
+{
+    <p>No books fit this description</p>
+} else
+{
+    <ul class="row row-cols-3">
+        @foreach(Book book in Model)
+        {
+            <li class="card shadow border-secondary mb-4" style="width: 18rem">
+                <div class="card-body">
+                    <h5 class="card-title">@book.Title</h5>
+                    <h6 class="card-subtitle mb-2">@book.Author</h6>
+                </div>
+            </li>
+        }
+    </ul>
+}

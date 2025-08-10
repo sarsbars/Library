@@ -1,4 +1,5 @@
 ﻿using Library.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Library.DAL {
     public class BookRepository {
@@ -9,7 +10,9 @@ namespace Library.DAL {
         }
 
         public List<Book> GetBooks() {
-            return _context.Books.ToList();
+            return _context.Books
+                .Include(b => b.Location)
+                .ToList();
         }
     }
 }

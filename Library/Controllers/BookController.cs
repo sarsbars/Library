@@ -1,6 +1,7 @@
 ﻿using Library.BLL;
 using Library.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Library.Controllers {
     public class BookController : Controller {
@@ -11,6 +12,16 @@ namespace Library.Controllers {
 
         public IActionResult Index () {
             List<Book> books = _bookService.GetBooks();
+
+            List<string> authors = _bookService.GetBooks()
+                .Select(b => b.Author)
+                .Where(a => !string.IsNullOrEmpty(a))
+                .Distinct()
+                .OrderBy(a => a)
+                .ToList();
+
+            ViewBag.Authors = new SelectList(authors);
+
             return View(new BookFilterViewModel {
                 Books = books
             });
@@ -19,8 +30,20 @@ namespace Library.Controllers {
         public IActionResult FilterBooks(BookFilterViewModel filters) {
             List<Book> filteredBooks = _bookService.GetBooks().Where(b =>
                 (!filters.Genre.HasValue || b.Genre == filters.Genre) &&
-                (!filters.Condition.HasValue || b.Condition == filters.Condition))
+                (!filters.Condition.HasValue || b.Condition == filters.Condition) &&
+                (string.IsNullOrEmpty(filters.Author) || b.Author == filters.Author) &&
+                (!filters.Location.HasValue || b.Location.LocationName == filters.Location))
                 .ToList();
+
+            List<string> authors = _bookService.GetBooks()
+                .Select(b => b.Author)
+                .Where(a => !string.IsNullOrEmpty(a))
+                .Distinct()
+                .OrderBy(a => a)
+                .ToList();
+
+            ViewBag.Authors = new SelectList(authors);
+
             filters.Books = filteredBooks;
             return View("Index", filters);
         }

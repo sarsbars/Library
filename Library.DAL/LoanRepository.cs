@@ -17,6 +17,25 @@ namespace Library.DAL {
                 .ToList();
         }
 
-       
+       public void AddLoan(Loan loan) {
+            _context.Loans.Add(loan);
+            _context.SaveChanges();
+        }
+
+        public void UpdateLoan(Loan loan) {
+            _context.Loans.Update(loan);
+            _context.SaveChanges();
+        }
+
+        public void DeleteLoan(int id) {
+            Loan loan = _context.Loans
+                .FirstOrDefault(l => l.LoanID == id);
+
+            if(loan != null) {
+                _context.Loans.Remove(loan);
+                _context.SaveChanges();
+
+            }
+        }
     }
 }

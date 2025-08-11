@@ -10,8 +10,14 @@ namespace Library.Controllers {
             _loanService = loanService;
         }
         public IActionResult Index() {
-            List<Loan> loans = _loanService.GetLoans();
-            return View(loans);
+            IEnumerable<Loan> loans;
+            if (User.IsInRole("Admin")) {
+                loans = _loanService.GetLoans();
+            } else {
+                string userId = User.Identity.Name;
+                loans = _loanService.GetLoans();
+            }
+                return View(loans);
         }
 
         public IActionResult Create() {

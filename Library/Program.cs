@@ -1,6 +1,7 @@
-using Microsoft.EntityFrameworkCore;
+using Library.BLL;
 using Library.DAL;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Library.BLL;
 
@@ -19,6 +20,9 @@ namespace Library {
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+
+            builder.Services.AddScoped<LoanService>();
+            builder.Services.AddScoped<LoanRepository>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();

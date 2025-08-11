@@ -1,0 +1,67 @@
+﻿@model Loan
+
+<h2>Edit Loan</h2>
+
+<form asp-action="Edit" method="post">
+    <input asp-for="LoanID" type="hidden" />
+
+    <div class="form-group">
+        <label asp-for="Book.Title">Book Name</label>
+        <input asp-for="Book.Title" class="form-control" />
+        <span asp-validation-for="Book.Title" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Book.BookID">Book ID</label>
+        <input asp-for="Book.BookID" type="number" class="form-control" />
+        <span asp-validation-for="Book.BookID" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="User.Name">Holder's Name</label>
+        <input asp-for="User.Name" type="text" class="form-control" />
+        <span asp-validation-for="User.Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="User.UserID">Holder's ID</label>
+        <input asp-for="User.UserID" type="number" class="form-control" />
+        <span asp-validation-for="User.UserID" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="LoanStatus">Loan Status</label>
+        <select asp-for="LoanStatus" class="form-control">
+            <option value="TakenOut">Taken Out</option>
+            <option value="Returned">Returned</option>
+            <option value="Overdue">Overdue</option>
+            <option value="OnHold">On Hold</option>
+        </select>
+        <span asp-validation-for="LoanStatus" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DateBorrowed">Date Borrowed</label>
+        <input asp-for="DateBorrowed" type="date" class="form-control" />
+        <span asp-validation-for="DateBorrowed" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DueDate"></label>
+        <input asp-for="DueDate" type="date" class="form-control" />
+        <span asp-validation-for="DueDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="LocationID">Location Name</label>
+        <select asp-for="LocationID" asp-items="ViewBag.LocationList" class="form-control"></select>
+        <span asp-validation-for="LocationID" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

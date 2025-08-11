@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Library.Models.Loan>
+
+<h2>Loans</h2>
+
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>Book Name</th>
+            <th>Loan status</th>
+            <th>Date Borrowed</th>
+            <th>Due Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(Loan loan in Model)
+        {
+            <tr>
+                <td>@loan.Book.Title</td>
+                <td>@loan.LoanStatus</td>
+                <td>@loan.DateBorrowed.ToShortDateString()</td>
+                <td>@loan.DueDate.ToShortDateString()</td>
+                <td>
+                    <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@loan.LoanID">Details</a>
+                    <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@loan.LoanID">Edit</a>
+                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@loan.LoanID">Delete</a>
+                    @if(User.IsInRole("Admin"))
+                    {
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a class="btn btn-success" asp-action="Create">Create New Loan</a>   
+@if(User.IsInRole("Admin"))
+{
+}

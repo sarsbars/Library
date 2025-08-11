@@ -1,10 +1,12 @@
 ﻿using Library.BLL;
 using Library.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Library.Controllers {
     public class LoanController : Controller {
         private readonly LoanService _loanService;
+        //private readonly LocationService _locationService;
 
         public LoanController(LoanService loanService) {
             _loanService = loanService;
@@ -48,12 +50,16 @@ namespace Library.Controllers {
             if (loan == null) {
                 return NotFound();
             }
+            //Location locations = _locationService.GetLocations();
+            //ViewBag.LocationList = new SelectList(locations, "LocationID", "LocationName", loan.LocationID);
             return View(loan);
         }
 
         [HttpPost]
         public IActionResult Edit(Loan loan) {
             if (!ModelState.IsValid) {
+                //Location locations = _locationService.GetLocations();
+                //ViewBag.LocationList = new SelectList(locations, "LocationID", "LocationName", loan.LocationID);
                 return View(loan);
             }
             _loanService.UpdateLoan(loan);

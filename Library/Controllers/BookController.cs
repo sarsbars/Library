@@ -75,6 +75,9 @@ namespace Library.Controllers {
 
         [HttpPost]
         public IActionResult Create(Book book) {
+            if(!ModelState.IsValid) {
+                return View(book);
+            }
             _bookService.AddBook(book);
             return RedirectToAction("Index");
         }

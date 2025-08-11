@@ -20,10 +20,12 @@ namespace Library.Controllers {
                 return View(loans);
         }
 
+        [HttpGet]
         public IActionResult Create() {
             return View(new Loan());
         }
 
+        [HttpPost]
         public IActionResult Create(Loan loan) {
             if(!ModelState.IsValid) {
                 return View(loan);
@@ -40,6 +42,7 @@ namespace Library.Controllers {
             return View(loan);
         }
 
+        [HttpGet]
         public IActionResult Edit(int id) {
             Loan loan = _loanService.GetLoanById(id);
             if (loan == null) {
@@ -48,6 +51,7 @@ namespace Library.Controllers {
             return View(loan);
         }
 
+        [HttpPost]
         public IActionResult Edit(Loan loan) {
             if (!ModelState.IsValid) {
                 return View(loan);
@@ -56,6 +60,7 @@ namespace Library.Controllers {
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
         public IActionResult Delete(int id) {
             Loan loan = _loanService.GetLoanById(id);
             if (loan == null) {
@@ -63,6 +68,7 @@ namespace Library.Controllers {
             }
             return View(loan);
         }
+        [HttpPost]
         public IActionResult DeleteConfirmed(int id) {
             _loanService.DeleteLoan(id);
             return RedirectToAction("Index");

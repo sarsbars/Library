@@ -1,0 +1,23 @@
+﻿@model Loan
+
+<h2>Loan details</h2>
+<p><strong>Book Name:</strong> @Model.Book.Title</p>
+<p><strong>Book ID:</strong> @Model.Book.BookID</p>
+<p><strong>Holder's Name:</strong> @Model.User.Name</p>
+<p><strong>Holder's ID:</strong> @Model.User.UserID</p>
+<p><strong>Loan status: </strong>@Model.LoanStatus<p/>
+<p><strong>Date Borrowed: </strong>@Model.DateBorrowed<p/>
+<p><strong>Due Date: </strong>@Model.DueDate<p/>
+<p><strong>Book Location:</strong> @Model.Location.LocationName</p>
+
+<div>
+    <a asp-controller="Loan" asp-action="Index" >Back</a>
+</div>
+
+<div>
+    <a asp-controller="Loan" asp-action="Edit" asp-route-id="@Model.LoanID">Edit</a>
+    <a asp-controller="Loan" asp-action="Delete" asp-route-id="@Model.LoanID">Delete</a>
+</div>
+@if(User.IsInRole("Admin"))
+{
+}

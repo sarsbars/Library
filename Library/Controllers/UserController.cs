@@ -11,7 +11,6 @@ namespace Library.Controllers {
             _context = context;
         }
 
-        // GET: User
         [HttpGet]
         public IActionResult Index(string roleFilter, string nameSearch, int? locationFilter) { 
             var users = _context.Users.Include(u => u.Location).AsQueryable();
@@ -32,5 +31,22 @@ namespace Library.Controllers {
             return View(users.ToList());
         }
 
+        public IActionResult Details(int? id) {
+            if (id == null) return NotFound();
+
+            var user = _context.Users.Include(u => u.Location)
+                                     .FirstOrDefault(m => m.UserID == id);
+            if (user == null) return NotFound();
+
+            // Readers can only view their own profile
+            if (User.IsInRole("Reader") && !IsCurrentUser(user.Email))
+                return Forbid();
+
+            return View(user);
+        }
+
+        private bool IsCurrentUser(string email) {
+            return User.Identity != null && User.Identity.Name == email;
+        }
     }
 }

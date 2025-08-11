@@ -120,6 +120,27 @@ namespace Library.Controllers {
             return View(updatedUser);
         }
 
+        [Authorize(Roles = "Admin")]
+        public IActionResult Delete(int? id) {
+            if (id == null) return NotFound();
+
+            var user = _context.Users.Include(u => u.Location)
+                                     .FirstOrDefault(m => m.UserID == id);
+            if (user == null) return NotFound();
+
+            return View(user);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public IActionResult DeleteConfirmed(int id) {
+            var user = _context.Users.Find(id);
+            _context.Users.Remove(user);
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+
 
     }
 }

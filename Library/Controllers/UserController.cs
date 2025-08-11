@@ -75,6 +75,51 @@ namespace Library.Controllers {
             return View(user);
         }
 
+        public IActionResult Edit(int? id) {
+            if (id == null) return NotFound();
+
+            var user = _context.Users.Find(id);
+            if (user == null) return NotFound();
+
+            // Role restrictions:
+            if (User.IsInRole("Staff") && user.Role == RoleType.Admin)
+                return Forbid();
+
+            if (User.IsInRole("Reader") && !IsCurrentUser(user.Email))
+                return Forbid();
+
+            ViewBag.Locations = _context.Locations.ToList();
+            return View(user);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, User updatedUser) {
+            if (id != updatedUser.UserID) return NotFound();
+
+            // Prevent staff from editing admins
+            if (User.IsInRole("Staff") && updatedUser.Role == RoleType.Admin)
+                return Forbid();
+
+            if (User.IsInRole("Reader") && !IsCurrentUser(updatedUser.Email))
+                return Forbid();
+
+            if (ModelState.IsValid) {
+                try {
+                    _context.Update(updatedUser);
+                    _context.SaveChanges();
+                } catch (DbUpdateConcurrencyException) {
+                    if (!_context.Users.Any(e => e.UserID == id))
+                        return NotFound();
+                    else
+                        throw;
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewBag.Locations = _context.Locations.ToList();
+            return View(updatedUser);
+        }
+
 
     }
 }

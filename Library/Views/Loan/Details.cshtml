@@ -10,13 +10,15 @@
 <p><strong>Due Date: </strong>@Model.DueDate<p/>
 <p><strong>Book Location:</strong> @Model.Location.LocationName</p>
 
-<div>
-    <a asp-controller="Loan" asp-action="Index" >Back</a>
-</div>
+<div class="space-btwn">
+    <div>
+        <a asp-controller="Loan" asp-action="Index"  class="btn btn-primary">Back</a>
+    </div>
 
-<div>
-    <a asp-controller="Loan" asp-action="Edit" asp-route-id="@Model.LoanID">Edit</a>
-    <a asp-controller="Loan" asp-action="Delete" asp-route-id="@Model.LoanID">Delete</a>
+    <div>
+        <a asp-controller="Loan" asp-action="Edit" asp-route-id="@Model.LoanID" class="btn btn-primary">Edit</a>
+        <a asp-controller="Loan" asp-action="Delete" asp-route-id="@Model.LoanID" class="btn btn-secondary">Delete</a>
+    </div>
 </div>
 @if(User.IsInRole("Admin"))
 {

@@ -11,7 +11,7 @@ namespace Library.Controllers {
         }
         public IActionResult Index() {
             List<Loan> loans = _loanService.GetLoans();
-            return View();
+            return View(loans);
         }
 
         public IActionResult Create() {

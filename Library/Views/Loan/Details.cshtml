@@ -12,12 +12,12 @@
 
 <div class="space-btwn">
     <div>
-        <a asp-controller="Loan" asp-action="Index"  class="btn btn-primary">Back</a>
+        <a asp-controller="Loan" asp-action="Index"  class="btn btn-secondary">Back</a>
     </div>
 
     <div>
         <a asp-controller="Loan" asp-action="Edit" asp-route-id="@Model.LoanID" class="btn btn-primary">Edit</a>
-        <a asp-controller="Loan" asp-action="Delete" asp-route-id="@Model.LoanID" class="btn btn-secondary">Delete</a>
+        <a asp-controller="Loan" asp-action="Delete" asp-route-id="@Model.LoanID" class="btn btn-danger">Delete</a>
     </div>
 </div>
 @if(User.IsInRole("Admin"))

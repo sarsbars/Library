@@ -76,7 +76,7 @@ namespace Library.Controllers {
             }
             return View(loan);
         }
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         public IActionResult DeleteConfirmed(int id) {
             _loanService.DeleteLoan(id);
             return RedirectToAction("Index");

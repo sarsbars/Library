@@ -14,5 +14,13 @@ namespace Library.BLL {
         public List<Book> GetBooks() {
             return _bookRepository.GetBooks();
         }
+
+        public void AddBook(Book book) {
+            if (book == null) {
+                throw new ArgumentNullException(nameof(book), "Racer cannot be null");
+            }
+
+            _bookRepository.AddBook(book);
+        }
     }
 }

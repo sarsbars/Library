@@ -60,11 +60,23 @@ namespace Library.Controllers {
         [HttpGet]
         [Route("Books/Details/{BookID}")]
         public IActionResult Details(int BookID) {
-            Book book = _bookService.GetBookByID(BookID);
+            Book book = _bookService.GetBooks().FirstOrDefault(b => b.BookID == BookID);
             if(book == null ) {
                 return NotFound();
             }
+            ViewBag.BookLocation = book.Location.LocationName;
             return View(book);
+        }
+
+        [HttpGet]
+        public IActionResult Create() {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(Book book) {
+            _bookService.AddBook(book);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]

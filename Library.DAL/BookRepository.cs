@@ -17,5 +17,10 @@ namespace Library.DAL {
                 .Include(b => b.Location)
                 .ToList();
         }
+
+        public void AddBook(Book book) {
+            _context.Books.Add(book);
+            _context.SaveChanges();
+        }
     }
 }

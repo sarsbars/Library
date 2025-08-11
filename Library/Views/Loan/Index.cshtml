@@ -1,5 +1,49 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model IEnumerable<Library.Models.Loan>
+
+<h2>Loans</h2>
+
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>Book Name</th>
+            <th>Loan status</th>
+            <th>Date Borrowed</th>
+            <th>Due Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(Loan loan in Model)
+        {
+            <tr>
+                <td>@loan.Book</td>
+                <td>@loan.LoanStatus</td>
+                <td>@loan.DateBorrowed.ToShortDateString()</td>
+                <td>@loan.DueDate.ToShortDateString()</td>
+                <td>
+                    @if(loan.User != null)
+                    {
+                        <span>@loan.User.Name </span>
+                    }
+                    else
+                    {
+                        <span class="text-muted">No User Assigned</span>
+                    }
+                </td>
+                <td>
+                    <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@loan.LoanID">Profile</a>
+                    @if(User.IsInRole("Admin"))
+                    {
+                        <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@loan.LoanID">Edit</a>
+                        <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@loan.LoanID">Delete</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if(User.IsInRole("Admin"))
+{
+    <a class="btn btn-success" asp-action="Create">Create New Loan</a>   
 }

@@ -1,5 +1,6 @@
 ﻿using Library.DAL;
 using Library.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,6 +32,7 @@ namespace Library.Controllers {
             return View(users.ToList());
         }
 
+        [HttpGet]
         public IActionResult Details(int? id) {
             if (id == null) return NotFound();
 
@@ -48,5 +50,31 @@ namespace Library.Controllers {
         private bool IsCurrentUser(string email) {
             return User.Identity != null && User.Identity.Name == email;
         }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin,Staff")]
+        public IActionResult Create() {
+            ViewBag.Locations = _context.Locations.ToList();
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Staff")]
+        public IActionResult Create(User user) {
+            if (ModelState.IsValid) {
+                // Staff cannot create Admin accounts
+                if (User.IsInRole("Staff") && user.Role == RoleType.Admin)
+                    return Forbid();
+
+                _context.Add(user);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewBag.Locations = _context.Locations.ToList();
+            return View(user);
+        }
+
+
     }
 }

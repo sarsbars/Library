@@ -30,6 +30,8 @@ namespace Library.Controllers {
         [HttpPost]
         public IActionResult Create(Loan loan) {
             if(!ModelState.IsValid) {
+                //Location locations = _locationService.GetLocations();
+                //ViewBag.LocationList = new SelectList(locations, "LocationID", "LocationName", loan.LocationID);
                 return View(loan);
             }
             _loanService.AddLoan(loan);

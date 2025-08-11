@@ -1,8 +1,8 @@
 ﻿@model Loan
 
-<h2>Edit Loan</h2>
+<h2>Create Loan</h2>
 
-<form asp-action="Edit" method="post">
+<form asp-action="Create" method="post">
     <input asp-for="LoanID" type="hidden" />
 
     <div class="form-group">
@@ -54,7 +54,7 @@
 
     <div class="form-group">
         <label asp-for="LocationID">Location Name</label>
-        <select asp-for="LocationID" asp-items="ViewBag.LocationList" class="form-control" />
+        <select asp-for="LocationID" asp-items="ViewBag.LocationList" class="form-control"></select>
         <span asp-validation-for="LocationID" class="text-danger"></span>
     </div>
 

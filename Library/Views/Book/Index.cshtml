@@ -1,0 +1,36 @@
+﻿@model BookFilterViewModel
+
+<h2>Books</h2>
+
+<form asp-action="FilterBooks" method="post" id="filterform">
+    <div>
+        <label asp-for="Genre">Genre:</label>
+        <select asp-for="Genre" asp-items="Html.GetEnumSelectList<GenreType>()" class="form-select">
+            <option value="">-- Any --</option>
+        </select>
+    </div>
+    <div>
+        <label asp-for="Author">Author:</label>
+        <select asp-for="Author" asp-items="ViewBag.Authors" class="form-select">
+            <option value="">-- Any --</option>
+        </select>
+    </div>
+    <div>
+        <label asp-for="Condition">Condition:</label>
+        <select asp-for="Condition" asp-items="Html.GetEnumSelectList<ConditionType>()" class="form-select">
+            <option value="">-- Any --</option>
+        </select>
+    </div>
+    <div>
+        <label asp-for="Location">Location:</label>
+        <select asp-for="Location" asp-items="Html.GetEnumSelectList<LocationNameType>()" class="form-select">
+            <option value="">-- Any --</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Filter</button>
+    <a asp-action="Index" class="btn btn-secondary">Clear Filters</a>
+</form>
+
+<div>
+    <partial name="BookList" model="Model.Books" />
+</div>

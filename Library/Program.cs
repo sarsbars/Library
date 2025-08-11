@@ -1,7 +1,9 @@
-using Microsoft.EntityFrameworkCore;
+using Library.BLL;
 using Library.DAL;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Library.BLL;
 
 namespace Library {
     public class Program {
@@ -19,6 +21,9 @@ namespace Library {
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
 
+            builder.Services.AddScoped<LoanService>();
+            builder.Services.AddScoped<LoanRepository>();
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
@@ -29,6 +34,9 @@ namespace Library {
             // Add Identity services
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<LibraryDBContext>();
+
+            builder.Services.AddScoped<BookRepository>();
+            builder.Services.AddScoped<BookService>();
 
             var app = builder.Build();
 

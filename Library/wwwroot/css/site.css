@@ -20,3 +20,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.space-btwn {
+    display: flex;
+    justify-content: space-between;
+}

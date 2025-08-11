@@ -2,6 +2,7 @@
 using Library.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace Library.Controllers {
@@ -13,24 +14,41 @@ namespace Library.Controllers {
         }
 
         [HttpGet]
-        public IActionResult Index(string roleFilter, string nameSearch, int? locationFilter) { 
-            var users = _context.Users.Include(u => u.Location).AsQueryable();
+        public IActionResult Index(string role, string name, int? location) {
+            var usersQuery = _context.Users.Include(u => u.Location).AsQueryable();
 
-            if (!string.IsNullOrEmpty(roleFilter) && Enum.TryParse(roleFilter, out RoleType parsedRole)) {
-                users = users.Where(u => u.Role == parsedRole);
+            if (!string.IsNullOrEmpty(role) && Enum.TryParse(role, out RoleType parsedRole)) {
+                usersQuery = usersQuery.Where(u => u.Role == parsedRole);
             }
 
-            if (!string.IsNullOrEmpty(nameSearch)) {
-                users = users.Where(u => u.Name.Contains(nameSearch));
+            if (!string.IsNullOrEmpty(name)) {
+                usersQuery = usersQuery.Where(u => u.Name.Contains(name));
             }
 
-            if (locationFilter.HasValue) {
-                users = users.Where(u => u.LocationID == locationFilter);
+            if (location.HasValue) {
+                usersQuery = usersQuery.Where(u => u.LocationID == location);
             }
 
-            ViewBag.Locations = _context.Locations.ToList();
-            return View(users.ToList());
+            var model = new UserFilterViewModel {
+                Role = role,
+                Name = name,
+                LocationID = location,
+                Users = usersQuery.ToList(),
+
+                RoleList = Enum.GetValues(typeof(RoleType))
+                    .Cast<RoleType>()
+                    .Select(r => new SelectListItem { Value = r.ToString(), Text = r.ToString() })
+                    .ToList(),
+
+                LocationList = Enum.GetValues(typeof(LocationNameType))
+                    .Cast<LocationNameType>()
+                    .Select(l => new SelectListItem { Value = l.ToString(), Text = l.ToString() })
+                    .ToList(),
+            };
+
+            return View(model);
         }
+
 
         [HttpGet]
         public IActionResult Details(int? id) {

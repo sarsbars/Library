@@ -7,6 +7,8 @@ namespace Library.Controllers {
     public class LoanController : Controller {
         private readonly LoanService _loanService;
         //private readonly LocationService _locationService;
+        //private readonly BookService _bookService;
+        //private readonly UserService _userService;
 
         public LoanController(LoanService loanService) {
             _loanService = loanService;
@@ -15,6 +17,8 @@ namespace Library.Controllers {
             IEnumerable<Loan> loans;
             if (User.IsInRole("Admin")) {
                 loans = _loanService.GetLoans();
+                //books = _bookService.GetBooks();
+
             } else {
                 string userId = User.Identity.Name;
                 loans = _loanService.GetLoans();
@@ -52,6 +56,7 @@ namespace Library.Controllers {
             if (loan == null) {
                 return NotFound();
             }
+            //This is a comment 
             //Location locations = _locationService.GetLocations();
             //ViewBag.LocationList = new SelectList(locations, "LocationID", "LocationName", loan.LocationID);
             return View(loan);

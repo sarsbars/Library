@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Library.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class initialcreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -180,7 +180,6 @@ namespace Library.DAL.Migrations
                     BookID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     LocationID = table.Column<int>(type: "int", nullable: false),
-                    LoanID = table.Column<int>(type: "int", nullable: true),
                     ISBN = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
                     Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Author = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
@@ -276,15 +275,15 @@ namespace Library.DAL.Migrations
 
             migrationBuilder.InsertData(
                 table: "Books",
-                columns: new[] { "BookID", "Author", "Condition", "Genre", "ISBN", "IsAvailable", "LoanID", "LocationID", "LocationInLibrary", "PublicationDate", "Title" },
+                columns: new[] { "BookID", "Author", "Condition", "Genre", "ISBN", "IsAvailable", "LocationID", "LocationInLibrary", "PublicationDate", "Title" },
                 values: new object[,]
                 {
-                    { 1, "John Steinbeck", 2, 0, "9780140186390", true, null, 4, 101, new DateTime(1952, 9, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), "East of Eden" },
-                    { 2, "Susanna Clarke", 1, 5, "9781526630810", false, null, 3, 102, new DateTime(2020, 9, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Piranesi" },
-                    { 3, "Martha Wells", 0, 2, "9780765394866", false, null, 3, 103, new DateTime(2017, 5, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "All Systems Red" },
-                    { 4, "Mark Z. Danielewski", 2, 0, "9780375508325", true, null, 5, 104, new DateTime(2000, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), "House of Leaves" },
-                    { 5, "Brandon Sanderson", 1, 5, "9780765376671", true, null, 2, 105, new DateTime(2017, 11, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), "Oathbringer" },
-                    { 6, "Eiichiro Oda", 2, 13, "9781423103349", false, null, 1, 106, new DateTime(1997, 12, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), "One Piece, Vol. 1: Romance Dawn" }
+                    { 1, "John Steinbeck", 2, 0, "9780140186390", true, 4, 101, new DateTime(1952, 9, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), "East of Eden" },
+                    { 2, "Susanna Clarke", 1, 5, "9781526630810", false, 3, 102, new DateTime(2020, 9, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Piranesi" },
+                    { 3, "Martha Wells", 0, 2, "9780765394866", false, 3, 103, new DateTime(2017, 5, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "All Systems Red" },
+                    { 4, "Mark Z. Danielewski", 2, 0, "9780375508325", true, 5, 104, new DateTime(2000, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), "House of Leaves" },
+                    { 5, "Brandon Sanderson", 1, 5, "9780765376671", true, 2, 105, new DateTime(2017, 11, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), "Oathbringer" },
+                    { 6, "Eiichiro Oda", 2, 13, "9781423103349", false, 1, 106, new DateTime(1997, 12, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), "One Piece, Vol. 1: Romance Dawn" }
                 });
 
             migrationBuilder.InsertData(
@@ -354,8 +353,7 @@ namespace Library.DAL.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Loans_BookID",
                 table: "Loans",
-                column: "BookID",
-                unique: true);
+                column: "BookID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Loans_LocationID",

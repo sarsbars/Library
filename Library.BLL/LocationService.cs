@@ -29,6 +29,10 @@ namespace Library.BLL {
 
         public void DeleteLocation(int id) {
             _locationRepository.DeleteLocation(id);
+
+        public void AddBook(Book book, Location location) {
+            _locationRepository.AddBook(book, location);
+
         }
     }
 }

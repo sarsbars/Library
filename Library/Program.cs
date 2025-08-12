@@ -45,6 +45,9 @@ namespace Library {
             builder.Services.AddScoped<BookService>();
             builder.Services.AddScoped<UserService>();
 
+            builder.Services.AddScoped<LocationRepository>();
+            builder.Services.AddScoped<LocationService>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

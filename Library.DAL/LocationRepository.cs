@@ -14,7 +14,6 @@ namespace Library.DAL {
         public List<Location> GetLocations() {
             return _context.Locations.ToList();
         }
-
         public Location GetLocationById(int id) {
             return _context.Locations.FirstOrDefault(l => l.LocationID == id);
         }
@@ -35,6 +34,10 @@ namespace Library.DAL {
                 _context.Locations.Remove(location);
                 _context.SaveChanges();
             }
+        }
+        public void AddBook(Book book, Location location) {
+            location.Books.Add(book);
+            _context.SaveChanges();
         }
     }
 }

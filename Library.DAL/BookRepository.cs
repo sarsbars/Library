@@ -9,10 +9,18 @@ namespace Library.DAL {
             _context = context;
         }
 
+        public Book GetBookByID(int ID) {
+            return _context.Books.FirstOrDefault(b => b.BookID == ID);
+        }
         public List<Book> GetBooks() {
             return _context.Books
                 .Include(b => b.Location)
                 .ToList();
+        }
+
+        public void AddBook(Book book) {
+            _context.Books.Add(book);
+            _context.SaveChanges();
         }
     }
 }

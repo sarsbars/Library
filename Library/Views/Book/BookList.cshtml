@@ -5,14 +5,16 @@
     <p>No books fit this description</p>
 } else
 {
-    <ul class="row row-cols-3">
+    <ul class="row row-cols-4">
         @foreach(Book book in Model)
         {
-            <li class="card shadow border-secondary mb-4" style="width: 18rem">
-                <div class="card-body">
-                    <h5 class="card-title">@book.Title</h5>
-                    <h6 class="card-subtitle mb-2">@book.Author</h6>
-                </div>
+            <li class="card shadow border-secondary mb-4">
+                <a asp-controller="Book" asp-action="Details" asp-route-BookID="@book.BookID" class="text-decoration-none">
+                    <div class="card-body">
+                        <h5 class="card-title">@book.Title</h5>
+                        <h6 class="card-subtitle mb-2">@book.Author</h6>
+                    </div>
+                </a>
             </li>
         }
     </ul>

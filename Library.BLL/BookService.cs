@@ -12,5 +12,9 @@ namespace Library.BLL {
         public List<Book> GetBooks() {
             return _bookRepository.GetBooks();
         }
+
+        //public List<Book> GetBookById() {
+        //    return _bookRepository.GetBookById();
+        //}
     }
 }

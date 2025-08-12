@@ -13,9 +13,17 @@
 
     <div class="form-group">
         <label asp-for="Book.BookID">Book ID</label>
-        <input asp-for="Book.BookID" type="number" class="form-control" />
+        <select asp-for="Book.BookID" asp-items="ViewBag.BookList" class="form-control">
+            <option value="">---Select a BookID---</option>
+        </select>
         <span asp-validation-for="Book.BookID" class="text-danger"></span>
     </div>
+
+  @*   <div class="form-group">
+        <label asp-for="Book.BookID">Book ID</label>
+        <input asp-for="Book.BookID" type="number" class="form-control" />
+        <span asp-validation-for="Book.BookID" class="text-danger"></span>
+    </div> *@
 
     <div class="form-group">
         <label asp-for="User.Name">Holder's Name</label>

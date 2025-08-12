@@ -2,17 +2,19 @@
 using Library.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace Library.Controllers {
     public class LoanController : Controller {
         private readonly LoanService _loanService;
         private readonly LocationService _locationService;
-        //private readonly BookService _bookService;
+        private readonly BookService _bookService;
         //private readonly UserService _userService;
 
-        public LoanController(LoanService loanService ,LocationService locationService) {
+        public LoanController(LoanService loanService ,LocationService locationService, BookService bookService) {
             _loanService = loanService;
             _locationService = locationService;
+            _bookService = bookService;
         }
         public IActionResult Index() {
             IEnumerable<Loan> loans;
@@ -31,6 +33,9 @@ namespace Library.Controllers {
         public IActionResult Create() {
             List<Location> locations = _locationService.GetLocations();
             ViewBag.LocationList = new SelectList(locations, "LocationID", "LocationName");
+
+            List<Book> books = _bookService.GetBooks();
+            ViewBag.BookList = new SelectList(books, "BookID", "Title");
             return View(new Loan());
         }
 
@@ -39,6 +44,9 @@ namespace Library.Controllers {
             if(!ModelState.IsValid) {
                 List<Location> locations = _locationService.GetLocations();
                 ViewBag.LocationList = new SelectList(locations, "LocationID", "LocationName", loan.LocationID);
+
+                List<Book> books = _bookService.GetBooks();
+                ViewBag.BookList = new SelectList(books, "BookID", "Title", loan.BookID);
                 return View(loan);
             }
             _loanService.AddLoan(loan);
@@ -61,6 +69,9 @@ namespace Library.Controllers {
             }
             List<Location> locations = _locationService.GetLocations();
             ViewBag.LocationList = new SelectList(locations, "LocationID", "LocationName", loan.LocationID);
+
+            List<Book> books = _bookService.GetBooks();
+            ViewBag.BookList = new SelectList(books, "BookID", "Title", loan.BookID);
             return View(loan);
         }
 
@@ -69,6 +80,9 @@ namespace Library.Controllers {
             if (!ModelState.IsValid) {
                 List<Location> locations = _locationService.GetLocations();
                 ViewData["LocationList"] = new SelectList(locations, "LocationID", "LocationName", loan.LocationID);
+
+                List<Book> books = _bookService.GetBooks();
+                ViewBag.BookList = new SelectList(books, "BookID", "Title", loan.BookID);
                 return View(loan);
             }
             _loanService.UpdateLoan(loan);
@@ -88,5 +102,22 @@ namespace Library.Controllers {
             _loanService.DeleteLoan(id);
             return RedirectToAction("Index");
         }
+
+        //[HttpGet]
+        //public JsonResult GetUserById(int bookID) {
+        //    try {
+        //        // Using UserService instead of searching through loans
+        //        var book = _bookService.GetBookById(bookID);
+
+        //        if (book != null) {
+        //            return Json(new { success = true, name = book.Name });
+        //        }
+
+        //        return Json(new { success = false, message = "User not found" });
+        //    }
+        //    catch (Exception) {
+        //        return Json(new { success = false, message = "Error retrieving user data" });
+        //    }
+        //}
     }
 }

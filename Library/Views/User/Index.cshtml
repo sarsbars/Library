@@ -1,0 +1,71 @@
+﻿@model UserFilterViewModel
+@using Library.Models
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    ViewData["Title"] = "User List";
+}
+
+<h2>User List</h2>
+
+<form method="get" asp-action="Index">
+    <div>
+        <label asp-for="Role"></label>
+        <select asp-for="Role" asp-items="@(new SelectList(Model.RoleList, "Value", "Text", Model.Role))">
+            <option value="">-- All Roles --</option>
+        </select>
+    </div>
+
+    <div>
+        <label asp-for="Name"></label>
+        <input asp-for="Name" />
+    </div>
+
+    <div>
+        <label asp-for="LocationID">Location</label>
+        <select asp-for="LocationID" asp-items="@(new SelectList(Model.LocationList, "Value", "Text", Model.LocationID))">
+            <option value="">-- All Locations --</option>
+        </select>
+    </div>
+
+    <button type="submit">Filter</button>
+    <a asp-action="Index">Clear Filters</a>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Email</th>
+            <th>Location</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var user in Model.Users)
+    {
+        <tr>
+            <td>@user.Name</td>
+            <td>@user.Role</td>
+            <td>@user.Email</td>
+            <td>@user.Location?.LocationName</td>
+            <td>
+                <!-- Edit button: Admin can edit anyone, Staff can’t edit Admins, Reader can only edit themselves -->
+                @if (User.IsInRole("Admin") ||
+                    (User.IsInRole("Staff") && user.Role != RoleType.Admin) ||
+                    (User.IsInRole("Reader") && User.Identity.Name == user.Email))
+                {
+                    <a asp-action="Edit" asp-route-id="@user.UserID">Edit</a>
+                }
+
+                <!-- Delete button: Only Admin -->
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-action="Delete" asp-route-id="@user.UserID">Delete</a>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

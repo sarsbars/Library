@@ -12,6 +12,7 @@ namespace Library.DAL {
         public Book GetBookByID(int ID) {
             return _context.Books.FirstOrDefault(b => b.BookID == ID);
         }
+
         public List<Book> GetBooks() {
             return _context.Books
                 .Include(b => b.Location)
@@ -20,6 +21,16 @@ namespace Library.DAL {
 
         public void AddBook(Book book) {
             _context.Books.Add(book);
+            _context.SaveChanges();
+        }
+
+        public void UpdateBook(Book book) {
+            _context.Books.Update(book);
+            _context.SaveChanges();
+        }
+
+        public void DeleteBook (Book book) {
+            _context.Books.Remove(book);
             _context.SaveChanges();
         }
     }

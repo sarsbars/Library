@@ -1,4 +1,4 @@
-﻿using Library.DAL;
+using Library.DAL;
 using Library.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +15,11 @@ namespace Library.BLL {
             return _locationRepository.GetLocations();
         }
 
-        public Location GetLocationById(int id) {
-            return _locationRepository.GetLocationById(id);
-        }
 
+        public Location GetLocationByID(int LocationID) {
+            return _locationRepository.GetLocationByID(LocationID);
+        }
+      
         public void AddLocation(Location location) {
             _locationRepository.AddLocation(location);
         }
@@ -29,10 +30,14 @@ namespace Library.BLL {
 
         public void DeleteLocation(int id) {
             _locationRepository.DeleteLocation(id);
-
+          
         public void AddBook(Book book, Location location) {
             _locationRepository.AddBook(book, location);
 
+        }
+
+        public void RemoveBook (Book book, Location location) {
+            _locationRepository.RemoveBook(book, location);
         }
     }
 }

@@ -15,6 +15,12 @@
         <p>Currently Unavailable</p>
     }
     <p>Can be found at @ViewBag.BookLocation | Shelf @Model.LocationInLibrary</p>
+
+    <div>
+        <a asp-controller="Book" asp-action="Update" asp-route-BookID="@Model.BookID">Update</a>
+        <a asp-controller="Book" asp-action="Delete" asp-route-BookID="@Model.BookID">Delete</a>
+    </div>
+
 </div>
 
 <a asp-controller="Book" asp-action="Index">Back to selection</a>

@@ -73,11 +73,6 @@ namespace Library.Controllers {
 
         [HttpGet]
         public IActionResult Create() {
-            foreach (var kvp in ModelState) {
-                foreach (var error in kvp.Value.Errors) {
-                    System.Diagnostics.Debug.WriteLine($"Key: {kvp.Key}, Error: {error.ErrorMessage}");
-                }
-            }
             List<Location> locations = _locationService.GetLocations();
             ViewBag.Locations = locations;
             return View();
@@ -104,11 +99,37 @@ namespace Library.Controllers {
 
         [HttpGet]
         public IActionResult Update(int BookID) {
-            return View();
+            Book book = _bookService.GetBookByID(BookID);
+            if(book == null) {
+                return NotFound();
+            }
+            
+            ViewBag.Locations = _locationService.GetLocations();
+
+            return View(book);
         }
 
         [HttpPost]
-        public IActionResult Update(Book book) {
+        public IActionResult Update(Book newBook) {
+            ModelState.Remove(nameof(newBook.Location));
+
+            if (!ModelState.IsValid) {
+                ViewBag.Locations = _locationService.GetLocations();
+                return View(newBook);
+            }
+
+            _bookService.UpdateBook(newBook);
+
+            Book oldBook = _bookService.GetBookByID(newBook.BookID);
+            Location? oldLocation = _locationService.GetLocationByID(oldBook.LocationID);
+            Location? newLocation = _locationService.GetLocationByID(newBook.LocationID);
+            
+
+            if(oldLocation.LocationID != newLocation.LocationID) {
+                _locationService.RemoveBook(newBook, oldLocation);
+                _locationService.AddBook(newBook, newLocation);
+            }
+
             return RedirectToAction("Index");
         }
 

@@ -12,5 +12,10 @@ namespace Library.DAL {
         public List<Location> GetLocations () {
             return _context.Locations.ToList();
         }
+
+        public void AddBook(Book book, Location location) {
+            location.Books.Add(book);
+            _context.SaveChanges();
+        }
     }
 }

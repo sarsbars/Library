@@ -22,6 +22,14 @@
         </select>
     </div>
     <div>
+        <label asp-for="IsAvailable">Availability:</label>
+        <select asp-for="IsAvailable" class="form-select">
+            <option value="">-- Any --</option>
+            <option value="true">Available</option>
+            <option value="false">Unavailable</option>
+        </select>
+    </div>
+    <div>
         <label asp-for="Location">Location:</label>
         <select asp-for="Location" asp-items="Html.GetEnumSelectList<LocationNameType>()" class="form-select">
             <option value="">-- Any --</option>
@@ -30,6 +38,9 @@
     <button type="submit" class="btn btn-primary">Filter</button>
     <a asp-action="Index" class="btn btn-secondary">Clear Filters</a>
 </form>
+
+<strong>THIS NEEDS TO BE ONLY VISIBLE TO STAFF!</strong>
+<a asp-controller="Book" asp-action="Create">Add a new Book</a>
 
 <div>
     <partial name="BookList" model="Model.Books" />

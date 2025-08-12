@@ -41,5 +41,9 @@ namespace Library.BLL {
 
             _bookRepository.UpdateBook(existingBook);
         }
+
+        public void DeleteBook(Book book) {
+            _bookRepository.DeleteBook(book);
+        }
     }
 }

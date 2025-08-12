@@ -28,5 +28,10 @@ namespace Library.DAL {
             _context.Books.Update(book);
             _context.SaveChanges();
         }
+
+        public void DeleteBook (Book book) {
+            _context.Books.Remove(book);
+            _context.SaveChanges();
+        }
     }
 }

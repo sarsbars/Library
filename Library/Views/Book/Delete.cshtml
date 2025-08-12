@@ -1,6 +1,9 @@
 ﻿@model Book
 
-<h2>@Model.Title</h2>
+<h2>Are you sure you want to delete this book?</h2>
+<p>Deleted books cannot be recovered</p>
+
+<h3>@Model.Title</h3>
 <strong>@Model.Author</strong>
 
 <div>
@@ -16,10 +19,11 @@
     }
     <p>Can be found at @ViewBag.BookLocation | Shelf @Model.LocationInLibrary</p>
 
-    <div>
-        <a asp-controller="Book" asp-action="Update" asp-route-BookID="@Model.BookID">Update</a>
-        <a asp-controller="Book" asp-action="Delete" asp-route-BookID="@Model.BookID">Delete</a>
-    </div>
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="BookID" />
+        <button type="submit">Delete</button>
+        <a asp-action="Index">Cancel</a>
+    </form>
 
 </div>
 

@@ -6,26 +6,23 @@
     <input asp-for="LoanID" type="hidden" />
 
     <div class="form-group">
-        <label asp-for="Book.Title">Book Name</label>
-        <input asp-for="Book.Title" class="form-control" />
-        <span asp-validation-for="Book.Title" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Book.BookID">Book ID</label>
-        <input asp-for="Book.BookID" type="number" class="form-control" />
+        <label asp-for="Book.BookID">Book</label>
+        <select asp-for="Book.BookID" asp-items="ViewBag.BookList" class="form-control">
+            <option value="">---Select a BookID---</option>
+        </select>
+        <input asp-for="BookID" type="hidden" />
+        <span asp-validation-for="BookID" class="text-danger"></span>
+        <small class="text-muted">Book cannot be changed once loan is created</small>
         <span asp-validation-for="Book.BookID" class="text-danger"></span>
     </div>
-
     <div class="form-group">
-        <label asp-for="User.Name">Holder's Name</label>
-        <input asp-for="User.Name" type="text" class="form-control" />
-        <span asp-validation-for="User.Name" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="User.UserID">Holder's ID</label>
-        <input asp-for="User.UserID" type="number" class="form-control" />
+        <label asp-for="User.UserID">Holder</label>
+        <select asp-for="User.UserID" asp-items="ViewBag.UserList" class="form-control">
+            <option value="">---Select a User---</option>
+        </select>
+        <input asp-for="UserID" type="hidden" />
+        <span asp-validation-for="UserID" class="text-danger"></span>
+        <small class="text-muted">Holder cannot be changed once loan is created</small>
         <span asp-validation-for="User.UserID" class="text-danger"></span>
     </div>
 
@@ -54,7 +51,9 @@
 
     <div class="form-group">
         <label asp-for="LocationID">Location Name</label>
-        <select asp-for="LocationID" asp-items="ViewBag.LocationList" class="form-control"></select>
+        <select asp-for="LocationID" asp-items="ViewBag.LocationList" class="form-control">
+            <option value="">---Select a Location---</option>
+        </select>
         <span asp-validation-for="LocationID" class="text-danger"></span>
     </div>
 

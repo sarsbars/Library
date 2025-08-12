@@ -21,7 +21,7 @@ namespace Library.BLL {
             }
 
             if (location.HasValue) {
-                query = query.Where(u => u.LocationID == location);
+                query = query.Where(u => u.LocationID == location.Value);
             }
 
             return query;

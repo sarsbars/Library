@@ -39,7 +39,6 @@ namespace Library.Controllers {
             List<SelectListItem> bookDisplayList = availableBooks.Select(b => new SelectListItem {
                 Value = b.BookID.ToString(),
                 Text = $"{b.Title} by {b.Author} - {b.Condition} ({b.Genre}) [ID: {b.BookID}]",
-                Selected = b.BookID == loan.BookID
             }).ToList();
             ViewBag.BookList = bookDisplayList;
             return View(new Loan());
@@ -52,9 +51,21 @@ namespace Library.Controllers {
                 ViewBag.LocationList = new SelectList(locations, "LocationID", "LocationName", loan.LocationID);
 
                 List<Book> books = _bookService.GetBooks();
-                ViewBag.BookList = new SelectList(books, "BookID", "Title", loan.BookID);
+                List<Book> availableBooks = books.Where(b => b.IsAvailable == true).ToList();
+                List<SelectListItem> bookDisplayList = availableBooks.Select(b => new SelectListItem {
+                    Value = b.BookID.ToString(),
+                    Text = $"{b.Title} by {b.Author} - {b.Condition} ({b.Genre}) [ID: {b.BookID}]",
+                    Selected = b.BookID == loan.BookID
+                }).ToList();
+                ViewBag.BookList = bookDisplayList;
                 return View(loan);
             }
+            //List<SelectedItem> book = _bookService.GetBookById(loan.BookID);
+            //if(book != null) {
+            //    book.IsAvailable = false;
+            //    _bookService.UpdateBook(book);
+            //}
+
             _loanService.AddLoan(loan);
             return RedirectToAction("Index");
         }

@@ -23,6 +23,8 @@ namespace Library {
 
             builder.Services.AddScoped<LoanService>();
             builder.Services.AddScoped<LoanRepository>();
+            builder.Services.AddScoped<LocationService>();
+            builder.Services.AddScoped<LocationRepository>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();

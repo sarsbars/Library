@@ -21,9 +21,6 @@ namespace Library {
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
 
-            builder.Services.AddScoped<LoanService>();
-            builder.Services.AddScoped<LoanRepository>();
-
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
@@ -37,6 +34,13 @@ namespace Library {
 
             builder.Services.AddScoped<BookRepository>();
             builder.Services.AddScoped<BookService>();
+
+
+            builder.Services.AddScoped<LoanService>();
+            builder.Services.AddScoped<LoanRepository>();
+
+            builder.Services.AddScoped<LocationService>();
+            builder.Services.AddScoped<LocationRepository>();
 
             var app = builder.Build();
 

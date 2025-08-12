@@ -6,12 +6,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace Library.Controllers {
     public class LoanController : Controller {
         private readonly LoanService _loanService;
-        //private readonly LocationService _locationService;
+        private readonly LocationService _locationService;
         //private readonly BookService _bookService;
         //private readonly UserService _userService;
 
-        public LoanController(LoanService loanService) {
+        public LoanController(LoanService loanService ,LocationService locationService) {
             _loanService = loanService;
+            _locationService = locationService;
         }
         public IActionResult Index() {
             IEnumerable<Loan> loans;
@@ -28,14 +29,16 @@ namespace Library.Controllers {
 
         [HttpGet]
         public IActionResult Create() {
+            List<Location> locations = _locationService.GetLocations();
+            ViewBag.LocationList = new SelectList(locations, "LocationID", "LocationName");
             return View(new Loan());
         }
 
         [HttpPost]
         public IActionResult Create(Loan loan) {
             if(!ModelState.IsValid) {
-                //Location locations = _locationService.GetLocations();
-                //ViewBag.LocationList = new SelectList(locations, "LocationID", "LocationName", loan.LocationID);
+                List<Location> locations = _locationService.GetLocations();
+                ViewBag.LocationList = new SelectList(locations, "LocationID", "LocationName", loan.LocationID);
                 return View(loan);
             }
             _loanService.AddLoan(loan);
@@ -56,17 +59,16 @@ namespace Library.Controllers {
             if (loan == null) {
                 return NotFound();
             }
-            //This is a comment 
-            //Location locations = _locationService.GetLocations();
-            //ViewBag.LocationList = new SelectList(locations, "LocationID", "LocationName", loan.LocationID);
+            List<Location> locations = _locationService.GetLocations();
+            ViewBag.LocationList = new SelectList(locations, "LocationID", "LocationName", loan.LocationID);
             return View(loan);
         }
 
         [HttpPost]
         public IActionResult Edit(Loan loan) {
             if (!ModelState.IsValid) {
-                //Location locations = _locationService.GetLocations();
-                //ViewBag.LocationList = new SelectList(locations, "LocationID", "LocationName", loan.LocationID);
+                List<Location> locations = _locationService.GetLocations();
+                ViewData["LocationList"] = new SelectList(locations, "LocationID", "LocationName", loan.LocationID);
                 return View(loan);
             }
             _loanService.UpdateLoan(loan);

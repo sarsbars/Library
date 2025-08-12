@@ -2,12 +2,15 @@
 using Library.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Net;
 
 namespace Library.Controllers {
     public class BookController : Controller {
         private readonly BookService _bookService;
-        public BookController (BookService bookService) {
+        private readonly LocationService _locationService;
+        public BookController (BookService bookService, LocationService locationService) {
             _bookService = bookService;
+            _locationService = locationService;
         }
 
         public IActionResult Index () {
@@ -70,15 +73,32 @@ namespace Library.Controllers {
 
         [HttpGet]
         public IActionResult Create() {
+            foreach (var kvp in ModelState) {
+                foreach (var error in kvp.Value.Errors) {
+                    System.Diagnostics.Debug.WriteLine($"Key: {kvp.Key}, Error: {error.ErrorMessage}");
+                }
+            }
+            List<Location> locations = _locationService.GetLocations();
+            ViewBag.Locations = locations;
             return View();
         }
 
         [HttpPost]
         public IActionResult Create(Book book) {
+            ModelState.Remove(nameof(book.Location));
+
             if(!ModelState.IsValid) {
+                List<Location> locations = _locationService.GetLocations();
+                ViewBag.Locations = locations;
+
                 return View(book);
             }
+
+            Location assignedLocation = _locationService.GetLocations().FirstOrDefault(l => l.LocationID == book.LocationID);
+            book.Location = assignedLocation;
+
             _bookService.AddBook(book);
+            _locationService.AddBook(book, assignedLocation);
             return RedirectToAction("Index");
         }
 

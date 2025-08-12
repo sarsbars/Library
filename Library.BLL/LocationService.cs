@@ -12,5 +12,9 @@ namespace Library.BLL {
         public List<Location> GetLocations () {
             return _locationRepository.GetLocations();
         }
+
+        public void AddBook(Book book, Location location) {
+            _locationRepository.AddBook(book, location);
+        }
     }
 }

@@ -1,0 +1,70 @@
+﻿@model Book
+
+<h2>Add a new Book</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Title" class="control-lable"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Author" class="control-lable"></label>
+        <input asp-for="Author" class="form-control" />
+        <span asp-validation-for="Author" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Genre" class="control-lable"></label>
+        <select asp-for="Genre" asp-items="Html.GetEnumSelectList<GenreType>()" class="form-select" ></select>
+        <span asp-validation-for="Genre" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PublicationDate" class="control-label"></label>
+        <input asp-for="PublicationDate" type="datetime-local" class="form-control" />
+        <span asp-validation-for="PublicationDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Condition" class="control-lable"></label>
+        <select asp-for="Condition" asp-items="Html.GetEnumSelectList<ConditionType>()" class="form-select"></select>
+        <span asp-validation-for="Condition" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="IsAvailable">Availability:</label>
+        <select asp-for="IsAvailable" class="form-select">
+            <option value="true">Available</option>
+            <option value="false">Unavailable</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="ISBN" class="control-lable"></label>
+        <input asp-for="ISBN" class="form-control" />
+        <span asp-validation-for="ISBN" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="LocationInLibrary" class="control-lable">Shelf No.</label>
+        <input asp-for="LocationInLibrary" type="number" class="form-control" />
+        <span asp-validation-for="LocationInLibrary" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="LocationID" class="control-lable"></label>
+        <select asp-for="LocationID" asp-items="@(new SelectList(ViewBag.Locations, "LocationID", "LocationName"))"></select>
+        <span asp-validation-for="LocationID" class="text-danger"></span>
+    </div>
+
+    @if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <ul>
+        @foreach (var modelState in ViewData.ModelState)
+        {
+            foreach (var error in modelState.Value.Errors)
+            {
+                <li>@modelState.Key: @error.ErrorMessage</li>
+            }
+        }
+        </ul>
+    </div>
+}
+
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

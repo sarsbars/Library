@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Library.Models.Location>
+
+<h2>Locations</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Location Name</th>
+            <th>Address</th>
+            <th>Phone Number</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Location location in Model)
+        {
+            <tr>
+                <td>@location.LocationName</td>
+                <td>@location.Address</td>
+                <td>@location.PhoneNumber</td>
+                <td>
+                    <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@location.LocationID">Details</a>
+                    <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@location.LocationID">Edit</a>
+                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@location.LocationID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a class="btn btn-success" asp-action="Create">Create New Location</a>

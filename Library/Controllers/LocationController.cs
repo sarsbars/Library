@@ -1,11 +1,13 @@
 ﻿using Library.BLL;
 using Library.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Linq;
 
 namespace Library.Controllers {
+    [Authorize] // Requires authentication for all actions
     public class LocationController : Controller {
         private readonly LocationService _locationService;
 
@@ -13,14 +15,14 @@ namespace Library.Controllers {
             _locationService = locationService;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public IActionResult Index() {
-            var locations = User.IsInRole("Admin")
-                ? _locationService.GetLocations()
-                : _locationService.GetLocations(); // Placeholder for user-specific filtering
+            var locations = _locationService.GetLocations();
             return View(locations);
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create() {
             ViewBag.LocationNameList = new SelectList(Enum.GetValues(typeof(LocationNameType))
                 .Cast<LocationNameType>()
@@ -31,6 +33,7 @@ namespace Library.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(Location location) {
             if (!ModelState.IsValid) {
                 ViewBag.LocationNameList = new SelectList(Enum.GetValues(typeof(LocationNameType))
@@ -52,6 +55,7 @@ namespace Library.Controllers {
             }
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public IActionResult Details(int id) {
             var location = _locationService.GetLocationByID(id);
             if (location == null) {
@@ -61,6 +65,7 @@ namespace Library.Controllers {
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Staff")]
         public IActionResult Edit(int id) {
             var location = _locationService.GetLocationByID(id);
             if (location == null) {
@@ -75,6 +80,7 @@ namespace Library.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Staff")]
         public IActionResult Edit(Location location) {
             if (!ModelState.IsValid) {
                 ViewBag.LocationNameList = new SelectList(Enum.GetValues(typeof(LocationNameType))
@@ -97,6 +103,7 @@ namespace Library.Controllers {
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id) {
             var location = _locationService.GetLocationByID(id);
             if (location == null) {
@@ -107,6 +114,7 @@ namespace Library.Controllers {
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteConfirmed(int id) {
             try {
                 _locationService.DeleteLocation(id);

@@ -19,13 +19,22 @@
                 <td>@location.Address</td>
                 <td>@location.PhoneNumber</td>
                 <td>
-                    <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@location.LocationID">Details</a>
-                    <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@location.LocationID">Edit</a>
-                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@location.LocationID">Delete</a>
+                    @if (User.IsInRole("Admin") || User.IsInRole("Staff"))
+                    {
+                        <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@location.LocationID">Details</a>
+                        <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@location.LocationID">Edit</a>
+                    }
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@location.LocationID">Delete</a>
+                    }
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
-<a class="btn btn-success" asp-action="Create">Create New Location</a>
+@if (User.IsInRole("Admin"))
+{
+    <a class="btn btn-success" asp-action="Create">Create New Location</a>
+}

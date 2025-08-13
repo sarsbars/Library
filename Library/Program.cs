@@ -3,11 +3,11 @@ using Library.DAL;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Library.BLL;
 
 namespace Library {
     public class Program {
-        public static void Main(string[] args) {
+        public static async Task Main(string[] args) {
+
             // Explicitly set the base path for configuration
             var builder = WebApplication.CreateBuilder(new WebApplicationOptions {
                 ApplicationName = typeof(Program).Assembly.FullName,
@@ -21,11 +21,6 @@ namespace Library {
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
 
-            builder.Services.AddScoped<LoanService>();
-            builder.Services.AddScoped<LoanRepository>();
-            builder.Services.AddScoped<LocationService>();
-            builder.Services.AddScoped<LocationRepository>();
-
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
@@ -34,19 +29,21 @@ namespace Library {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             // Add Identity services
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<LibraryDBContext>();
 
             // Repositories
             builder.Services.AddScoped<BookRepository>();
             builder.Services.AddScoped<UserRepository>();
+            builder.Services.AddScoped<LocationRepository>();
+            builder.Services.AddScoped<LoanRepository>();
 
             // Services
             builder.Services.AddScoped<BookService>();
             builder.Services.AddScoped<UserService>();
-
-            builder.Services.AddScoped<LocationRepository>();
             builder.Services.AddScoped<LocationService>();
+            builder.Services.AddScoped<LoanService>();
 
 
             builder.Services.AddScoped<LoanService>();
@@ -56,6 +53,11 @@ namespace Library {
             builder.Services.AddScoped<LocationRepository>();
 
             var app = builder.Build();
+
+            // Seed roles and users
+            using (var scope = app.Services.CreateScope()) {
+                await IdentitySeedData.Initialize(scope.ServiceProvider);
+            }
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment()) {

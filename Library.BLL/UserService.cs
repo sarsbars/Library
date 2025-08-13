@@ -28,6 +28,9 @@ namespace Library.BLL {
         }
 
         public User? GetUserById(int id) => _userRepository.GetUserById(id);
+        public List<User> GetAllUsers() {
+            return _userRepository.GetAllUsers().ToList();
+        }
 
         public void CreateUser(User user) => _userRepository.AddUser(user);
 

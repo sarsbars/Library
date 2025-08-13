@@ -11,17 +11,16 @@ namespace Library.Controllers {
         private readonly BookService _bookService;
         private readonly UserService _userService;
 
-        public LoanController(LoanService loanService ,LocationService locationService, BookService bookService) {
+        public LoanController(LoanService loanService ,LocationService locationService, BookService bookService, UserService userService) {
             _loanService = loanService;
             _locationService = locationService;
             _bookService = bookService;
+            _userService = userService;
         }
         public IActionResult Index() {
             IEnumerable<Loan> loans;
             if (User.IsInRole("Admin")) {
                 loans = _loanService.GetLoans();
-                books = _bookService.GetBooks();
-
             } else {
                 string userId = User.Identity.Name;
                 loans = _loanService.GetLoans();
@@ -42,13 +41,19 @@ namespace Library.Controllers {
             }).ToList();
             ViewBag.BookList = bookDisplayList;
 
-            List<User> users = _userService.GetUsers();
-            List<User> availableUsers = users.Where(b => b.IsAvailable == true).ToList();
-            List<SelectListItem> userDisplayList = availableUsers.Select(b => new SelectListItem {
-                Value = u.UserID.ToString(),
-                Text = $"{U.Name} - ID: {u.UserID}"
-            }).ToList();
-            ViewBag.UserList = userDisplayList;
+            List<User> users = _userService.GetAllUsers();
+            List<User> availableUsers = users
+                 .Where(u => !u.Loans.Any(l => l.LoanStatus != LoanStatusType.Returned))
+                 .ToList();
+
+            List<SelectListItem> userDisplayList = availableUsers
+                .Select(u => new SelectListItem {
+                    Value = u.UserID.ToString(),
+                    Text = $"{u.Name} - ID: {u.UserID}"
+                })
+                .ToList();
+
+            ViewBag.Users = userDisplayList;
             return View(new Loan());
         }
 
@@ -58,25 +63,29 @@ namespace Library.Controllers {
                 List<Location> locations = _locationService.GetLocations();
                 ViewBag.LocationList = new SelectList(locations, "LocationID", "LocationName", loan.LocationID);
 
-                List<Book> books = _bookService.GetBooks();
-                List<Book> availableBooks = books.Where(b => b.IsAvailable == true).ToList();
-                List<SelectListItem> bookDisplayList = availableBooks.Select(b => new SelectListItem {
+                List<Book> books = _bookService.GetBooks()
+                            .Where(b => b.IsAvailable == true)
+                            .ToList();
+                ViewBag.BookList = books.Select(b => new SelectListItem {
                     Value = b.BookID.ToString(),
                     Text = $"{b.Title} by {b.Author} - {b.Condition} ({b.Genre}) [ID: {b.BookID}]",
                     Selected = b.BookID == loan.BookID
                 }).ToList();
-                ViewBag.BookList = bookDisplayList;
 
-                List<User> users = _userService.GetUsers();
-                List<User> availableUsers = users.Where(b => b.IsAvailable == true).ToList();
-                List<SelectListItem> userDisplayList = availableUsers.Select(b => new SelectListItem {
-                    Value = u.UserID.ToString(),
-                    Text = $"{U.Name} - ID: {u.UserID}"
-                }).ToList();
-                ViewBag.UserList = userDisplayList;
+                List<User> availableUsers = _userService.GetAllUsers()
+                     .Where(u => !u.Loans.Any(l => l.LoanStatus != LoanStatusType.Returned))
+                     .ToList();
+
+                ViewBag.Users = availableUsers
+                    .Select(u => new SelectListItem {
+                        Value = u.UserID.ToString(),
+                        Text = $"{u.Name} - ID: {u.UserID}",
+                        Selected = u.UserID == loan.UserID
+                    })
+                    .ToList();
                 return View(loan);
             }
-            List<SelectedItem> book = _bookService.GetBookByID(loan.BookID);
+            Book book = _bookService.GetBookByID(loan.BookID);
             if (book != null) {
                 book.IsAvailable = false;
                 _bookService.UpdateBook(book);
@@ -106,7 +115,7 @@ namespace Library.Controllers {
             List<Book> books = _bookService.GetBooks();
             ViewBag.BookList = new SelectList(books, "BookID", "Title", loan.BookID);
 
-            List<User> users = _userService.GetUsers();
+            List<User> users = _userService.GetAllUsers();
             ViewBag.UserList = new SelectList(users, "UserID", "Name", loan.UserID);
             return View(loan);
         }
@@ -120,7 +129,7 @@ namespace Library.Controllers {
                 List<Book> books = _bookService.GetBooks();
                 ViewBag.BookList = new SelectList(books, "BookID", "Title", loan.BookID);
 
-                List<User> users = _userService.GetUsers();
+                List<User> users = _userService.GetAllUsers();
                 ViewBag.UserList = new SelectList(users, "UserID", "Name", loan.UserID);
                 return View(loan);
             }

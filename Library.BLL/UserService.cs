@@ -29,6 +29,10 @@ namespace Library.BLL {
 
         public User? GetUserById(int id) => _userRepository.GetUserById(id);
 
+        public User GetCurrentUser(string email) {
+            return _userRepository.GetCurrentUser(email);
+        }
+
         public void CreateUser(User user) => _userRepository.AddUser(user);
 
         public void UpdateUser(User user) => _userRepository.UpdateUser(user);

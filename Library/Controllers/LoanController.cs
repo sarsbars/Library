@@ -19,25 +19,23 @@ namespace Library.Controllers {
         }
         public IActionResult Index() {
             IEnumerable<Loan> loans = _loanService.GetLoans();
-            //if (User.IsInRole("Admin")) {
-            //    loans = _loanService.GetLoans();
-            //} else {
-            //    var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+            if (User.IsInRole("Admin")) {
+                loans = _loanService.GetLoans();
+            }
+            else {
+                var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
 
-            //    if (userIdClaim == null) {
-            //        // If the claim is missing, return unauthorized
-            //        return Unauthorized();
-            //    }
+                if (userIdClaim == null) {
+                    return Unauthorized();
+                }
 
-            //    if (!int.TryParse(userIdClaim.Value, out int userId)) {
-            //        // If parsing fails, return bad request
-            //        return BadRequest("Invalid user ID");
-            //    }
+                if (!int.TryParse(userIdClaim.Value, out int userId)) {
+                    return BadRequest("Invalid user ID");
+                }
 
-            //    // Show only loans for this user
-            //    loans = _loanService.GetLoans().Where(l => l.UserID == userId);
-            //}
-                return View(loans);
+                loans = _loanService.GetLoans().Where(l => l.UserID == userId);
+            }
+            return View(loans);
         }
 
         [HttpGet]

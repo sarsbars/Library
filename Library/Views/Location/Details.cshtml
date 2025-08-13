@@ -1,0 +1,18 @@
+﻿@model Library.Models.Location
+
+<h2>Location Details</h2>
+
+<p><strong>Location Name:</strong> @Model.LocationName</p>
+<p><strong>Address:</strong> @Model.Address</p>
+<p><strong>Phone Number:</strong> @Model.PhoneNumber</p>
+
+<div class="space-btwn">
+    <div>
+        <a asp-controller="Location" asp-action="Index" class="btn btn-secondary">Back</a>
+    </div>
+
+    <div>
+        <a asp-controller="Location" asp-action="Edit" asp-route-id="@Model.LocationID" class="btn btn-primary">Edit</a>
+        <a asp-controller="Location" asp-action="Delete" asp-route-id="@Model.LocationID" class="btn btn-danger">Delete</a>
+    </div>
+</div>

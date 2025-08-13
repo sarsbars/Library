@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Library.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class initialcreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -518,33 +518,6 @@ namespace Library.DAL.Migrations
                     { 238, "Malcolm Gladwell", 0, 1, "9780143039945", true, 3, 338, new DateTime(2008, 11, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), "Outliers" },
                     { 239, "Susan Cain", 1, 1, "9780142001615", false, 4, 339, new DateTime(2012, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), "Quiet: The Power of Introverts" },
                     { 240, "Charles Duhigg", 2, 1, "9780143114963", true, 5, 340, new DateTime(2012, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Power of Habit" },
-                    { 241, "Richard Dawkins", 1, 1, "9780143111580", true, 1, 341, new DateTime(1976, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Selfish Gene" },
-                    { 242, "Michael Pollan", 0, 1, "9780143113201", false, 2, 342, new DateTime(2006, 4, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Omnivore's Dilemma" },
-                    { 243, "Elizabeth Kolbert", 2, 1, "9780143114895", true, 3, 343, new DateTime(2014, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Sixth Extinction" },
-                    { 244, "Charles Duhigg", 1, 1, "9780143114963", true, 4, 344, new DateTime(2012, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Power of Habit" },
-                    { 245, "Richard Dawkins", 2, 1, "9780143111580", false, 5, 345, new DateTime(1976, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Selfish Gene" },
-                    { 246, "Michael Pollan", 0, 1, "9780143113201", true, 1, 346, new DateTime(2006, 4, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Omnivore's Dilemma" },
-                    { 247, "Elizabeth Kolbert", 1, 1, "9780143114895", true, 2, 347, new DateTime(2014, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Sixth Extinction" },
-                    { 248, "Richard Dawkins", 2, 1, "9780143111580", false, 3, 348, new DateTime(1976, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Selfish Gene" },
-                    { 249, "Michael Pollan", 0, 1, "9780143113201", true, 4, 349, new DateTime(2006, 4, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Omnivore's Dilemma" },
-                    { 250, "Elizabeth Kolbert", 1, 1, "9780143114895", true, 5, 350, new DateTime(2014, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Sixth Extinction" },
-                    { 251, "Susan Cain", 2, 1, "9780142001615", true, 1, 351, new DateTime(2012, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), "Quiet: The Power of Introverts" },
-                    { 252, "Charles Duhigg", 1, 1, "9780143114963", false, 2, 352, new DateTime(2012, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Power of Habit" },
-                    { 253, "Richard Dawkins", 2, 1, "9780143111580", true, 3, 353, new DateTime(1976, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Selfish Gene" },
-                    { 254, "Michael Pollan", 0, 1, "9780143113201", true, 4, 354, new DateTime(2006, 4, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Omnivore's Dilemma" },
-                    { 255, "Elizabeth Kolbert", 1, 1, "9780143114895", true, 5, 355, new DateTime(2014, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Sixth Extinction" },
-                    { 256, "Richard Dawkins", 2, 1, "9780143111580", false, 1, 356, new DateTime(1976, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Selfish Gene" },
-                    { 257, "Michael Pollan", 0, 1, "9780143113201", true, 2, 357, new DateTime(2006, 4, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Omnivore's Dilemma" },
-                    { 258, "Elizabeth Kolbert", 1, 1, "9780143114895", true, 3, 358, new DateTime(2014, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Sixth Extinction" },
-                    { 259, "Richard Dawkins", 2, 1, "9780143111580", false, 4, 359, new DateTime(1976, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Selfish Gene" },
-                    { 260, "Michael Pollan", 0, 1, "9780143113201", true, 5, 360, new DateTime(2006, 4, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Omnivore's Dilemma" },
-                    { 261, "Elizabeth Kolbert", 1, 1, "9780143114895", true, 1, 361, new DateTime(2014, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Sixth Extinction" },
-                    { 262, "Richard Dawkins", 2, 1, "9780143111580", false, 2, 362, new DateTime(1976, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Selfish Gene" },
-                    { 263, "Michael Pollan", 0, 1, "9780143113201", true, 3, 363, new DateTime(2006, 4, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Omnivore's Dilemma" },
-                    { 264, "Elizabeth Kolbert", 1, 1, "9780143114895", true, 4, 364, new DateTime(2014, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Sixth Extinction" },
-                    { 265, "Richard Dawkins", 2, 1, "9780143111580", false, 5, 365, new DateTime(1976, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Selfish Gene" },
-                    { 266, "Michael Pollan", 0, 1, "9780143113201", true, 1, 366, new DateTime(2006, 4, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Omnivore's Dilemma" },
-                    { 267, "Elizabeth Kolbert", 1, 1, "9780143114895", true, 2, 367, new DateTime(2014, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Sixth Extinction" },
                     { 268, "Alex Michaelides", 1, 3, "9780062457806", true, 3, 368, new DateTime(2019, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Silent Patient" },
                     { 269, "Thomas Harris", 2, 3, "9780316769488", false, 4, 369, new DateTime(1988, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Silence of the Lambs" },
                     { 270, "Gillian Flynn", 0, 3, "9780312367541", true, 5, 370, new DateTime(2012, 5, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), "Gone Girl" },

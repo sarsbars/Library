@@ -47,7 +47,7 @@ namespace Library.Models {
         [StringLength(100)]
         public string Address { get; set; }
 
-        public Location Location { get; set; }
-        public ICollection<Loan> Loans { get; set; } = new List<Loan>();
+        public virtual Location Location { get; set; }
+        public virtual ICollection<Loan> Loans { get; set; } = new List<Loan>();
     }
 }

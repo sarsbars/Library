@@ -53,7 +53,7 @@ namespace Library.Controllers {
         }
 
         public IActionResult Details(int id) {
-            var location = _locationService.GetLocationById(id);
+            var location = _locationService.GetLocationByID(id);
             if (location == null) {
                 return NotFound();
             }
@@ -62,7 +62,7 @@ namespace Library.Controllers {
 
         [HttpGet]
         public IActionResult Edit(int id) {
-            var location = _locationService.GetLocationById(id);
+            var location = _locationService.GetLocationByID(id);
             if (location == null) {
                 return NotFound();
             }
@@ -98,7 +98,7 @@ namespace Library.Controllers {
 
         [HttpGet]
         public IActionResult Delete(int id) {
-            var location = _locationService.GetLocationById(id);
+            var location = _locationService.GetLocationByID(id);
             if (location == null) {
                 return NotFound();
             }

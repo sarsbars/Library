@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Library.Models;
 
 namespace Library.DAL {
-    public class LibraryDBContext : IdentityDbContext {
+    public class LibraryDBContext : IdentityDbContext<IdentityUser> {
         public LibraryDBContext(DbContextOptions<LibraryDBContext> options)
             : base(options) {
         }

@@ -15,7 +15,7 @@ namespace Library.Controllers {
             _locationService = locationService;
         }
 
-        [Authorize(Roles = "Admin,Staff")]
+        [AllowAnonymous]
         public IActionResult Index() {
             var locations = _locationService.GetLocations();
             return View(locations);

@@ -22,8 +22,15 @@ namespace Library.Controllers {
             if (User.IsInRole("Admin")) {
                 loans = _loanService.GetLoans();
             } else {
-                string userId = User.Identity.Name;
+                // Temporarily show all loans to debug
                 loans = _loanService.GetLoans();
+
+                // Debug info - remove this later
+                string userName = User.Identity.Name;
+                System.Diagnostics.Debug.WriteLine($"Current user: {userName}");
+                System.Diagnostics.Debug.WriteLine($"Total loans: {loans.Count()}");
+                //string userName = User.Identity.Name;
+                //loans = _loanService.GetLoans().Where(l => l.User.Name == userName);
             }
                 return View(loans);
         }
@@ -52,14 +59,31 @@ namespace Library.Controllers {
                     Text = $"{u.Name} - ID: {u.UserID}"
                 })
                 .ToList();
-
             ViewBag.Users = userDisplayList;
-            return View(new Loan());
+
+            Loan loan = new Loan {
+                LoanID = 0;
+                DateBorrowed = DateTime.Today,
+                DueDate = DateTime.Today.AddDays(14),
+                LoanStatus = LoanStatusType.TakenOut
+            };
+            return View(loan);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(Loan loan) {
-            if(!ModelState.IsValid) {
+            // Debug what's being received
+            System.Diagnostics.Debug.WriteLine($"Received loan - BookID: {loan.BookID}, UserID: {loan.UserID}, LocationID: {loan.LocationID}");
+            System.Diagnostics.Debug.WriteLine($"DateBorrowed: {loan.DateBorrowed}, DueDate: {loan.DueDate}");
+
+            if (!ModelState.IsValid) {
+                // Show validation errors
+                foreach (var error in ModelState) {
+                    foreach (var err in error.Value.Errors) {
+                        System.Diagnostics.Debug.WriteLine($"Validation Error - {error.Key}: {err.ErrorMessage}");
+                    }
+                }
                 List<Location> locations = _locationService.GetLocations();
                 ViewBag.LocationList = new SelectList(locations, "LocationID", "LocationName", loan.LocationID);
 
@@ -83,8 +107,40 @@ namespace Library.Controllers {
                         Selected = u.UserID == loan.UserID
                     })
                     .ToList();
+
+                // Your existing code for repopulating ViewBags...
                 return View(loan);
             }
+
+            // Add success message
+            System.Diagnostics.Debug.WriteLine("Model is valid, proceeding with loan creation");
+
+            //if (!ModelState.IsValid) {
+            //    List<Location> locations = _locationService.GetLocations();
+            //    ViewBag.LocationList = new SelectList(locations, "LocationID", "LocationName", loan.LocationID);
+
+            //    List<Book> books = _bookService.GetBooks()
+            //                .Where(b => b.IsAvailable == true)
+            //                .ToList();
+            //    ViewBag.BookList = books.Select(b => new SelectListItem {
+            //        Value = b.BookID.ToString(),
+            //        Text = $"{b.Title} by {b.Author} - {b.Condition} ({b.Genre}) [ID: {b.BookID}]",
+            //        Selected = b.BookID == loan.BookID
+            //    }).ToList();
+
+            //    List<User> availableUsers = _userService.GetAllUsers()
+            //         .Where(u => !u.Loans.Any(l => l.LoanStatus != LoanStatusType.Returned))
+            //         .ToList();
+
+            //    ViewBag.Users = availableUsers
+            //        .Select(u => new SelectListItem {
+            //            Value = u.UserID.ToString(),
+            //            Text = $"{u.Name} - ID: {u.UserID}",
+            //            Selected = u.UserID == loan.UserID
+            //        })
+            //        .ToList();
+            //    return View(loan);
+            //}
             Book book = _bookService.GetBookByID(loan.BookID);
             if (book != null) {
                 book.IsAvailable = false;
@@ -92,6 +148,7 @@ namespace Library.Controllers {
             }
 
             _loanService.AddLoan(loan);
+            System.Diagnostics.Debug.WriteLine("Loan created successfully");
             return RedirectToAction("Index");
         }
 
@@ -133,6 +190,14 @@ namespace Library.Controllers {
                 ViewBag.UserList = new SelectList(users, "UserID", "Name", loan.UserID);
                 return View(loan);
             }
+
+            if (loan.LoanStatus == LoanStatusType.Returned) {
+                Book book = _bookService.GetBookByID(loan.BookID);
+                if (book != null) {
+                    book.IsAvailable = true;
+                    _bookService.UpdateBook(book);
+                }
+            }
             _loanService.UpdateLoan(loan);
             return RedirectToAction("Index");
         }
@@ -147,7 +212,15 @@ namespace Library.Controllers {
         }
         [HttpPost, ActionName("Delete")]
         public IActionResult DeleteConfirmed(int id) {
-            _loanService.DeleteLoan(id);
+            Loan loan = _loanService.GetLoanById(id);
+            if (loan != null) {
+                var book = _bookService.GetBookByID(loan.BookID);
+                if (book != null) {
+                    book.IsAvailable = true;
+                    _bookService.UpdateBook(book);
+                }
+            }
+                _loanService.DeleteLoan(id);
             return RedirectToAction("Index");
         }
     }

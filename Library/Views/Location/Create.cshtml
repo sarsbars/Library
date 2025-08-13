@@ -1,5 +1,34 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model Library.Models.Location
+
+<h2>Create Location</h2>
+
+<form asp-action="Create" method="post">
+    <input asp-for="LocationID" type="hidden" />
+
+    <div class="form-group">
+        <label asp-for="LocationName" class="control-label">Location Name</label>
+        <select asp-for="LocationName" class="form-control" asp-items="@ViewBag.LocationNameList">
+            <option value="">Select a location name</option>
+        </select>
+        <span asp-validation-for="LocationName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Address" class="control-label">Address</label>
+        <input asp-for="Address" type="text" class="form-control" />
+        <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PhoneNumber" class="control-label">Phone Number</label>
+        <input asp-for="PhoneNumber" type="text" class="form-control" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }

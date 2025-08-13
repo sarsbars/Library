@@ -8,6 +8,7 @@ using Library.BLL;
 namespace Library {
     public class Program {
         public static void Main(string[] args) {
+
             // Explicitly set the base path for configuration
             var builder = WebApplication.CreateBuilder(new WebApplicationOptions {
                 ApplicationName = typeof(Program).Assembly.FullName,
@@ -40,13 +41,14 @@ namespace Library {
             // Repositories
             builder.Services.AddScoped<BookRepository>();
             builder.Services.AddScoped<UserRepository>();
+            builder.Services.AddScoped<LocationRepository>();
 
             // Services
             builder.Services.AddScoped<BookService>();
             builder.Services.AddScoped<UserService>();
-
-            builder.Services.AddScoped<LocationRepository>();
             builder.Services.AddScoped<LocationService>();
+
+
 
             var app = builder.Build();
 

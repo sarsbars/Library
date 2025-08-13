@@ -9,7 +9,7 @@ namespace Library.Controllers {
         private readonly LoanService _loanService;
         private readonly LocationService _locationService;
         private readonly BookService _bookService;
-        //private readonly UserService _userService;
+        private readonly UserService _userService;
 
         public LoanController(LoanService loanService ,LocationService locationService, BookService bookService) {
             _loanService = loanService;
@@ -20,7 +20,7 @@ namespace Library.Controllers {
             IEnumerable<Loan> loans;
             if (User.IsInRole("Admin")) {
                 loans = _loanService.GetLoans();
-                //books = _bookService.GetBooks();
+                books = _bookService.GetBooks();
 
             } else {
                 string userId = User.Identity.Name;
@@ -41,6 +41,14 @@ namespace Library.Controllers {
                 Text = $"{b.Title} by {b.Author} - {b.Condition} ({b.Genre}) [ID: {b.BookID}]",
             }).ToList();
             ViewBag.BookList = bookDisplayList;
+
+            List<User> users = _userService.GetUsers();
+            List<User> availableUsers = users.Where(b => b.IsAvailable == true).ToList();
+            List<SelectListItem> userDisplayList = availableUsers.Select(b => new SelectListItem {
+                Value = u.UserID.ToString(),
+                Text = $"{U.Name} - ID: {u.UserID}"
+            }).ToList();
+            ViewBag.UserList = userDisplayList;
             return View(new Loan());
         }
 
@@ -58,13 +66,21 @@ namespace Library.Controllers {
                     Selected = b.BookID == loan.BookID
                 }).ToList();
                 ViewBag.BookList = bookDisplayList;
+
+                List<User> users = _userService.GetUsers();
+                List<User> availableUsers = users.Where(b => b.IsAvailable == true).ToList();
+                List<SelectListItem> userDisplayList = availableUsers.Select(b => new SelectListItem {
+                    Value = u.UserID.ToString(),
+                    Text = $"{U.Name} - ID: {u.UserID}"
+                }).ToList();
+                ViewBag.UserList = userDisplayList;
                 return View(loan);
             }
-            //List<SelectedItem> book = _bookService.GetBookById(loan.BookID);
-            //if(book != null) {
-            //    book.IsAvailable = false;
-            //    _bookService.UpdateBook(book);
-            //}
+            List<SelectedItem> book = _bookService.GetBookByID(loan.BookID);
+            if (book != null) {
+                book.IsAvailable = false;
+                _bookService.UpdateBook(book);
+            }
 
             _loanService.AddLoan(loan);
             return RedirectToAction("Index");
@@ -89,6 +105,9 @@ namespace Library.Controllers {
 
             List<Book> books = _bookService.GetBooks();
             ViewBag.BookList = new SelectList(books, "BookID", "Title", loan.BookID);
+
+            List<User> users = _userService.GetUsers();
+            ViewBag.UserList = new SelectList(users, "UserID", "Name", loan.UserID);
             return View(loan);
         }
 
@@ -100,6 +119,9 @@ namespace Library.Controllers {
 
                 List<Book> books = _bookService.GetBooks();
                 ViewBag.BookList = new SelectList(books, "BookID", "Title", loan.BookID);
+
+                List<User> users = _userService.GetUsers();
+                ViewBag.UserList = new SelectList(users, "UserID", "Name", loan.UserID);
                 return View(loan);
             }
             _loanService.UpdateLoan(loan);
@@ -119,22 +141,5 @@ namespace Library.Controllers {
             _loanService.DeleteLoan(id);
             return RedirectToAction("Index");
         }
-
-        //[HttpGet]
-        //public JsonResult GetUserById(int bookID) {
-        //    try {
-        //        // Using UserService instead of searching through loans
-        //        var book = _bookService.GetBookById(bookID);
-
-        //        if (book != null) {
-        //            return Json(new { success = true, name = book.Name });
-        //        }
-
-        //        return Json(new { success = false, message = "User not found" });
-        //    }
-        //    catch (Exception) {
-        //        return Json(new { success = false, message = "Error retrieving user data" });
-        //    }
-        //}
     }
 }

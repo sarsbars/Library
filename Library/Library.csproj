@@ -14,15 +14,20 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.11" />
        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.19" />
        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.19">
            <PrivateAssets>all</PrivateAssets>
            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
        </PackageReference>
+       <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
     </ItemGroup>
     <ItemGroup>
 		<ProjectReference Include="..\Library.BLL\Library.BLL.csproj" />
         <ProjectReference Include="..\Library.DAL\Library.DAL.csproj" />
         <ProjectReference Include="..\Library.Models\Library.Models.csproj" />
    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Areas\Identity\Data\" />
+    </ItemGroup>
 </Project>

@@ -1,0 +1,20 @@
+﻿@model Book
+
+<h2>@Model.Title</h2>
+<strong>@Model.Author</strong>
+
+<div>
+    <p>@Model.Genre</p>
+    <p>Published on @Model.PublicationDate</p>
+    <p>Condition: @Model.Condition</p>
+    @if(Model.IsAvailable)
+    {
+        <p>Currently Available</p>
+    } else
+    {
+        <p>Currently Unavailable</p>
+    }
+    <p>Can be found at @ViewBag.BookLocation | Shelf @Model.LocationInLibrary</p>
+</div>
+
+<a asp-controller="Book" asp-action="Index">Back to selection</a>

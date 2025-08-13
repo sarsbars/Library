@@ -8,13 +8,19 @@ namespace Library.BLL {
         public BookService (BookRepository bookRepository) {
             _bookRepository = bookRepository;
         }
-
+        public Book GetBookByID(int ID) {
+            return _bookRepository.GetBookByID(ID);
+        }
         public List<Book> GetBooks() {
             return _bookRepository.GetBooks();
         }
 
-        //public List<Book> GetBookById() {
-        //    return _bookRepository.GetBookById();
-        //}
+        public void AddBook(Book book) {
+            if (book == null) {
+                throw new ArgumentNullException(nameof(book), "Racer cannot be null");
+            }
+
+            _bookRepository.AddBook(book);
+        }
     }
 }

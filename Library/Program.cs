@@ -32,8 +32,16 @@ namespace Library {
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<LibraryDBContext>();
 
+            // Repositories
             builder.Services.AddScoped<BookRepository>();
+            builder.Services.AddScoped<UserRepository>();
+
+            // Services
             builder.Services.AddScoped<BookService>();
+            builder.Services.AddScoped<UserService>();
+
+            builder.Services.AddScoped<LocationRepository>();
+            builder.Services.AddScoped<LocationService>();
 
 
             builder.Services.AddScoped<LoanService>();

@@ -1,4 +1,5 @@
 ﻿using Library.BLL;
+using Library.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.Controllers {
@@ -19,7 +20,18 @@ namespace Library.Controllers {
             _bookService = bookService;
         }
         public IActionResult Index() {
-            return View();
+            DashboardViewModel model = new DashboardViewModel {
+                TotalBooks = _bookService.GetTotalBooks(),
+                TotalUsers = _userService.GetTotalUsers(),
+                TotalLoans = _loanService.GetTotalLoans(),
+                OverDueBooksCount = _loanService.GetOverdueBooksCount(),
+                MostRecentlyAddedBooks = _bookService.GetMostRecentlyAddedBooks(),
+                AvailableBooks = _bookService.GetAvailableBooks(),
+                TopBorrowers = _userService.GetTopBorrowers(),
+                LocationWithMostBorrows = _locationService.GetLocationWithMostBorrows()
+            };
+
+            return View(model);
         }
     }
 }

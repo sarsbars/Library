@@ -1,40 +1,45 @@
 ﻿@model Library.Models.User
-
 @{
     ViewData["Title"] = "User Details";
 }
 
 <h2>User Details</h2>
 
-<div>
-    <dl>
-        <dt>Name</dt>
-        <dd>@Model.Name</dd>
+<div class="card mb-4">
+    <div class="card-body">
+        <h4 class="card-title">@Model.Name (@Model.Role)</h4>
+        <p class="card-text"><strong>Email:</strong> @Model.Email</p>
+        <p class="card-text"><strong>Phone:</strong> @Model.PhoneNumber</p>
+        <p class="card-text"><strong>Gender:</strong> @Model.Gender</p>
+        <p class="card-text"><strong>Address:</strong> @Model.Address</p>
+        <p class="card-text"><strong>Location:</strong> @Model.Location?.LocationName</p>
 
-        <dt>Role</dt>
-        <dd>@Model.Role</dd>
-
-        <dt>Email</dt>
-        <dd>@Model.Email</dd>
-
-        <dt>Location</dt>
-        <dd>@Model.Location?.LocationName</dd>
-    </dl>
+        @if (Model.Loans != null && Model.Loans.Any())
+        {
+            <p class="card-text"><strong>Loans:</strong></p>
+            <ul>
+                @foreach (var loan in Model.Loans)
+                {
+                    <li>@loan.Book - Due: @loan.DueDate.ToShortDateString()</li>
+                }
+            </ul>
+        }
+    </div>
 </div>
 
 <div>
     <!-- Back to list -->
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to User List</a>
 
     @if (User.IsInRole("Admin") ||
         (User.IsInRole("Staff") && Model.Role != RoleType.Admin) ||
         (User.IsInRole("Reader") && User.Identity.Name == Model.Email))
     {
-        <a asp-action="Edit" asp-route-id="@Model.UserID">Edit</a>
+        <a asp-action="Edit" asp-route-id="@Model.UserID" class="btn btn-warning">Edit</a>
     }
 
     @if (User.IsInRole("Admin"))
     {
-        <a asp-action="Delete" asp-route-id="@Model.UserID">Delete</a>
+        <a asp-action="Delete" asp-route-id="@Model.UserID" class="btn btn-sm btn-danger">Delete</a>
     }
 </div>

@@ -1,0 +1,31 @@
+﻿@model Library.Models.User
+
+@{
+    ViewData["Title"] = "Delete User";
+}
+
+<h2>Delete User</h2>
+<hr />
+
+<div class="alert alert-danger">
+    <strong>Are you sure you want to delete this user?</strong>
+</div>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Name</h5>
+        <p class="card-text">
+            <strong>Email:</strong> @Model.Email <br />
+            <strong>Role:</strong> @Model.Role <br />
+            <strong>Location:</strong> @Model.Location?.LocationName
+        </p>
+    </div>
+</div>
+
+<form asp-action="Delete" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="UserID" />
+
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>
+</form>

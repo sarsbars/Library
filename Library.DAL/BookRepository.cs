@@ -37,5 +37,9 @@ namespace Library.DAL {
         public List<Book> GetAvailableBooks() {
             return GetBooks().Where(b => b.IsAvailable).ToList();
         }
+
+        public int GetTotalBooks() {
+            return GetBooks().Count();
+        }
     }
 }

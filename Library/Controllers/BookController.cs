@@ -1,10 +1,13 @@
 ﻿using Library.BLL;
 using Library.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Net;
 
 namespace Library.Controllers {
+
+    [Authorize]
     public class BookController : Controller {
         private readonly BookService _bookService;
         private readonly LocationService _locationService;
@@ -71,6 +74,7 @@ namespace Library.Controllers {
             return View(book);
         }
 
+        [Authorize(Roles = "Staff, Admin")]
         [HttpGet]
         public IActionResult Create() {
             List<Location> locations = _locationService.GetLocations();
@@ -78,6 +82,7 @@ namespace Library.Controllers {
             return View();
         }
 
+        [Authorize(Roles = "Staff, Admin")]
         [HttpPost]
         public IActionResult Create(Book book) {
             ModelState.Remove(nameof(book.Location));
@@ -97,6 +102,7 @@ namespace Library.Controllers {
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Staff, Admin")]
         [HttpGet]
         public IActionResult Update(int BookID) {
             Book book = _bookService.GetBookByID(BookID);
@@ -109,6 +115,7 @@ namespace Library.Controllers {
             return View(book);
         }
 
+        [Authorize(Roles = "Staff, Admin")]
         [HttpPost]
         public IActionResult Update(Book newBook) {
             ModelState.Remove(nameof(newBook.Location));
@@ -136,6 +143,7 @@ namespace Library.Controllers {
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Staff, Admin")]
         [HttpGet]
         public IActionResult Delete(int BookID) {
             Book book = _bookService.GetBooks().FirstOrDefault(b => b.BookID == BookID);
@@ -146,6 +154,7 @@ namespace Library.Controllers {
             return View(book);
         }
 
+        [Authorize(Roles = "Staff, Admin")]
         [HttpPost, ActionName("Delete")]
         public IActionResult DeleteConfirmed(int BookID) {
             Book book = _bookService.GetBooks().FirstOrDefault(b => b.BookID == BookID);

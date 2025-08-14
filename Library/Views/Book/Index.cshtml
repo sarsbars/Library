@@ -39,8 +39,10 @@
     <a asp-action="Index" class="btn btn-secondary">Clear Filters</a>
 </form>
 
-<strong>THIS NEEDS TO BE ONLY VISIBLE TO STAFF!</strong>
-<a asp-controller="Book" asp-action="Create">Add a new Book</a>
+@if (User.IsInRole("Staff") || User.IsInRole("Admin"))
+{
+    <a asp-controller="Book" asp-action="Create">Add a new Book</a>
+}
 
 <div>
     <partial name="BookList" model="Model.Books" />

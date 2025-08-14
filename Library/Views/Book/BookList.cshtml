@@ -15,11 +15,16 @@
                         <h6 class="card-subtitle mb-2">@book.Author</h6>
                     </div>
                 </a>
-                <strong>THESE NEED TO BE ONLY VISIBLE TO STAFF AND ADMINS!</strong>
-                <div>
-                    <a asp-controller="Book" asp-action="Update" asp-route-BookID="@book.BookID">Update</a>
-                    <a asp-controller="Book" asp-action="Delete" asp-route-BookID="@book.BookID">Delete</a>
-                </div>
+                @if (User.IsInRole("Staff") || User.IsInRole("Admin"))
+                {    
+                    <div>
+                        <a asp-controller="Book" asp-action="Update" asp-route-BookID="@book.BookID">Update</a>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-controller="Book" asp-action="Delete" asp-route-BookID="@book.BookID">Delete</a>
+                        }
+                    </div>
+                }
             </li>
         }
     </ul>

@@ -47,7 +47,7 @@ namespace Library.BLL {
         }
 
         public void GetBooksCount() {
-            int totalBooks = _bookService.GetBooks().Count();
+            int totalBooks = _bookRepository.GetBooks().Count();
         }
 
         public List<Book> GetAvailableBooks() => _bookRepository.GetAvailableBooks();

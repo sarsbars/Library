@@ -1,6 +1,6 @@
 ﻿@model DashboardViewModel
 
-<h2>📚 Library Dashboard</h2>
+<h2> Library Dashboard</h2>
 
 <div class="row mb-4">
     <div class="col-md-3">
@@ -40,40 +40,39 @@
     </div>
 </div>
 
-@* <hr />
-
-<h3>📖 Most Recently Added Books</h3>
-<table class="table table-striped">
-    <thead class="thead-dark">
-        <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Date Added</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var book in Model.MostRecentlyAddedBooks)
-        {
-            <tr>
-                <td>@book.Title</td>
-                <td>@book.Author</td>
-                <td>@book.DateAdded.ToShortDateString()</td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<hr /> *@
-
-<h3>✅ Available Books</h3>
-<ul class="list-group mb-4">
-    @foreach (var book in Model.AvailableBooks)
+<h3> Available Books</h3>
+@{
+    var availableBooksList = Model.AvailableBooks.ToList();
+}
+<ul class="list-group mb-4" id="bookList">
+    @for(int i = 0; i < availableBooksList.Count; i++)
     {
-        <li class="list-group-item">@book.Title by @book.Author</li>
+        var hiddenClass = i >= 5 ? "d-none" : ""; 
+         <li class="list-group-item @hiddenClass"> @availableBooksList[i].Title by @availableBooksList[i].Author</li>
     }
 </ul>
+<button id="toggleButton" class="btn btn-link">Show More</button>
 
-<h3>🏆 Top Borrowers</h3>
+<script>
+    document.getElementById("toggleButton").addEventListener("click", function () {
+        const items = document.querySelectorAll("#bookList li");
+        const isShowingMore = this.textContent.trim() === "Show Less";
+
+        if (isShowingMore) {
+            items.forEach((item, index) => { 
+                if(index >= 5) {
+                    item.classList.add("d-none");
+                }
+            });
+            this.textContent = "Show More";
+        } else {
+            items.forEach(item => item.classList.remove("d-none"));
+            this.textContent = "Show Less";
+        }
+    });
+</script>
+
+<h3> Top Borrowers</h3>
 <table class="table table-striped">
     <thead class="thead-dark">
         <tr>
@@ -85,7 +84,7 @@
         @foreach (var user in Model.TopBorrowers)
         {
             <tr>
-                <td>@user.FullName</td>
+                <td>@user.Name</td>
                 <td>@user.Loans.Count</td>
             </tr>
         }
@@ -94,11 +93,11 @@
 
 <hr />
 
-<h3>📍 Location with Most Borrows</h3>
+<h3> Location with Most Borrows</h3>
 @if (Model.LocationWithMostBorrows != null)
 {
     <p class="alert alert-secondary">
-        <strong>@Model.LocationWithMostBorrows.Name</strong>  
+        <strong>@Model.LocationWithMostBorrows.LocationName</strong>  
         (Borrows: @Model.LocationWithMostBorrows.Books.Sum(b => b.Loans.Count))
     </p>
 }

@@ -48,11 +48,11 @@ namespace Library.DAL {
         }
 
         public int GetTotalUsers() {
-            return GetUsers().Count();
+            return GetAllUsers().Count();
         }
 
         public List<User> GetTopBorrowers(int count = 5) {
-            return GetUsers()
+            return GetAllUsers()
                 .OrderByDescending(u => u.Loans.Count)
                 .Take(count)
                 .ToList();

@@ -25,7 +25,6 @@ namespace Library.Controllers {
                 TotalUsers = _userService.GetTotalUsers(),
                 TotalLoans = _loanService.GetTotalLoans(),
                 OverDueBooksCount = _loanService.GetOverdueBooksCount(),
-                MostRecentlyAddedBooks = _bookService.GetMostRecentlyAddedBooks(),
                 AvailableBooks = _bookService.GetAvailableBooks(),
                 TopBorrowers = _userService.GetTopBorrowers(),
                 LocationWithMostBorrows = _locationService.GetLocationWithMostBorrows()

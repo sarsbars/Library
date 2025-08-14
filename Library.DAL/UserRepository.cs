@@ -46,5 +46,16 @@ namespace Library.DAL {
         public bool UserExists(int id) {
             return _context.Users.Any(u => u.UserID == id);
         }
+
+        public int GetTotalUsers() {
+            return GetAllUsers().Count();
+        }
+
+        public List<User> GetTopBorrowers(int count = 5) {
+            return GetAllUsers()
+                .OrderByDescending(u => u.Loans.Count)
+                .Take(count)
+                .ToList();
+        }
     }
 }

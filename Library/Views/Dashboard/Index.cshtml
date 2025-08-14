@@ -1,0 +1,107 @@
+﻿@model DashboardViewModel
+
+<h2> Library Dashboard</h2>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Total Books</h5>
+                <p class="card-text display-6">@Model.TotalBooks</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Total Users</h5>
+                <p class="card-text display-6">@Model.TotalUsers</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-info mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Total Loans</h5>
+                <p class="card-text display-6">@Model.TotalLoans</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-danger mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Overdue Books</h5>
+                <p class="card-text display-6">@Model.OverDueBooksCount</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3> Available Books</h3>
+@{
+    var availableBooksList = Model.AvailableBooks.ToList();
+}
+<ul class="list-group mb-4" id="bookList">
+    @for(int i = 0; i < availableBooksList.Count; i++)
+    {
+        var hiddenClass = i >= 5 ? "d-none" : ""; 
+         <li class="list-group-item @hiddenClass"> @availableBooksList[i].Title by @availableBooksList[i].Author</li>
+    }
+</ul>
+<button id="toggleButton" class="btn btn-link">Show More</button>
+
+<script>
+    document.getElementById("toggleButton").addEventListener("click", function () {
+        const items = document.querySelectorAll("#bookList li");
+        const isShowingMore = this.textContent.trim() === "Show Less";
+
+        if (isShowingMore) {
+            items.forEach((item, index) => { 
+                if(index >= 5) {
+                    item.classList.add("d-none");
+                }
+            });
+            this.textContent = "Show More";
+        } else {
+            items.forEach(item => item.classList.remove("d-none"));
+            this.textContent = "Show Less";
+        }
+    });
+</script>
+
+<h3> Top Borrowers</h3>
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>User</th>
+            <th>Total Loans</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.TopBorrowers)
+        {
+            <tr>
+                <td>@user.Name</td>
+                <td>@user.Loans.Count</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+
+<h3> Location with Most Borrows</h3>
+@if (Model.LocationWithMostBorrows != null)
+{
+    <p class="alert alert-secondary">
+        <strong>@Model.LocationWithMostBorrows.LocationName</strong>  
+        (Borrows: @Model.LocationWithMostBorrows.Books.Sum(b => b.Loans.Count))
+    </p>
+}
+else
+{
+    <p class="alert alert-warning">No location data available.</p>
+}

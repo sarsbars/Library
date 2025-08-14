@@ -50,5 +50,8 @@ namespace Library.BLL {
         public List<Location> GetAllLocations() => _userRepository.GetLocations();
 
         public bool UserExists(int id) => _userRepository.UserExists(id);
+
+        public int GetTotalUsers() => _userRepository.GetTotalUsers();
+        public List<User> GetTopBorrowers(int count = 5) => _userRepository.GetTopBorrowers(count);
     }
 }

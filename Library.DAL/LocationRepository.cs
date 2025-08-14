@@ -49,5 +49,11 @@ namespace Library.DAL {
             location.Books.Remove(book);
             _context.SaveChanges();
         }
+
+        public Location GetLocationWithMostBorrows() {
+            return GetLocations()
+                .OrderByDescending(loc => loc.Books.Sum(b => b.Loans.Count))
+                .FirstOrDefault();
+        }
     }
 }

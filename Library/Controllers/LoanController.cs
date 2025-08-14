@@ -19,21 +19,24 @@ namespace Library.Controllers {
         }
         public IActionResult Index() {
             IEnumerable<Loan> loans = _loanService.GetLoans();
+
             if (User.IsInRole("Admin")) {
                 loans = _loanService.GetLoans();
             }
             else {
-                var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
-
-                if (userIdClaim == null) {
-                    return Unauthorized();
+                // Get the current user's email from claims
+                var userEmail = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
+                if (string.IsNullOrEmpty(userEmail)) {
+                    return Unauthorized("User email not found");
                 }
 
-                if (!int.TryParse(userIdClaim.Value, out int userId)) {
-                    return BadRequest("Invalid user ID");
+                // Find user by email in your existing User table
+                var user = _userService.GetAllUsers().FirstOrDefault(u => u.Email == userEmail);
+                if (user == null) {
+                    return BadRequest("User not found in system");
                 }
 
-                loans = _loanService.GetLoans().Where(l => l.UserID == userId);
+                loans = _loanService.GetLoans().Where(l => l.UserID == user.UserID);
             }
             return View(loans);
         }

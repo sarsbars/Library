@@ -1,5 +1,6 @@
 ﻿using Library.DAL;
 using Library.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Library.BLL {
     public class UserService {
@@ -41,6 +42,10 @@ namespace Library.BLL {
             if (user != null)
                 _userRepository.DeleteUser(user);
         }
+
+        //public int? GetUserIdByGuid(string guidString) {
+        //    return _userRepository.GetUserIdByGuid(guidString);
+        //}
 
         public List<Location> GetAllLocations() => _userRepository.GetLocations();
 

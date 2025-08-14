@@ -55,6 +55,8 @@
             <td>@user.Email</td>
             <td>@user.Location?.LocationName</td>
             <td>
+                <a asp-action="Details" asp-route-id="@user.UserID" class="btn btn-sm btn-info me-1">Details</a>
+
                 @if (User.IsInRole("Admin") ||
                     (User.IsInRole("Staff") && user.Role != RoleType.Admin) ||
                     (User.IsInRole("Reader") && User.Identity.Name == user.Email))

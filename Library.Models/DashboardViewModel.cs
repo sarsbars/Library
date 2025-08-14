@@ -13,5 +13,6 @@ namespace Library.Models {
         public ICollection<Book> MostRecentlyAddedBooks { get; set; }
         public ICollection<Book> AvailableBooks { get; set; }
         public ICollection<User> TopBorrowers { get; set; }
+        public Location LocationWithMostBorrows { get; set; }
     }
 }

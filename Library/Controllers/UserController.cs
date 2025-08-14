@@ -122,6 +122,7 @@ namespace Library.Controllers {
         public IActionResult DeleteConfirmed(int id) {
             _userService.DeleteUser(id);
             return RedirectToAction(nameof(Index));
+            
         }
     }
 }

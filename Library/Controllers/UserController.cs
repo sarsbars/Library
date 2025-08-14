@@ -13,13 +13,22 @@ namespace Library.Controllers {
         }
 
         [HttpGet]
-        public IActionResult Index(string role, string name, int? location) {
+        public IActionResult Index(string role, string name, LocationNameType? location) {
             var usersQuery = _userService.FilterUsers(role, name, location);
+
+            if (User.IsInRole("Reader") && User.Identity != null) {
+                string currentEmail = User.Identity.Name;
+                usersQuery = usersQuery.Where(u => u.Email == currentEmail);
+            }
+
+            if (User.IsInRole("Staff")) {
+                usersQuery = usersQuery.Where(u => u.Role != RoleType.Admin);
+            }
 
             var model = new UserFilterViewModel {
                 Role = role,
                 Name = name,
-                LocationID = location,
+                Location = location,
                 Users = usersQuery.ToList(),
                 RoleList = Enum.GetValues(typeof(RoleType))
                     .Cast<RoleType>()

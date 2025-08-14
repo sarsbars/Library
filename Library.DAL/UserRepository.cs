@@ -21,7 +21,10 @@ namespace Library.DAL {
         }
 
         public User GetCurrentUser(string email) {
-            return _context.Users.FirstOrDefault(u => u.Email == email);
+            return _context.Users
+                .Include(u => u.Loans)
+                .ThenInclude(l => l.Book)
+                .FirstOrDefault(u => u.Email == email);
         }
 
         public void AddUser(User user) {

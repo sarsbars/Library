@@ -91,15 +91,23 @@
     </tbody>
 </table>
 
-<hr />
-
 <h3> Location with Most Borrows</h3>
 @if (Model.LocationWithMostBorrows != null)
 {
-    <p class="alert alert-secondary">
-        <strong>@Model.LocationWithMostBorrows.LocationName</strong>  
-        (Borrows: @Model.LocationWithMostBorrows.Books.Sum(b => b.Loans.Count))
-    </p>
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>Location Name</th>
+            <th>Total Borrows</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.LocationWithMostBorrows.LocationName</td>
+            <td> @Model.LocationWithMostBorrows.Books.Sum(b => b.Loans.Count)</td>
+        </tr>
+    </tbody>
+</table>
 }
 else
 {

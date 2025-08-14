@@ -1,10 +1,13 @@
 ﻿using Library.BLL;
 using Library.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Net;
 
 namespace Library.Controllers {
+
+    [Authorize]
     public class BookController : Controller {
         private readonly BookService _bookService;
         private readonly LocationService _locationService;
@@ -71,6 +74,7 @@ namespace Library.Controllers {
             return View(book);
         }
 
+        [Authorize(Roles = "Staff, Admin")]
         [HttpGet]
         public IActionResult Create() {
             List<Location> locations = _locationService.GetLocations();
@@ -78,6 +82,7 @@ namespace Library.Controllers {
             return View();
         }
 
+        [Authorize(Roles = "Staff, Admin")]
         [HttpPost]
         public IActionResult Create(Book book) {
             ModelState.Remove(nameof(book.Location));
@@ -93,10 +98,10 @@ namespace Library.Controllers {
             book.Location = assignedLocation;
 
             _bookService.AddBook(book);
-            //_locationService.AddBook(book, assignedLocation);
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Staff, Admin")]
         [HttpGet]
         public IActionResult Update(int BookID) {
             Book book = _bookService.GetBookByID(BookID);
@@ -109,6 +114,7 @@ namespace Library.Controllers {
             return View(book);
         }
 
+        [Authorize(Roles = "Staff, Admin")]
         [HttpPost]
         public IActionResult Update(Book newBook) {
             ModelState.Remove(nameof(newBook.Location));
@@ -122,20 +128,10 @@ namespace Library.Controllers {
 
             Book oldBook = _bookService.GetBookByID(newBook.BookID);
 
-            //I'm not sure if these are needed, everything works fine without them but I'm gonna leave them just in case - Connor
-
-            //Location? oldLocation = _locationService.GetLocationByID(oldBook.LocationID);
-            //Location? newLocation = _locationService.GetLocationByID(newBook.LocationID);
-            
-
-            //if(oldLocation.LocationID != newLocation.LocationID) {
-            //    _locationService.RemoveBook(newBook, oldLocation);
-            //    _locationService.AddBook(newBook, newLocation);
-            //}
-
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Staff, Admin")]
         [HttpGet]
         public IActionResult Delete(int BookID) {
             Book book = _bookService.GetBooks().FirstOrDefault(b => b.BookID == BookID);
@@ -146,6 +142,7 @@ namespace Library.Controllers {
             return View(book);
         }
 
+        [Authorize(Roles = "Staff, Admin")]
         [HttpPost, ActionName("Delete")]
         public IActionResult DeleteConfirmed(int BookID) {
             Book book = _bookService.GetBooks().FirstOrDefault(b => b.BookID == BookID);
@@ -153,7 +150,6 @@ namespace Library.Controllers {
                 return NotFound();
             }
 
-            //_locationService.RemoveBook(book, book.Location);
             _bookService.DeleteBook(book);
 
             return RedirectToAction("Index");

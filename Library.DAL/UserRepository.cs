@@ -18,6 +18,10 @@ namespace Library.DAL {
                                  .FirstOrDefault(u => u.UserID == id);
         }
 
+        public User GetCurrentUser(string email) {
+            return _context.Users.FirstOrDefault(u => u.Email == email);
+        }
+
         public void AddUser(User user) {
             _context.Users.Add(user);
             _context.SaveChanges();

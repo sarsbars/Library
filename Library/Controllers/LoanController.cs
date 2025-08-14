@@ -1,5 +1,6 @@
 ﻿using Library.BLL;
 using Library.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using static System.Reflection.Metadata.BlobBuilder;
@@ -17,6 +18,8 @@ namespace Library.Controllers {
             _bookService = bookService;
             _userService = userService;
         }
+
+        [Authorize]
         public IActionResult Index() {
             IEnumerable<Loan> loans = _loanService.GetLoans();
 
@@ -24,13 +27,11 @@ namespace Library.Controllers {
                 loans = _loanService.GetLoans();
             }
             else {
-                // Get the current user's email from claims
                 var userEmail = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
                 if (string.IsNullOrEmpty(userEmail)) {
                     return Unauthorized("User email not found");
                 }
 
-                // Find user by email in your existing User table
                 var user = _userService.GetAllUsers().FirstOrDefault(u => u.Email == userEmail);
                 if (user == null) {
                     return BadRequest("User not found in system");
@@ -41,6 +42,8 @@ namespace Library.Controllers {
             return View(loans);
         }
 
+        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Create() {
             List<Location> locations = _locationService.GetLocations();
@@ -52,20 +55,18 @@ namespace Library.Controllers {
                 Text = $"{b.Title} by {b.Author} - {b.Condition} ({b.Genre}) [ID: {b.BookID}]",
             }).ToList();
 
-            //List<User> users = _userService.GetAllUsers();
-            //List<User> availableUsers = users
-            //     .Where(u => !u.Loans.Any(l => l.LoanStatus != LoanStatusType.Returned))
-            //     .ToList();
+            List<User> users = _userService.GetAllUsers();
+            List<User> availableUsers = users
+                 .Where(u => !u.Loans.Any(l => l.LoanStatus != LoanStatusType.Returned))
+                 .ToList();
 
-            //List<SelectListItem> userDisplayList = availableUsers
-            //    .Select(u => new SelectListItem {
-            //        Value = u.UserID.ToString(),
-            //        Text = $"{u.Name} - ID: {u.UserID}"
-            //    })
-            //    .ToList();
-            //ViewBag.Users = userDisplayList;
-
-            var users = _userService.GetAllUsers();
+            List<SelectListItem> userDisplayList = availableUsers
+                .Select(u => new SelectListItem {
+                    Value = u.UserID.ToString(),
+                    Text = $"{u.Name} - ID: {u.UserID}"
+                })
+                .ToList();
+            ViewBag.Users = userDisplayList;
             ViewBag.UserList = users
                 .Select(u => new SelectListItem {
                     Value = u.UserID.ToString(),
@@ -81,6 +82,8 @@ namespace Library.Controllers {
             return View(loan);
         }
 
+        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Loan loan) {
@@ -88,35 +91,31 @@ namespace Library.Controllers {
                 List<Location> locations = _locationService.GetLocations();
                 ViewBag.LocationList = new SelectList(locations, "LocationID", "LocationName", loan.LocationID);
 
-                List<Book> books = _bookService.GetBooks()
+                List<Book> availableBooks = _bookService.GetBooks()
                             .Where(b => b.IsAvailable == true)
                             .ToList();
-                ViewBag.BookList = books.Select(b => new SelectListItem {
+                ViewBag.BookList = availableBooks.Select(b => new SelectListItem {
                     Value = b.BookID.ToString(),
                     Text = $"{b.Title} by {b.Author} - {b.Condition} ({b.Genre}) [ID: {b.BookID}]",
                     Selected = b.BookID == loan.BookID
                 }).ToList();
 
-                //List<User> availableUsers = _userService.GetAllUsers()
-                //     .Where(u => !u.Loans.Any(l => l.LoanStatus != LoanStatusType.Returned))
-                //     .ToList();
+                List<User> users = _userService.GetAllUsers();
+                List<User> availableUsers = users
+                     .Where(u => !u.Loans.Any(l => l.LoanStatus != LoanStatusType.Returned))
+                     .ToList();
 
-                //ViewBag.UserList = availableUsers
-                //    .Select(u => new SelectListItem {
-                //        Value = u.UserID.ToString(),
-                //        Text = $"{u.Name} - ID: {u.UserID}",
-                //        Selected = u.UserID == loan.UserID
-                //    })
-                //    .ToList();
-                //return View(loan);
+                ViewBag.UserList = availableUsers
+                    .Select(u => new SelectListItem {
+                        Value = u.UserID.ToString(),
+                        Text = $"{u.Name} - ID: {u.UserID}",
+                        Selected = u.UserID == loan.UserID
+                    })
+                    .ToList();
 
-                var users = _userService.GetAllUsers();
-                ViewBag.UserList = users.Select(u => new SelectListItem {
-                    Value = u.UserID.ToString(),
-                    Text = $"{u.Name} - ID: {u.UserID}",
-                    Selected = u.UserID == loan.UserID
-                }).ToList();
+                return View(loan);
             }
+
             Book book = _bookService.GetBookByID(loan.BookID);
             if (book != null) {
                 book.IsAvailable = false;
@@ -135,6 +134,8 @@ namespace Library.Controllers {
             return View(loan);
         }
 
+        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Edit(int id) {
             Loan loan = _loanService.GetLoanById(id);
@@ -152,11 +153,15 @@ namespace Library.Controllers {
             return View(loan);
         }
 
+        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult Edit(Loan loan) {
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, Loan loan) {
+            loan.LoanID = id;
             if (!ModelState.IsValid) {
                 List<Location> locations = _locationService.GetLocations();
-                ViewData["LocationList"] = new SelectList(locations, "LocationID", "LocationName", loan.LocationID);
+                ViewBag.LocationList = new SelectList(locations, "LocationID", "LocationName", loan.LocationID);
 
                 List<Book> books = _bookService.GetBooks();
                 ViewBag.BookList = new SelectList(books, "BookID", "Title", loan.BookID);
@@ -164,6 +169,22 @@ namespace Library.Controllers {
                 List<User> users = _userService.GetAllUsers();
                 ViewBag.UserList = new SelectList(users, "UserID", "Name", loan.UserID);
                 return View(loan);
+            }
+
+            Loan originalLoan = _loanService.GetLoanById(loan.LoanID);
+
+            if (originalLoan != null && originalLoan.BookID != loan.BookID) {
+                Book oldBook = _bookService.GetBookByID(originalLoan.BookID);
+                if (oldBook != null) {
+                    oldBook.IsAvailable = true;
+                    _bookService.UpdateBook(oldBook);
+                }
+
+                Book newBook = _bookService.GetBookByID(loan.BookID);
+                if (newBook != null) {
+                    newBook.IsAvailable = false;
+                    _bookService.UpdateBook(newBook);
+                }
             }
 
             if (loan.LoanStatus == LoanStatusType.Returned) {
@@ -177,6 +198,8 @@ namespace Library.Controllers {
             return RedirectToAction("Index");
         }
 
+        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Delete(int id) {
             Loan loan = _loanService.GetLoanById(id);
@@ -185,6 +208,9 @@ namespace Library.Controllers {
             }
             return View(loan);
         }
+
+        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         public IActionResult DeleteConfirmed(int id) {
             Loan loan = _loanService.GetLoanById(id);

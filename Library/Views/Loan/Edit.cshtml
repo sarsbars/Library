@@ -2,7 +2,8 @@
 
 <h2>Edit Loan</h2>
 
-<form asp-action="Edit" method="post">
+<form asp-controller="Loan" asp-action="Edit" method="post">
+    @Html.AntiForgeryToken()
     <input asp-for="LoanID" type="hidden" />
 
     <div class="form-group">
@@ -10,20 +11,12 @@
         <select asp-for="BookID" asp-items="ViewBag.BookList" class="form-control">
             <option value="">---Select a Book---</option>
         </select>
-        <input asp-for="BookID" type="hidden" />
-        <span asp-validation-for="BookID" class="text-danger"></span>
-        <small class="text-muted">Book cannot be changed once loan is created</small>
-        <span asp-validation-for="BookID" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="UserID">Holder</label>
         <select asp-for="UserID" asp-items="ViewBag.UserList" class="form-control">
             <option value="">---Select a User---</option>
         </select>
-        <input asp-for="UserID" type="hidden" />
-        <span asp-validation-for="UserID" class="text-danger"></span>
-        <small class="text-muted">Holder cannot be changed once loan is created</small>
-        <span asp-validation-for="UserID" class="text-danger"></span>
     </div>
 
     <div class="form-group">
@@ -48,6 +41,18 @@
         <input asp-for="DueDate" type="date" class="form-control" />
         <span asp-validation-for="DueDate" class="text-danger"></span>
     </div>
+
+    @* <div class="form-group">
+        <label asp-for="DateBorrowed">Date Borrowed</label>
+        <input asp-for="DateBorrowed" type="date" class="form-control" />
+        <span asp-validation-for="DateBorrowed" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DueDate"></label>
+        <input asp-for="DueDate" type="date" class="form-control" />
+        <span asp-validation-for="DueDate" class="text-danger"></span>
+    </div> *@
 
     <div class="form-group">
         <label asp-for="LocationID">Location Name</label>

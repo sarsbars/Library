@@ -42,14 +42,5 @@ namespace Library.DAL {
         public bool UserExists(int id) {
             return _context.Users.Any(u => u.UserID == id);
         }
-
-        ////Ashe added this, i need it for the user index view in loans 
-        //public int? GetUserIdByGuid(string guidString) {
-        //    if (!Guid.TryParse(guidString, out Guid userGuid)) {
-        //        return null;
-        //    }
-        //    var user = _context.Users.FirstOrDefault(u => u.AspNetUserId == userGuid);
-        //    return user?.UserID; // Note: using UserID to match your existing property name
-        //}
     }
 }

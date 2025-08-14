@@ -43,10 +43,6 @@ namespace Library.BLL {
                 _userRepository.DeleteUser(user);
         }
 
-        //public int? GetUserIdByGuid(string guidString) {
-        //    return _userRepository.GetUserIdByGuid(guidString);
-        //}
-
         public List<Location> GetAllLocations() => _userRepository.GetLocations();
 
         public bool UserExists(int id) => _userRepository.UserExists(id);

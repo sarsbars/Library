@@ -21,7 +21,10 @@ namespace Library.DAL {
         }
 
         public User GetCurrentUser(string email) {
-            return _context.Users.FirstOrDefault(u => u.Email == email);
+            return _context.Users
+                .Include(u => u.Loans)
+                .ThenInclude(l => l.Book)
+                .FirstOrDefault(u => u.Email == email);
         }
 
         public void AddUser(User user) {
@@ -29,9 +32,15 @@ namespace Library.DAL {
             _context.SaveChanges();
         }
 
-        public void UpdateUser(User user) {
-            _context.Users.Update(user);
-            _context.SaveChanges();
+        public void UpdateUser(User updatedUser) {
+            var existingUser = _context.Users.Find(updatedUser.UserID);
+            if (existingUser != null) {
+                existingUser.Name = updatedUser.Name;
+                existingUser.Email = updatedUser.Email;
+                existingUser.Role = updatedUser.Role;
+                existingUser.LocationID = updatedUser.LocationID;
+                _context.SaveChanges();
+            }
         }
 
         public void DeleteUser(User user) {

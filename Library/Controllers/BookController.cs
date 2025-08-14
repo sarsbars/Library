@@ -98,7 +98,6 @@ namespace Library.Controllers {
             book.Location = assignedLocation;
 
             _bookService.AddBook(book);
-            //_locationService.AddBook(book, assignedLocation);
             return RedirectToAction("Index");
         }
 
@@ -129,17 +128,6 @@ namespace Library.Controllers {
 
             Book oldBook = _bookService.GetBookByID(newBook.BookID);
 
-            //I'm not sure if these are needed, everything works fine without them but I'm gonna leave them just in case - Connor
-
-            //Location? oldLocation = _locationService.GetLocationByID(oldBook.LocationID);
-            //Location? newLocation = _locationService.GetLocationByID(newBook.LocationID);
-            
-
-            //if(oldLocation.LocationID != newLocation.LocationID) {
-            //    _locationService.RemoveBook(newBook, oldLocation);
-            //    _locationService.AddBook(newBook, newLocation);
-            //}
-
             return RedirectToAction("Index");
         }
 
@@ -162,7 +150,6 @@ namespace Library.Controllers {
                 return NotFound();
             }
 
-            //_locationService.RemoveBook(book, book.Location);
             _bookService.DeleteBook(book);
 
             return RedirectToAction("Index");

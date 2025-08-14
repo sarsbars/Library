@@ -33,5 +33,9 @@ namespace Library.DAL {
             _context.Books.Remove(book);
             _context.SaveChanges();
         }
+
+        public List<Book> GetAvailableBooks() {
+            return GetBooks().Where(b => b.IsAvailable).ToList();
+        }
     }
 }

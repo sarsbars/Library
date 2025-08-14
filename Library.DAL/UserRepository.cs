@@ -10,7 +10,9 @@ namespace Library.DAL {
         }
 
         public IQueryable<User> GetAllUsers() {
-            return _context.Users.Include(u => u.Location);
+            return _context.Users
+                .Include(u => u.Location)
+                .Include(u => u.Loans);
         }
 
         public User? GetUserById(int id) {

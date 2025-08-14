@@ -3,6 +3,8 @@
 <h2>Loan details</h2>
 <p><strong>Book Name:</strong> @Model.Book.Title</p>
 <p><strong>Book ID:</strong> @Model.Book.BookID</p>
+<p><strong>Book Author:</strong> @Model.Book.Author</p>
+<p><strong>Book Condition:</strong> @Model.Book.Condition</p>
 <p><strong>Holder's Name:</strong> @Model.User.Name</p>
 <p><strong>Holder's ID:</strong> @Model.User.UserID</p>
 <p><strong>Loan status: </strong>@Model.LoanStatus<p/>
@@ -15,11 +17,11 @@
         <a asp-controller="Loan" asp-action="Index"  class="btn btn-secondary">Back</a>
     </div>
 
-    <div>
-        <a asp-controller="Loan" asp-action="Edit" asp-route-id="@Model.LoanID" class="btn btn-primary">Edit</a>
-        <a asp-controller="Loan" asp-action="Delete" asp-route-id="@Model.LoanID" class="btn btn-danger">Delete</a>
-    </div>
+    @if(User.IsInRole("Admin"))
+    {
+        <div>
+            <a asp-controller="Loan" asp-action="Edit" asp-route-id="@Model.LoanID" class="btn btn-primary">Edit</a>
+            <a asp-controller="Loan" asp-action="Delete" asp-route-id="@Model.LoanID" class="btn btn-danger">Delete</a>
+        </div>
+    }
 </div>
-@if(User.IsInRole("Admin"))
-{
-}

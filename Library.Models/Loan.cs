@@ -36,8 +36,8 @@ namespace Library.Models {
         [Required]
         public LoanStatusType LoanStatus { get; set; }
 
-        public virtual Location Location { get; set; }
-        public virtual Book Book { get; set; }
-        public virtual User User { get; set; }
+        public virtual Location? Location { get; set; }
+        public virtual Book? Book { get; set; }
+        public virtual User? User { get; set; }
     }
 }

@@ -31,8 +31,17 @@ namespace Library.DAL {
         }
 
         public void UpdateLoan(Loan loan) {
-            _context.Loans.Update(loan);
-            _context.SaveChanges();
+            var existingLoan = _context.Loans.FirstOrDefault(l => l.LoanID == loan.LoanID);
+
+            if (existingLoan != null) {
+                existingLoan.BookID = loan.BookID;
+                existingLoan.UserID = loan.UserID;
+                existingLoan.LocationID = loan.LocationID;
+                existingLoan.LoanStatus = loan.LoanStatus;
+                existingLoan.DateBorrowed = loan.DateBorrowed;
+                existingLoan.DueDate = loan.DueDate;
+                _context.SaveChanges();
+            }
         }
 
         public void DeleteLoan(int id) {

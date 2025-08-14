@@ -1,0 +1,108 @@
+﻿@model DashboardViewModel
+
+<h2>📚 Library Dashboard</h2>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Total Books</h5>
+                <p class="card-text display-6">@Model.TotalBooks</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Total Users</h5>
+                <p class="card-text display-6">@Model.TotalUsers</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-info mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Total Loans</h5>
+                <p class="card-text display-6">@Model.TotalLoans</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-danger mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Overdue Books</h5>
+                <p class="card-text display-6">@Model.OverDueBooksCount</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* <hr />
+
+<h3>📖 Most Recently Added Books</h3>
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Date Added</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model.MostRecentlyAddedBooks)
+        {
+            <tr>
+                <td>@book.Title</td>
+                <td>@book.Author</td>
+                <td>@book.DateAdded.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr /> *@
+
+<h3>✅ Available Books</h3>
+<ul class="list-group mb-4">
+    @foreach (var book in Model.AvailableBooks)
+    {
+        <li class="list-group-item">@book.Title by @book.Author</li>
+    }
+</ul>
+
+<h3>🏆 Top Borrowers</h3>
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>User</th>
+            <th>Total Loans</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.TopBorrowers)
+        {
+            <tr>
+                <td>@user.FullName</td>
+                <td>@user.Loans.Count</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+
+<h3>📍 Location with Most Borrows</h3>
+@if (Model.LocationWithMostBorrows != null)
+{
+    <p class="alert alert-secondary">
+        <strong>@Model.LocationWithMostBorrows.Name</strong>  
+        (Borrows: @Model.LocationWithMostBorrows.Books.Sum(b => b.Loans.Count))
+    </p>
+}
+else
+{
+    <p class="alert alert-warning">No location data available.</p>
+}

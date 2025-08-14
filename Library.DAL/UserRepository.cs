@@ -40,9 +40,16 @@ namespace Library.DAL {
             }
         }
 
-        public void DeleteUser(User user) {
-            _context.Users.Remove(user);
-            _context.SaveChanges();
+        public void DeleteUser(int userId) {
+            var user = _context.Users
+                               .Include(u => u.Loans)
+                               .FirstOrDefault(u => u.UserID == userId);
+
+            if (user != null) {
+                _context.Loans.RemoveRange(user.Loans);
+                _context.Users.Remove(user);
+                _context.SaveChanges();
+            }
         }
 
         public List<Location> GetLocations() {

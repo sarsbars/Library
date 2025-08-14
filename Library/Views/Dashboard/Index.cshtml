@@ -44,14 +44,14 @@
 @{
     var availableBooksList = Model.AvailableBooks.ToList();
 }
-<ul class="list-group mb-4" id="bookList">
+<ul class="list-group mb-4 bg-white" id="bookList">
     @for(int i = 0; i < availableBooksList.Count; i++)
     {
         var hiddenClass = i >= 5 ? "d-none" : ""; 
          <li class="list-group-item @hiddenClass"> @availableBooksList[i].Title by @availableBooksList[i].Author</li>
     }
 </ul>
-<button id="toggleButton" class="btn btn-link">Show More</button>
+<button id="toggleButton" class="btn btn-primary">Show More</button>
 
 <script>
     document.getElementById("toggleButton").addEventListener("click", function () {

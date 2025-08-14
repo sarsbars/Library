@@ -108,3 +108,7 @@ body {
 .table-striped tbody tr:nth-of-type(odd) {
     background-color: #f0f8ff;
 }
+
+.top-borrowers {
+    margin: 40px 0 40px 0 !important;
+}

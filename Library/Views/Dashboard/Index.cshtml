@@ -72,24 +72,26 @@
     });
 </script>
 
-<h3> Top Borrowers</h3>
-<table class="table table-striped">
-    <thead class="thead-dark">
-        <tr>
-            <th>User</th>
-            <th>Total Loans</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model.TopBorrowers)
-        {
+<div class="top-borrowers">
+    <h3> Top Borrowers</h3>
+    <table class="table table-striped">
+        <thead class="thead-dark">
             <tr>
-                <td>@user.Name</td>
-                <td>@user.Loans.Count</td>
+                <th>User</th>
+                <th>Total Loans</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.TopBorrowers)
+            {
+                <tr>
+                    <td>@user.Name</td>
+                    <td>@user.Loans.Count</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 <h3> Location with Most Borrows</h3>
 @if (Model.LocationWithMostBorrows != null)

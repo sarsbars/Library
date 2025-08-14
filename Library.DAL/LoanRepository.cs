@@ -54,5 +54,13 @@ namespace Library.DAL {
 
             }
         }
+
+        public int GetTotalLoans() {
+            return GetLoans().Count();
+        }
+
+        public int GetOverdueBooksCount() {
+            return GetLoans().Count(l => l.DueDate < DateTime.Today && l.LoanStatus != LoanStatusType.Returned);
+        }
     }
 }

@@ -22,9 +22,8 @@ namespace Library.Models {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserID { get; set; }
 
-        [Required]
         [ForeignKey("Location")]
-        public int LocationID { get; set; }
+        public int? LocationID { get; set; }
 
         [Required]
         [StringLength(100)]

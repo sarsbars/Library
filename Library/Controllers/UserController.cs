@@ -63,7 +63,12 @@ namespace Library.Controllers {
         [HttpGet]
         [Authorize(Roles = "Admin,Staff")]
         public IActionResult Create() {
-            ViewBag.Locations = _userService.GetAllLocations();
+            ViewBag.Locations = _userService.GetAllLocations()
+                .Select(l => new SelectListItem
+                {
+                    Value = l.LocationID.ToString(),
+                    Text = l.LocationName.ToString()
+                }).ToList();
             return View();
         }
 
@@ -71,6 +76,13 @@ namespace Library.Controllers {
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,Staff")]
         public IActionResult Create(User user) {
+            ViewBag.Locations = _userService.GetAllLocations()
+                .Select(l => new SelectListItem
+                {
+                    Value = l.LocationID.ToString(),
+                    Text = l.LocationName.ToString()
+                }).ToList();
+
             if (ModelState.IsValid) {
                 if (User.IsInRole("Staff") && user.Role == RoleType.Admin)
                     return Forbid();
@@ -78,7 +90,7 @@ namespace Library.Controllers {
                 _userService.CreateUser(user);
                 return RedirectToAction(nameof(Index));
             }
-            ViewBag.Locations = _userService.GetAllLocations();
+
             return View(user);
         }
 
@@ -93,7 +105,12 @@ namespace Library.Controllers {
             if (User.IsInRole("Reader") && !IsCurrentUser(user.Email))
                 return Forbid();
 
-            ViewBag.Locations = _userService.GetAllLocations();
+            ViewBag.Locations = _userService.GetAllLocations()
+                .Select(l => new SelectListItem
+                {
+                    Value = l.LocationID.ToString(),
+                    Text = l.LocationName.ToString()
+                }).ToList();
             return View(user);
         }
 
@@ -111,7 +128,12 @@ namespace Library.Controllers {
                 _userService.UpdateUser(updatedUser);
                 return RedirectToAction(nameof(Index));
             }
-            ViewBag.Locations = _userService.GetAllLocations();
+            ViewBag.Locations = _userService.GetAllLocations()
+                .Select(l => new SelectListItem
+                {
+                    Value = l.LocationID.ToString(),
+                    Text = l.LocationName.ToString()
+                }).ToList();
             return View(updatedUser);
         }
 

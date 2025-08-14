@@ -1,5 +1,6 @@
 ﻿using Library.DAL;
 using Library.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Library.BLL {
     public class UserService {
@@ -28,6 +29,9 @@ namespace Library.BLL {
         }
 
         public User? GetUserById(int id) => _userRepository.GetUserById(id);
+        public List<User> GetAllUsers() {
+            return _userRepository.GetAllUsers().ToList();
+        }
 
         public User GetCurrentUser(string email) {
             return _userRepository.GetCurrentUser(email);
@@ -46,5 +50,8 @@ namespace Library.BLL {
         public List<Location> GetAllLocations() => _userRepository.GetLocations();
 
         public bool UserExists(int id) => _userRepository.UserExists(id);
+
+        public int GetTotalUsers() => _userRepository.GetTotalUsers();
+        public List<User> GetTopBorrowers(int count = 5) => _userRepository.GetTopBorrowers(count);
     }
 }

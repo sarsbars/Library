@@ -10,7 +10,9 @@ namespace Library.DAL {
         }
 
         public IQueryable<User> GetAllUsers() {
-            return _context.Users.Include(u => u.Location);
+            return _context.Users
+                .Include(u => u.Location)
+                .Include(u => u.Loans);
         }
 
         public User? GetUserById(int id) {
@@ -46,6 +48,17 @@ namespace Library.DAL {
 
         public bool UserExists(int id) {
             return _context.Users.Any(u => u.UserID == id);
+        }
+
+        public int GetTotalUsers() {
+            return GetAllUsers().Count();
+        }
+
+        public List<User> GetTopBorrowers(int count = 5) {
+            return GetAllUsers()
+                .OrderByDescending(u => u.Loans.Count)
+                .Take(count)
+                .ToList();
         }
     }
 }

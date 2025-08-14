@@ -22,10 +22,10 @@
                 <td>@loan.DueDate.ToShortDateString()</td>
                 <td>
                     <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@loan.LoanID">Details</a>
-                    <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@loan.LoanID">Edit</a>
-                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@loan.LoanID">Delete</a>
                     @if(User.IsInRole("Admin"))
                     {
+                        <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@loan.LoanID">Edit</a>
+                        <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@loan.LoanID">Delete</a>
                     }
                 </td>
             </tr>
@@ -33,7 +33,7 @@
     </tbody>
 </table>
 
-<a class="btn btn-success" asp-action="Create">Create New Loan</a>   
 @if(User.IsInRole("Admin"))
 {
+    <a class="btn btn-success" asp-action="Create">Create New Loan</a>   
 }

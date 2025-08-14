@@ -41,5 +41,7 @@ namespace Library.BLL {
         public void RemoveBook (Book book, Location location) {
             _locationRepository.RemoveBook(book, location);
         }
+
+        public Location GetLocationWithMostBorrows() => _locationRepository.GetLocationWithMostBorrows();
     }
 }

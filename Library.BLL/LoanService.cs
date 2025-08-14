@@ -26,5 +26,8 @@ namespace Library.BLL {
 
         public void UpdateLoan(Loan loan) => _loanRepository.UpdateLoan(loan);
         public void DeleteLoan(int id) => _loanRepository.DeleteLoan(id);
+
+        public int GetTotalLoans() => _loanRepository.GetTotalLoans();
+        public int GetOverdueBooksCount() => _loanRepository.GetOverdueBooksCount();
     }
 }

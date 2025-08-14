@@ -45,6 +45,13 @@ namespace Library {
             builder.Services.AddScoped<LocationService>();
             builder.Services.AddScoped<LoanService>();
 
+
+            builder.Services.AddScoped<LoanService>();
+            builder.Services.AddScoped<LoanRepository>();
+
+            builder.Services.AddScoped<LocationService>();
+            builder.Services.AddScoped<LocationRepository>();
+
             var app = builder.Build();
 
             // Seed roles and users

@@ -45,5 +45,12 @@ namespace Library.BLL {
         public void DeleteBook(Book book) {
             _bookRepository.DeleteBook(book);
         }
+
+        public void GetBooksCount() {
+            int totalBooks = _bookRepository.GetBooks().Count();
+        }
+
+        public List<Book> GetAvailableBooks() => _bookRepository.GetAvailableBooks();
+        public int GetTotalBooks() => _bookRepository.GetTotalBooks();
     }
 }

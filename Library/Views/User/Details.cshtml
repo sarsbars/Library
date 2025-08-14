@@ -1,5 +1,40 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Library.Models.User
+
 @{
+    ViewData["Title"] = "User Details";
 }
+
+<h2>User Details</h2>
+
+<div>
+    <dl>
+        <dt>Name</dt>
+        <dd>@Model.Name</dd>
+
+        <dt>Role</dt>
+        <dd>@Model.Role</dd>
+
+        <dt>Email</dt>
+        <dd>@Model.Email</dd>
+
+        <dt>Location</dt>
+        <dd>@Model.Location?.LocationName</dd>
+    </dl>
+</div>
+
+<div>
+    <!-- Back to list -->
+    <a asp-action="Index">Back to List</a>
+
+    @if (User.IsInRole("Admin") ||
+        (User.IsInRole("Staff") && Model.Role != RoleType.Admin) ||
+        (User.IsInRole("Reader") && User.Identity.Name == Model.Email))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.UserID">Edit</a>
+    }
+
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="Delete" asp-route-id="@Model.UserID">Delete</a>
+    }
+</div>

@@ -25,3 +25,90 @@ body {
     display: flex;
     justify-content: space-between;
 }
+
+.lib-logo {
+    height: 40px;
+    width: 40px;
+    margin-bottom: 0;
+
+    img {
+            height: auto;
+            width: 100%;
+        }
+}
+
+.flex {
+    display: flex;
+}
+
+.align-items {
+    align-items: center;
+}
+
+.logo-title {
+    font-weight: 600;
+    color: #2D5ACD !important;
+    text-decoration: none;
+}
+
+.nav-button:hover {
+    color: #2d5acd !important;
+}
+
+.login-button {
+    padding: 8px 16px;
+    border-radius: 5px;
+    background-color: #2d5acd !important;
+}
+
+.login-button::after hover {
+    background-color: #0836ac;
+}
+
+.register {
+    margin-right: 18px; 
+}
+
+.books-card {
+    background-color: #a8d0e6;
+}
+
+.users-card {
+    background-color: #cba3e0;
+}
+
+.loans-card {
+    background-color: #b8e1b8;
+}
+
+.books2-card {
+    background-color: #f7a8a8;
+}
+
+.books-card-title {
+    font-weight: 600;
+    color: #2c6da4;
+}
+
+.users-card-title {
+    font-weight: 600;
+    color: #7c52a1
+}
+
+.loans-card-title {
+    font-weight: 600;
+    color: #3a803a;
+}
+
+.books2-card-title {
+    font-weight: 600;
+    color: #c14444;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f0f8ff;
+}
+
+.top-borrowers {
+    margin: 40px 0 40px 0 !important;
+}

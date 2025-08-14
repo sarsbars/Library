@@ -10,7 +10,7 @@ namespace Library.BLL {
             _userRepository = userRepository;
         }
 
-        public IQueryable<User> FilterUsers(string? role, string? name, int? location) {
+        public IQueryable<User> FilterUsers(string? role, string? name, LocationNameType? location) {
             var query = _userRepository.GetAllUsers();
 
             if (!string.IsNullOrEmpty(role) && Enum.TryParse(role, out RoleType parsedRole)) {
@@ -22,7 +22,7 @@ namespace Library.BLL {
             }
 
             if (location.HasValue) {
-                query = query.Where(u => u.LocationID == location.Value);
+                query = query.Where(u => u.Location.LocationName == location.Value);
             }
 
             return query;

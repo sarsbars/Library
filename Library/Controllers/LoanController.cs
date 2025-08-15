@@ -23,7 +23,7 @@ namespace Library.Controllers {
         public IActionResult Index() {
             IEnumerable<Loan> loans = _loanService.GetLoans();
 
-            if (User.IsInRole("Admin")) {
+            if (User.IsInRole("Admin") || User.IsInRole("Staff" )) {
                 loans = _loanService.GetLoans();
             }
             else {

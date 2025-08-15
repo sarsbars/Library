@@ -34,6 +34,10 @@ The Library Management System is a web application developed for the **Advanced 
   - Developed Dashboard with statistics (books, users, loans, overdue books).
   - Designed UI 
 
+<img width="1364" height="728" alt="image" src="https://github.com/user-attachments/assets/e81db7e0-6baf-4faa-a71c-d1b3b97604b1" />
+
+<img width="1322" height="381" alt="image" src="https://github.com/user-attachments/assets/23cd3943-1f62-4424-a62a-7ba8be754f83" />
+
 ##Test Accounts:
 
 -Admin: admin1@library.com (password: Admin@123)

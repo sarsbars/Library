@@ -18,8 +18,7 @@ The Library Management System is a web application developed for the **Advanced 
 - **Sarah Mitchell**:
   - Configured Git repository and managed version control.
   - Designed `LibraryDBContext` with EF Core relationships (e.g., `Book-Loan` one-to-many).
-  - Seeded sample data: 367 books, 60 users, 135 loans, 5 locations.
-  - Handled migrations, resolving foreign key and table recreation errors.
+  - Seeded sample data and handled migrations
   - Implemented Identity with roles (Admin, Staff, Reader) 
   - Drafted README and presentation slides.
   - Built Locations CRUD (index, details, create, update, delete)
@@ -33,6 +32,9 @@ The Library Management System is a web application developed for the **Advanced 
   - Built Loans CRUD (index, details, create, update, delete).
   - Developed Dashboard with statistics (books, users, loans, overdue books).
   - Designed UI 
+
+
+<img width="1331" height="819" alt="image" src="https://github.com/user-attachments/assets/edd4894c-d5f9-43c9-b698-c275bd72777f" />
 
 <img width="1364" height="728" alt="image" src="https://github.com/user-attachments/assets/e81db7e0-6baf-4faa-a71c-d1b3b97604b1" />
 

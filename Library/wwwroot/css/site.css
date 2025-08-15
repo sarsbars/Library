@@ -121,3 +121,15 @@ body {
 .book-card {
     border-color: #d1d5db;
 }
+
+.genres {
+    color: #2c6da4;
+}
+
+.authors {
+    color: #7c52a1
+}
+
+.previous {
+    color: #3a803a;
+}

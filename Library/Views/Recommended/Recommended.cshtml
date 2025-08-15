@@ -14,7 +14,7 @@
         <h4 class="genres">From genres you like:</h4>
         @foreach (var genreEntry in Model.GenreBooks)
         {
-            <h6 class="text-black-50">@genreEntry.Key</h6>
+            <h5 class="text-black-50">@genreEntry.Key</h5>
             <ul class="row row-cols-4">
             @foreach(Book book in genreEntry.Value)
             {
@@ -22,8 +22,8 @@
                     <div class="card book-card h-100 pb-3">
                         <a asp-controller="Book" asp-action="Details" asp-route-BookID="@book.BookID" class="text-decoration-none">
                             <div class="card-body">
-                                <h5 class="card-title">@book.Title</h5>
-                                <h6 class="card-subtitle mb-2">@book.Author</h6>
+                                <h6 class="card-title">@book.Title</h6>
+                                <p class="card-subtitle mb-2 text-black-50">@book.Author</p>
                             </div>
                         </a>
                     </div>
@@ -34,7 +34,7 @@
         <h4 class="authors">From authors you like:</h4>
         @foreach (var authorEntry in Model.AuthorBooks)
         {
-            <h6 class="text-black-50">@authorEntry.Key</h6>
+            <h5 class="text-black-50">@authorEntry.Key</h5>
             <ul class="row row-cols-4">
             @foreach(Book book in authorEntry.Value)
             {
@@ -42,8 +42,8 @@
                     <div class="card book-card h-100 pb-3">
                         <a asp-controller="Book" asp-action="Details" asp-route-BookID="@book.BookID" class="text-decoration-none">
                             <div class="card-body">
-                                <h5 class="card-title">@book.Title</h5>
-                                <h6 class="card-subtitle mb-2">@book.Author</h6>
+                                <h6 class="card-title">@book.Title</h6>
+                                <p class="card-subtitle mb-2 text-black-50">@book.Author</p>
                             </div>
                         </a>
                     </div>

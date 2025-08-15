@@ -47,7 +47,7 @@
     </div>
     <div class="form-group">
         <label asp-for="LocationID" class="control-lable">Location</label>
-        <select asp-for="LocationID" asp-items="@(new SelectList(ViewBag.Locations, "LocationID", "LocationName"))"></select>
+        <select asp-for="LocationID" asp-items="@(new SelectList(ViewBag.Locations, "LocationID", "LocationName"))" class="form-select"></select>
         <span asp-validation-for="LocationID" class="text-danger"></span>
     </div>
 

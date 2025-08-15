@@ -12,7 +12,7 @@ namespace Library.Controllers {
         private readonly BookService _bookService;
         private readonly UserService _userService;
 
-        public LoanController(LoanService loanService ,LocationService locationService, BookService bookService, UserService userService) {
+        public LoanController(LoanService loanService, LocationService locationService, BookService bookService, UserService userService) {
             _loanService = loanService;
             _locationService = locationService;
             _bookService = bookService;
@@ -39,6 +39,7 @@ namespace Library.Controllers {
 
                 loans = _loanService.GetLoans().Where(l => l.UserID == user.UserID);
             }
+            loans = loans.OrderByDescending(l => l.LoanID);
             return View(loans);
         }
 
@@ -50,13 +51,14 @@ namespace Library.Controllers {
             ViewBag.LocationList = new SelectList(locations, "LocationID", "LocationName");
 
             List<Book> availableBooks = _bookService.GetBooks().Where(b => b.IsAvailable == true).ToList();
-            ViewBag.BookList = availableBooks.Select(b => new SelectListItem {
+            ViewBag.BookList = availableBooks.OrderBy(b => b.Title).Select(b => new SelectListItem {
                 Value = b.BookID.ToString(),
                 Text = $"{b.Title} by {b.Author} - {b.Condition} ({b.Genre}) [ID: {b.BookID}]",
             }).ToList();
 
             List<User> users = _userService.GetAllUsers();
             List<User> availableUsers = users
+                 .OrderBy(u => u.Name)
                  .Where(u => !u.Loans.Any(l => l.LoanStatus != LoanStatusType.Returned))
                  .ToList();
 
@@ -94,7 +96,7 @@ namespace Library.Controllers {
                 List<Book> availableBooks = _bookService.GetBooks()
                             .Where(b => b.IsAvailable == true)
                             .ToList();
-                ViewBag.BookList = availableBooks.Select(b => new SelectListItem {
+                ViewBag.BookList = availableBooks.OrderBy(b => b.Title).Select(b => new SelectListItem {
                     Value = b.BookID.ToString(),
                     Text = $"{b.Title} by {b.Author} - {b.Condition} ({b.Genre}) [ID: {b.BookID}]",
                     Selected = b.BookID == loan.BookID
@@ -102,6 +104,7 @@ namespace Library.Controllers {
 
                 List<User> users = _userService.GetAllUsers();
                 List<User> availableUsers = users
+                     .OrderBy(u => u.Name)
                      .Where(u => !u.Loans.Any(l => l.LoanStatus != LoanStatusType.Returned))
                      .ToList();
 
@@ -128,7 +131,7 @@ namespace Library.Controllers {
 
         public IActionResult Details(int id) {
             Loan loan = _loanService.GetLoans().FirstOrDefault(l => l.LoanID == id);
-            if(loan == null) {
+            if (loan == null) {
                 return NotFound();
             }
             return View(loan);
@@ -221,7 +224,7 @@ namespace Library.Controllers {
                     _bookService.UpdateBook(book);
                 }
             }
-                _loanService.DeleteLoan(id);
+            _loanService.DeleteLoan(id);
             return RedirectToAction("Index");
         }
     }

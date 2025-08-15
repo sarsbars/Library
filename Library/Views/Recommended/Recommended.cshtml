@@ -11,38 +11,42 @@
     else
     {
         
-        <h3>From genres you like:</h3>
+        <h4 class="genres">From genres you like:</h4>
         @foreach (var genreEntry in Model.GenreBooks)
         {
-            <h4>@genreEntry.Key</h4>
+            <h6 class="text-black-50">@genreEntry.Key</h6>
             <ul class="row row-cols-4">
             @foreach(Book book in genreEntry.Value)
             {
-                <li class="card shadow border-secondary mb-4">
-                    <a asp-controller="Book" asp-action="Details" asp-route-BookID="@book.BookID" class="text-decoration-none">
-                        <div class="card-body">
-                            <h5 class="card-title">@book.Title</h5>
-                            <h6 class="card-subtitle mb-2">@book.Author</h6>
-                        </div>
-                    </a>
+                <li class="col" >
+                    <div class="card book-card h-100 pb-3">
+                        <a asp-controller="Book" asp-action="Details" asp-route-BookID="@book.BookID" class="text-decoration-none">
+                            <div class="card-body">
+                                <h5 class="card-title">@book.Title</h5>
+                                <h6 class="card-subtitle mb-2">@book.Author</h6>
+                            </div>
+                        </a>
+                    </div>
                 </li>
             }
             </ul>
         }
-        <h3>From authors you like:</h3>
+        <h4 class="authors">From authors you like:</h4>
         @foreach (var authorEntry in Model.AuthorBooks)
         {
-            <h4>@authorEntry.Key</h4>
+            <h6 class="text-black-50">@authorEntry.Key</h6>
             <ul class="row row-cols-4">
             @foreach(Book book in authorEntry.Value)
             {
-                <li class="card shadow border-secondary mb-4">
-                    <a asp-controller="Book" asp-action="Details" asp-route-BookID="@book.BookID" class="text-decoration-none">
-                        <div class="card-body">
-                            <h5 class="card-title">@book.Title</h5>
-                            <h6 class="card-subtitle mb-2">@book.Author</h6>
-                        </div>
-                    </a>
+                <li class="col">
+                    <div class="card book-card h-100 pb-3">
+                        <a asp-controller="Book" asp-action="Details" asp-route-BookID="@book.BookID" class="text-decoration-none">
+                            <div class="card-body">
+                                <h5 class="card-title">@book.Title</h5>
+                                <h6 class="card-subtitle mb-2">@book.Author</h6>
+                            </div>
+                        </a>
+                    </div>
                 </li>
             }
             </ul>
@@ -50,7 +54,7 @@
     }
 </div>
 
-<h3>Your previous books</h3>
+<h4 class="previous">Your previous books</h4>
 @if(Model.Loans.Count == 0)
 {
     <p>You have no previous books</p>

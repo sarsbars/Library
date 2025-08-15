@@ -1,0 +1,78 @@
+﻿@model Library.ViewModels.CheckoutViewModel
+@{
+    ViewData["Title"] = "Checkout Dashboard";
+}
+
+<h1 class="mb-4">Checkout Dashboard</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card border-info mb-4">
+            <div class="card-header bg-info text-white">
+                Holds Waiting to be Picked Up
+            </div>
+            <div class="card-body">
+                @if (Model.Holds.Any()) {
+                    <ul class="list-group">
+                        @foreach (var hold in Model.Holds) {
+                            <li class="list-group-item">
+                                <strong>@hold.Book?.Title</strong><br />
+                                Borrower: @hold.User?.Name<br />
+                                Location: @hold.Location?.LocationName
+                            </li>
+                        }
+                    </ul>
+                } else {
+                    <p>No holds waiting.</p>
+                }
+                <a href="/Loans" class="btn btn-outline-info mt-3">See Full History</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card border-warning mb-4">
+            <div class="card-header bg-warning text-dark">
+                Books on Loan
+            </div>
+            <div class="card-body">
+                @if (Model.CurrentLoans.Any()) {
+                    <ul class="list-group">
+                        @foreach (var loan in Model.CurrentLoans) {
+                            <li class="list-group-item">
+                                <strong>@loan.Book?.Title</strong><br />
+                                Borrower: @loan.User?.Name<br />
+                                Due: @loan.DueDate.ToShortDateString()
+                            </li>
+                        }
+                    </ul>
+                } else {
+                    <p>No books currently on loan.</p>
+                }
+                <a href="/Loans" class="btn btn-outline-warning mt-3">See Full History</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card border-success mb-4">
+            <div class="card-header bg-success text-white">
+                Recent Books
+            </div>
+            <div class="card-body">
+                @if (Model.RecentBooks.Any()) {
+                    <ul class="list-group">
+                        @foreach (var book in Model.RecentBooks) {
+                            <li class="list-group-item">
+                                <strong>@book.Title</strong> by @book.Author
+                            </li>
+                        }
+                    </ul>
+                } else {
+                    <p>No recent books.</p>
+                }
+                <a href="/Books" class="btn btn-outline-success mt-3">See All Books</a>
+            </div>
+        </div>
+    </div>
+</div>

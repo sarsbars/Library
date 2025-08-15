@@ -29,6 +29,17 @@
             </div>
         </div>
     </div>
+    @if(User.IsInRole("Admin"))
+    {
+        <div class="col-md-3">
+            <div class="card text-white staffs-card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title loans-card-title">Total Staffs</h5>
+                    <p class="card-text display-6">@Model.TotalStaffs</p>
+                </div>
+            </div>
+        </div> 
+    }
 
     <div class="col-md-3">
         <div class="card text-white books2-card mb-3">

@@ -23,7 +23,7 @@ namespace Library.Controllers {
         public IActionResult Index() {
             IEnumerable<Loan> loans = _loanService.GetLoans();
 
-            if (User.IsInRole("Admin")) {
+            if (User.IsInRole("Admin") || User.IsInRole("Staff" )) {
                 loans = _loanService.GetLoans();
             }
             else {
@@ -43,7 +43,7 @@ namespace Library.Controllers {
         }
 
         [Authorize]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Staff")]
         [HttpGet]
         public IActionResult Create() {
             List<Location> locations = _locationService.GetLocations();
@@ -83,7 +83,7 @@ namespace Library.Controllers {
         }
 
         [Authorize]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Staff")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Loan loan) {
@@ -135,7 +135,7 @@ namespace Library.Controllers {
         }
 
         [Authorize]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Staff")]
         [HttpGet]
         public IActionResult Edit(int id) {
             Loan loan = _loanService.GetLoanById(id);
@@ -154,7 +154,7 @@ namespace Library.Controllers {
         }
 
         [Authorize]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Staff")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Loan loan) {
@@ -199,7 +199,7 @@ namespace Library.Controllers {
         }
 
         [Authorize]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Staff")]
         [HttpGet]
         public IActionResult Delete(int id) {
             Loan loan = _loanService.GetLoanById(id);
@@ -210,7 +210,7 @@ namespace Library.Controllers {
         }
 
         [Authorize]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Staff")]
         [HttpPost, ActionName("Delete")]
         public IActionResult DeleteConfirmed(int id) {
             Loan loan = _loanService.GetLoanById(id);

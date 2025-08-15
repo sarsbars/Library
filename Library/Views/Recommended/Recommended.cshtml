@@ -15,7 +15,7 @@
         @foreach (var genreEntry in Model.GenreBooks)
         {
             <h5 class="text-black-50">@genreEntry.Key</h5>
-            <ul class="row row-cols-4">
+            <ul class="row row-cols-4 list-unstyled">
             @foreach(Book book in genreEntry.Value)
             {
                 <li class="col" >
@@ -35,7 +35,7 @@
         @foreach (var authorEntry in Model.AuthorBooks)
         {
             <h5 class="text-black-50">@authorEntry.Key</h5>
-            <ul class="row row-cols-4">
+            <ul class="row row-cols-4 list-unstyled">
             @foreach(Book book in authorEntry.Value)
             {
                 <li class="col">

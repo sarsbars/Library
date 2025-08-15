@@ -27,29 +27,27 @@ namespace Library.Controllers {
 
             User currentUser = _userService.GetCurrentUser(email);
 
-            if (currentUser == null) {
-                return NotFound("User not found.");
+            List<Loan> holds = new List<Loan>();
+            List<Loan> currentLoans = new List<Loan>();
+
+            if (currentUser != null) {
+                RoleType role = currentUser.Role;
+
+                if (role == RoleType.Reader) {
+                    holds = currentUser.Loans
+                        .Where(l => l.LoanStatus == LoanStatusType.OnHold)
+                        .ToList();
+
+                    currentLoans = currentUser.Loans
+                        .Where(l => l.LoanStatus == LoanStatusType.TakenOut || l.LoanStatus == LoanStatusType.Overdue)
+                        .ToList();
+                } else {
+                    holds = _loanService.GetAllHolds();
+                    currentLoans = _loanService.GetAllCurrentLoans();
+                }
             }
 
-            RoleType role = currentUser.Role;
-
-            List<Loan> holds;
-            List<Loan> currentLoans;
-
-            if (role == RoleType.Reader) {
-                holds = currentUser.Loans
-                    .Where(l => l.LoanStatus == LoanStatusType.OnHold)
-                    .ToList();
-
-                currentLoans = currentUser.Loans
-                    .Where(l => l.LoanStatus == LoanStatusType.TakenOut || l.LoanStatus == LoanStatusType.Overdue)
-                    .ToList();
-            } else {
-                holds = _loanService.GetAllHolds();
-                currentLoans = _loanService.GetAllCurrentLoans();
-            }
-
-            List<Book> recentBooks = _bookService.GetMostRecentBooks(5);
+                List<Book> recentBooks = _bookService.GetMostRecentBooks(5);
 
             var viewModel = new CheckoutViewModel {
                 Holds = holds,

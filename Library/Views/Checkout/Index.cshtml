@@ -12,7 +12,7 @@
                 Holds Waiting to be Picked Up
             </div>
             <div class="card-body">
-                @if (Model.Holds.Any()) {
+                @if (Model.Holds != null && Model.Holds.Any()) {
                     <ul class="list-group">
                         @foreach (var hold in Model.Holds) {
                             <li class="list-group-item">
@@ -36,7 +36,7 @@
                 Books on Loan
             </div>
             <div class="card-body">
-                @if (Model.CurrentLoans.Any()) {
+                @if (Model.CurrentLoans != null && Model.CurrentLoans.Any()) {
                     <ul class="list-group">
                         @foreach (var loan in Model.CurrentLoans) {
                             <li class="list-group-item">
@@ -60,7 +60,7 @@
                 Recent Books
             </div>
             <div class="card-body">
-                @if (Model.RecentBooks.Any()) {
+                @if (Model.RecentBooks != null && Model.RecentBooks.Any()) {
                     <ul class="list-group">
                         @foreach (var book in Model.RecentBooks) {
                             <li class="list-group-item">

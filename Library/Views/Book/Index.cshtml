@@ -35,14 +35,18 @@
             <option value="">-- Any --</option>
         </select>
     </div>
-    <button type="submit" class="btn btn-primary">Filter</button>
-    <a asp-action="Index" class="btn btn-secondary">Clear Filters</a>
+    <div class="flex space-btwn mt-2 mb-5">
+        <div>
+            <button type="submit" class="btn btn-primary">Filter</button>
+            <a asp-action="Index" class="btn btn-secondary">Clear Filters</a>
+        </div>
+        @if (User.IsInRole("Staff") || User.IsInRole("Admin"))
+        {
+            <a asp-controller="Book" asp-action="Create" class="btn btn-info text-white">Add a new Book</a>
+        }
+    </div>
 </form>
 
-@if (User.IsInRole("Staff") || User.IsInRole("Admin"))
-{
-    <a asp-controller="Book" asp-action="Create">Add a new Book</a>
-}
 
 <div>
     <partial name="BookList" model="Model.Books" />

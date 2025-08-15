@@ -117,3 +117,7 @@ body {
     list-style: none;
     padding-left: 0;
 }
+
+.book-card {
+    border-color: #d1d5db;
+}

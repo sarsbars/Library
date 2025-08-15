@@ -9,7 +9,7 @@
         @foreach(Book book in Model)
         {
             <li class="col">
-                <div class="card book-card border-secondary h-100">
+                <div class="card book-card h-100">
                     <a asp-controller="Book" asp-action="Details" asp-route-BookID="@book.BookID" class="text-decoration-none">
                         <div class="card-body">
                             <h5 class="card-title">@book.Title</h5>

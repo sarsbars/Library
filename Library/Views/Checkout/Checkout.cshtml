@@ -1,0 +1,75 @@
+﻿@model CheckoutViewModel
+@{
+    ViewData["Title"] = "Checkout Dashboard";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Checkout Dashboard</h2>
+
+    <!-- Holds Waiting -->
+    <div class="card mb-3 shadow-sm">
+        <div class="card-header bg-warning text-dark">
+            Holds Waiting to be Picked Up
+        </div>
+        <div class="card-body">
+            @if (Model.HoldsWaiting.Any())
+            {
+                <ul class="list-group">
+                    @foreach (var hold in Model.HoldsWaiting)
+                    {
+                        <li class="list-group-item">@hold</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p class="text-muted">No holds waiting.</p>
+            }
+        </div>
+    </div>
+
+    <!-- Books On Loan -->
+    <div class="card mb-3 shadow-sm">
+        <div class="card-header bg-info text-white">
+            Books on Loan
+        </div>
+        <div class="card-body">
+            @if (Model.BooksOnLoan.Any())
+            {
+                <ul class="list-group">
+                    @foreach (var loan in Model.BooksOnLoan)
+                    {
+                        <li class="list-group-item">@loan</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p class="text-muted">No books currently on loan.</p>
+            }
+        </div>
+    </div>
+
+    <!-- Recent Books -->
+    <div class="card mb-3 shadow-sm">
+        <div class="card-header bg-success text-white">
+            5 Most Recent Books
+        </div>
+        <div class="card-body">
+            @if (Model.RecentBooks.Any())
+            {
+                <ul class="list-group">
+                    @foreach (var book in Model.RecentBooks)
+                    {
+                        <li class="list-group-item">@book</li>
+                    }
+                </ul>
+                <a href="/Checkout/History" class="btn btn-outline-primary mt-3">See More</a>
+            }
+            else
+            {
+                <p class="text-muted">No recent books found.</p>
+            }
+        </div>
+    </div>
+</div>

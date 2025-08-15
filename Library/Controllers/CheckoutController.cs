@@ -1,43 +1,30 @@
 ﻿using Library.BLL;
-using Library.Models;
-using Microsoft.AspNetCore.Authorization;
+using Library.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace Library.Controllers {
-    [Authorize]
     public class CheckoutController : Controller {
-        private readonly CheckoutService _checkoutService;
+        private readonly HoldService _holdService;
+        private readonly LoanService _loanService;
+        private readonly BookService _bookService;
 
-        public CheckoutController(CheckoutService checkoutService) {
-            _checkoutService = checkoutService;
+        public CheckoutController(
+            HoldService holdService,
+            LoanService loanService,
+            BookService bookService) {
+            _holdService = holdService;
+            _loanService = loanService;
+            _bookService = bookService;
         }
 
-        public IActionResult Dashboard() {
-            int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-
-            var viewModel = new CheckoutDashboardViewModel {
-                CurrentLoans = _checkoutService.GetCurrentLoans(userId),
-                PendingHolds = _checkoutService.GetPendingHolds(userId),
-                RecentBooks = _checkoutService.GetRecentBooks(userId, 5)
+        public IActionResult Index() {
+            var model = new CheckoutViewModel {
+                HoldsWaitingPickup = _holdService.GetHoldsWaitingForPickup(),
+                CurrentLoans = _loanService.GetCurrentLoans(),
+                RecentBooks = _bookService.GetMostRecentBooks(5)
             };
 
-            return View("Checkout", viewModel);
-        }
-
-        [HttpPost]
-        public IActionResult RenewLoan(int id) {
-            return RedirectToAction("Dashboard");
-        }
-
-        [HttpPost]
-        public IActionResult CancelHold(int id) {
-            return RedirectToAction("Dashboard");
-        }
-
-        public IActionResult FullHistory() {
-            return View();
+            return View(model);
         }
     }
-
 }

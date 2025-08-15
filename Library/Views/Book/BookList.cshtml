@@ -13,7 +13,7 @@
                     <a asp-controller="Book" asp-action="Details" asp-route-BookID="@book.BookID" class="text-decoration-none">
                         <div class="card-body">
                             <h5 class="card-title">@book.Title</h5>
-                            <h6 class="card-subtitle mb-2">@book.Author</h6>
+                            <h6 class="card-subtitle mb-2 text-black-50 "">@book.Author</h6>
                         </div>
                     </a>
                     @if (User.IsInRole("Staff") || User.IsInRole("Admin"))

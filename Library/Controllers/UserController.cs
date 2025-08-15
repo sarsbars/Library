@@ -118,6 +118,7 @@ namespace Library.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, User updatedUser) {
+            ModelState.Remove(nameof(updatedUser.Location));
             if (id != updatedUser.UserID) return NotFound();
 
             if (User.IsInRole("Staff") && updatedUser.Role == RoleType.Admin)

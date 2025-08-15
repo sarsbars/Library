@@ -2,60 +2,53 @@
 using Library.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
-using System.Linq;
 
 namespace Library.Controllers {
-    [Authorize] // Requires authentication for all actions
+    [Authorize]
     public class LocationController : Controller {
         private readonly LocationService _locationService;
-
         public LocationController(LocationService locationService) {
             _locationService = locationService;
         }
-
         [AllowAnonymous]
         public IActionResult Index() {
             var locations = _locationService.GetLocations();
             return View(locations);
         }
-
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public IActionResult Create() {
-            ViewBag.LocationNameList = new SelectList(Enum.GetValues(typeof(LocationNameType))
-                .Cast<LocationNameType>()
-                .Select(l => new SelectListItem { Text = l.ToString(), Value = l.ToString() }),
-                "Value", "Text");
-            return View(new Location());
+            return View(new LocationViewModel());
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public IActionResult Create(Location location) {
+        public IActionResult Create(LocationViewModel viewModel) {
             if (!ModelState.IsValid) {
-                ViewBag.LocationNameList = new SelectList(Enum.GetValues(typeof(LocationNameType))
-                    .Cast<LocationNameType>()
-                    .Select(l => new SelectListItem { Text = l.ToString(), Value = l.ToString() }),
-                    "Value", "Text");
-                return View(location);
+                return View(viewModel);
             }
             try {
+                var location = new Location {
+                    LocationID = viewModel.LocationID,
+                    Address = viewModel.Address,
+                    PhoneNumber = viewModel.PhoneNumber
+                };
+                if (Enum.TryParse<LocationNameType>(viewModel.LocationName, true, out var locationName)) {
+                    location.LocationName = locationName;
+                    location.CustomName = null;
+                } else {
+                    location.LocationName = LocationNameType.Custom;
+                    location.CustomName = viewModel.LocationName;
+                }
                 _locationService.AddLocation(location);
                 return RedirectToAction(nameof(Index));
             } catch (Exception ex) {
                 ModelState.AddModelError("", $"Error creating location: {ex.Message}");
-                ViewBag.LocationNameList = new SelectList(Enum.GetValues(typeof(LocationNameType))
-                    .Cast<LocationNameType>()
-                    .Select(l => new SelectListItem { Text = l.ToString(), Value = l.ToString() }),
-                    "Value", "Text");
-                return View(location);
+                return View(viewModel);
             }
         }
-
-        [Authorize(Roles = "Admin,Staff")]
+        [Authorize(Roles = "Admin,Staff,Reader")]
         public IActionResult Details(int id) {
             var location = _locationService.GetLocationByID(id);
             if (location == null) {
@@ -63,7 +56,6 @@ namespace Library.Controllers {
             }
             return View(location);
         }
-
         [HttpGet]
         [Authorize(Roles = "Admin,Staff")]
         public IActionResult Edit(int id) {
@@ -71,37 +63,42 @@ namespace Library.Controllers {
             if (location == null) {
                 return NotFound();
             }
-            ViewBag.LocationNameList = new SelectList(Enum.GetValues(typeof(LocationNameType))
-                .Cast<LocationNameType>()
-                .Select(l => new SelectListItem { Text = l.ToString(), Value = l.ToString() }),
-                "Value", "Text", location.LocationName.ToString());
-            return View(location);
+            var viewModel = new LocationViewModel {
+                LocationID = location.LocationID,
+                LocationName = location.LocationName.ToString(),
+                Address = location.Address,
+                PhoneNumber = location.PhoneNumber
+            };
+            return View(viewModel);
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,Staff")]
-        public IActionResult Edit(Location location) {
+        public IActionResult Edit(LocationViewModel viewModel) {
             if (!ModelState.IsValid) {
-                ViewBag.LocationNameList = new SelectList(Enum.GetValues(typeof(LocationNameType))
-                    .Cast<LocationNameType>()
-                    .Select(l => new SelectListItem { Text = l.ToString(), Value = l.ToString() }),
-                    "Value", "Text", location.LocationName.ToString());
-                return View(location);
+                return View(viewModel);
             }
             try {
+                var location = _locationService.GetLocationByID(viewModel.LocationID);
+                if (location == null) {
+                    return NotFound();
+                }
+                location.Address = viewModel.Address;
+                location.PhoneNumber = viewModel.PhoneNumber;
+                if (Enum.TryParse<LocationNameType>(viewModel.LocationName, true, out var locationName)) {
+                    location.LocationName = locationName;
+                    location.CustomName = null;
+                } else {
+                    location.LocationName = LocationNameType.Custom;
+                    location.CustomName = viewModel.LocationName;
+                }
                 _locationService.UpdateLocation(location);
                 return RedirectToAction(nameof(Index));
             } catch (Exception ex) {
                 ModelState.AddModelError("", $"Error updating location: {ex.Message}");
-                ViewBag.LocationNameList = new SelectList(Enum.GetValues(typeof(LocationNameType))
-                    .Cast<LocationNameType>()
-                    .Select(l => new SelectListItem { Text = l.ToString(), Value = l.ToString() }),
-                    "Value", "Text", location.LocationName.ToString());
-                return View(location);
+                return View(viewModel);
             }
         }
-
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id) {
@@ -111,7 +108,6 @@ namespace Library.Controllers {
             }
             return View(location);
         }
-
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]

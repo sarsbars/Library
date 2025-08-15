@@ -8,7 +8,8 @@ namespace Library.Models {
         HallResearchCenter,
         HuaKnowledgeInstitute,
         MitchellMemorialLibrary,
-        SolomonLearningCommons
+        SolomonLearningCommons,
+        Custom
     }
     public class Location {
         [Key]
@@ -17,6 +18,9 @@ namespace Library.Models {
 
         [Required]
         public LocationNameType LocationName { get; set; }
+
+        [StringLength(100)]
+        public string? CustomName { get; set; } 
 
         [Required]
         [StringLength(50)]

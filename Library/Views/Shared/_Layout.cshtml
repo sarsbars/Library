@@ -25,15 +25,16 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark nav-button" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        @if(User.IsInRole("Admin")|| User.IsInRole("Staff"))
+                          @if(User.IsInRole("Admin")|| User.IsInRole("Staff"))
                         {
-                        <li class="nav-item">
-                            <a class="nav-link text-dark nav-button" asp-area="" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
-                        </li> 
+                            <li class="nav-item">
+                                <a class="nav-link text-dark nav-button" asp-area="" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+                             </li> 
+                             <li class="nav-item">
+                                <a class="nav-link text-dark nav-button" asp-area="" asp-controller="User" asp-action="Index">Users</a>
+                        </li>
                         }
+                        
                         <li class="nav-item">
                             <a class="nav-link text-dark nav-button" asp-area="" asp-controller="Book" asp-action="Index">Books</a>
                         </li>
@@ -46,13 +47,14 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark nav-button" asp-area="" asp-controller="User" asp-action="Index">User</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark nav-button" asp-area="" asp-controller="Checkout" asp-action="Index">Checkout/Holds</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Recommended" asp-action="Recommended">Recommended</a>
-                        </li>
-                       
+                        @if(User.IsInRole("Reader")) {
+                             <li class="nav-item">
+                                <a class="nav-link text-dark nav-button" asp-area="" asp-controller="Recommended" asp-action="Recommended">Recommended</a>
+                            </li>
+                             <li class="nav-item">
+                                <a class="nav-link text-dark nav-button" asp-area="" asp-controller="Checkout" asp-action="Index">Check Out</a>
+                            </li>
+                        }
                     </ul>
                 <partial name="_LoginPartial" />
                 </div>

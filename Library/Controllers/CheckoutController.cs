@@ -20,7 +20,16 @@ namespace Library.Controllers {
         [Authorize]
         public IActionResult Index() {
             string email = User?.Identity?.Name;
+
+            if (string.IsNullOrEmpty(email)) {
+                return RedirectToAction("Login", "Account");
+            }
+
             User currentUser = _userService.GetCurrentUser(email);
+
+            if (currentUser == null) {
+                return NotFound("User not found.");
+            }
 
             RoleType role = currentUser.Role;
 

@@ -9,7 +9,7 @@
         @foreach(Book book in Model)
         {
             <li class="col">
-                <div class="card book-card h-100">
+                <div class="card book-card h-100 pb-3">
                     <a asp-controller="Book" asp-action="Details" asp-route-BookID="@book.BookID" class="text-decoration-none">
                         <div class="card-body">
                             <h5 class="card-title">@book.Title</h5>
@@ -18,11 +18,11 @@
                     </a>
                     @if (User.IsInRole("Staff") || User.IsInRole("Admin"))
                     {    
-                        <div>
-                            <a asp-controller="Book" asp-action="Update" asp-route-BookID="@book.BookID">Update</a>
+                        <div class="ms-3">
+                            <a asp-controller="Book" asp-action="Update" asp-route-BookID="@book.BookID" class="btn btn-secondary">Update</a>
                             @if (User.IsInRole("Admin"))
                             {
-                                <a asp-controller="Book" asp-action="Delete" asp-route-BookID="@book.BookID">Delete</a>
+                                <a asp-controller="Book" asp-action="Delete" asp-route-BookID="@book.BookID" class="btn btn-danger">Delete</a>
                             }
                         </div>
                     }

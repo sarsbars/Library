@@ -112,3 +112,8 @@ body {
 .top-borrowers {
     margin: 40px 0 40px 0 !important;
 }
+
+.list-unstyled {
+    list-style: none;
+    padding-left: 0;
+}

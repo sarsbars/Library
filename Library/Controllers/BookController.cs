@@ -15,7 +15,7 @@ namespace Library.Controllers {
             _bookService = bookService;
             _locationService = locationService;
         }
-
+        [AllowAnonymous]
         public IActionResult Index () {
             List<Book> books = _bookService.GetBooks();
 

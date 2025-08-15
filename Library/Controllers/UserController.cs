@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Library.Controllers {
+    [Authorize]
     public class UserController : Controller {
         private readonly UserService _userService;
 
@@ -13,6 +14,7 @@ namespace Library.Controllers {
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Staff")]
         public IActionResult Index(string role, string name, LocationNameType? location) {
             var usersQuery = _userService.FilterUsers(role, name, location);
 
@@ -44,6 +46,7 @@ namespace Library.Controllers {
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Staff")]
         public IActionResult Details(int? id) {
             if (id == null) return NotFound();
 
@@ -94,7 +97,7 @@ namespace Library.Controllers {
 
             return View(user);
         }
-
+        [Authorize(Roles = "Admin,Staff")]
         public IActionResult Edit(int? id) {
             if (id == null) return NotFound();
 
@@ -117,6 +120,7 @@ namespace Library.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Staff")]
         public IActionResult Edit(int id, User updatedUser) {
             if (id != updatedUser.UserID) return NotFound();
 

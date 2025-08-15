@@ -9,6 +9,7 @@ namespace Library.Models {
         public int TotalBooks { get; set; }
         public int TotalUsers {get; set;}
         public int TotalLoans { get; set; }
+        public int TotalStaffs { get; set; }
         public int OverDueBooksCount { get; set; }
         public ICollection<Book> MostRecentlyAddedBooks { get; set; }
         public ICollection<Book> AvailableBooks { get; set; }

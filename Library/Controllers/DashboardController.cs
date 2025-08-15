@@ -9,6 +9,7 @@ namespace Library.Controllers {
         private readonly LocationService _locationService;
         private readonly BookService _bookService;
 
+
         public DashboardController(
             UserService userService,
             LoanService loanService,
@@ -24,6 +25,7 @@ namespace Library.Controllers {
                 TotalBooks = _bookService.GetTotalBooks(),
                 TotalUsers = _userService.GetTotalUsers(),
                 TotalLoans = _loanService.GetTotalLoans(),
+                TotalStaffs = _userService.GetTotalStaff(),
                 OverDueBooksCount = _loanService.GetOverdueBooksCount(),
                 AvailableBooks = _bookService.GetAvailableBooks(),
                 TopBorrowers = _userService.GetTopBorrowers(),

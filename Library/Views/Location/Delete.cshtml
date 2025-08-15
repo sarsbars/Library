@@ -5,7 +5,7 @@
 
 <div class="card">
     <div class="card-body">
-        <p><strong>Location Name:</strong> @Model.LocationName</p>
+        <p><strong>Location Name:</strong> @(Model.LocationName == LocationNameType.Custom ? Model.CustomName : Model.LocationName.ToString())</p>
         <p><strong>Address:</strong> @Model.Address</p>
         <p><strong>Phone Number:</strong> @Model.PhoneNumber</p>
     </div>

@@ -1,4 +1,4 @@
-﻿@model Library.Models.Location
+﻿@model Library.Models.LocationViewModel
 
 <h2>Create Location</h2>
 
@@ -7,9 +7,7 @@
 
     <div class="form-group">
         <label asp-for="LocationName" class="control-label">Location Name</label>
-        <select asp-for="LocationName" class="form-control" asp-items="@ViewBag.LocationNameList">
-            <option value="">Select a location name</option>
-        </select>
+        <input asp-for="LocationName" type="text" class="form-control" />
         <span asp-validation-for="LocationName" class="text-danger"></span>
     </div>
 

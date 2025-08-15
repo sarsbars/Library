@@ -18,7 +18,7 @@
         @foreach (Location location in Model)
         {
             <tr>
-                <td>@location.LocationName</td>
+                <td>@(location.LocationName == LocationNameType.Custom ? location.CustomName : location.LocationName.ToString())</td>
                 <td>@location.Address</td>
                 <td>@location.PhoneNumber</td>
                 <td>

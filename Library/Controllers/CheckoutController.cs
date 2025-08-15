@@ -14,7 +14,7 @@ namespace Library.Controllers {
         }
 
         public IActionResult Index() {
-            var model = new CheckoutViewModel {               
+            var model = new CheckoutViewModel {
                 Holds = _context.Loans
                     .Include(l => l.Book)
                     .Include(l => l.User)
@@ -22,7 +22,8 @@ namespace Library.Controllers {
                     .Where(l => l.LoanStatus == LoanStatusType.OnHold)
                     .OrderByDescending(l => l.DateBorrowed)
                     .ToList(),
-             
+
+
                 CurrentLoans = _context.Loans
                     .Include(l => l.Book)
                     .Include(l => l.User)

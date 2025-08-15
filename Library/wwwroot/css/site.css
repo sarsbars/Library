@@ -61,6 +61,10 @@ body {
     background-color: #2d5acd !important;
 }
 
+.logout {
+    margin-left: 24px;
+}
+
 .login-button::after hover {
     background-color: #0836ac;
 }
@@ -132,4 +136,9 @@ body {
 
 .previous {
     color: #3a803a;
+}
+
+.username {
+    font-weight: 600 !important;
+    color: #2c6da4 !important;
 }

@@ -41,5 +41,11 @@ namespace Library.DAL {
         public int GetTotalBooks() {
             return GetBooks().Count();
         }
+        public List<Book> GetMostRecentBooks(int count) {
+            return _context.Books
+                .OrderByDescending(b => b.BookID) 
+                .Take(count)
+                .ToList();
+        }
     }
 }

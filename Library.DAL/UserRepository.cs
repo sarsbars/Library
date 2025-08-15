@@ -73,5 +73,11 @@ namespace Library.DAL {
                 .Take(count)
                 .ToList();
         }
+
+        public int GetTotalStaff() {
+            return GetAllUsers()
+                .Where(u => u.Role == RoleType.Staff)
+                .Count();
+        }
     }
 }

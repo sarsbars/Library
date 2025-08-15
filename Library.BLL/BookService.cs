@@ -52,5 +52,6 @@ namespace Library.BLL {
 
         public List<Book> GetAvailableBooks() => _bookRepository.GetAvailableBooks();
         public int GetTotalBooks() => _bookRepository.GetTotalBooks();
+        public List<Book> GetMostRecentBooks(int count) => _bookRepository.GetMostRecentBooks(count);
     }
 }

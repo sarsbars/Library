@@ -76,6 +76,7 @@ namespace Library.Controllers {
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,Staff")]
         public IActionResult Create(User user) {
+            ModelState.Remove(nameof(user.Location));
             ViewBag.Locations = _userService.GetAllLocations()
                 .Select(l => new SelectListItem
                 {

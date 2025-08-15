@@ -62,5 +62,21 @@ namespace Library.DAL {
         public int GetOverdueBooksCount() {
             return GetLoans().Count(l => l.DueDate < DateTime.Today && l.LoanStatus != LoanStatusType.Returned);
         }
+
+        public List<Loan> GetAllHolds() {
+            return _context.Loans
+                .Include(l => l.Book)
+                .Include(l => l.User)
+                .Where(l => l.LoanStatus == LoanStatusType.OnHold)
+                .ToList();
+        }
+
+        public List<Loan> GetAllCurrentLoans() {
+            return _context.Loans
+                .Include(l => l.Book)
+                .Include(l => l.User)
+                .Where(l => l.LoanStatus == LoanStatusType.TakenOut || l.LoanStatus == LoanStatusType.Overdue)
+                .ToList();
+        }
     }
 }

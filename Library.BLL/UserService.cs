@@ -53,5 +53,11 @@ namespace Library.BLL {
 
         public int GetTotalUsers() => _userRepository.GetTotalUsers();
         public List<User> GetTopBorrowers(int count = 5) => _userRepository.GetTopBorrowers(count);
+
+        public int GetTotalStaff() {
+            return GetAllUsers()
+                .Where(u => u.Role == RoleType.Staff)
+                .Count();
+        }
     }
 }

@@ -18,7 +18,7 @@ namespace Library.BLL {
         }
 
         public void AddLoan(Loan loan) {
-            if(loan == null) {
+            if (loan == null) {
                 throw new ArgumentNullException(nameof(loan), "Loan cannot be null");
             }
             _loanRepository.AddLoan(loan);
@@ -29,5 +29,9 @@ namespace Library.BLL {
 
         public int GetTotalLoans() => _loanRepository.GetTotalLoans();
         public int GetOverdueBooksCount() => _loanRepository.GetOverdueBooksCount();
+
+        public List<Loan> GetAllHolds() => _loanRepository.GetAllHolds();
+        public List<Loan> GetAllCurrentLoans() => _loanRepository.GetAllCurrentLoans();
+
     }
 }

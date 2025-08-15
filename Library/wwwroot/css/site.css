@@ -61,6 +61,10 @@ body {
     background-color: #2d5acd !important;
 }
 
+.logout {
+    margin-left: 24px;
+}
+
 .login-button::after hover {
     background-color: #0836ac;
 }
@@ -83,6 +87,10 @@ body {
 
 .books2-card {
     background-color: #f7a8a8;
+}
+
+.staffs-card {
+    background-color: #A8E6CF;
 }
 
 .books-card-title {
@@ -111,4 +119,30 @@ body {
 
 .top-borrowers {
     margin: 40px 0 40px 0 !important;
+}
+
+.list-unstyled {
+    list-style: none;
+    padding-left: 0;
+}
+
+.book-card {
+    border-color: #d1d5db;
+}
+
+.genres {
+    color: #2c6da4;
+}
+
+.authors {
+    color: #7c52a1
+}
+
+.previous {
+    color: #3a803a;
+}
+
+.username {
+    font-weight: 600 !important;
+    color: #2c6da4 !important;
 }

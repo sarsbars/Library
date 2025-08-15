@@ -5,26 +5,28 @@
     <p>No books fit this description</p>
 } else
 {
-    <ul class="row row-cols-4">
+    <ul class="row row-cols-4 g-3 list-unstyled">
         @foreach(Book book in Model)
         {
-            <li class="card shadow border-secondary mb-4">
-                <a asp-controller="Book" asp-action="Details" asp-route-BookID="@book.BookID" class="text-decoration-none">
-                    <div class="card-body">
-                        <h5 class="card-title">@book.Title</h5>
-                        <h6 class="card-subtitle mb-2">@book.Author</h6>
-                    </div>
-                </a>
-                @if (User.IsInRole("Staff") || User.IsInRole("Admin"))
-                {    
-                    <div>
-                        <a asp-controller="Book" asp-action="Update" asp-route-BookID="@book.BookID">Update</a>
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <a asp-controller="Book" asp-action="Delete" asp-route-BookID="@book.BookID">Delete</a>
-                        }
-                    </div>
-                }
+            <li class="col">
+                <div class="card book-card h-100 pb-3">
+                    <a asp-controller="Book" asp-action="Details" asp-route-BookID="@book.BookID" class="text-decoration-none">
+                        <div class="card-body">
+                            <h5 class="card-title">@book.Title</h5>
+                            <h6 class="card-subtitle mb-2 text-black-50 "">@book.Author</h6>
+                        </div>
+                    </a>
+                    @if (User.IsInRole("Staff") || User.IsInRole("Admin"))
+                    {    
+                        <div class="ms-3">
+                            <a asp-controller="Book" asp-action="Update" asp-route-BookID="@book.BookID" class="btn btn-secondary">Update</a>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-controller="Book" asp-action="Delete" asp-route-BookID="@book.BookID" class="btn btn-danger">Delete</a>
+                            }
+                        </div>
+                    }
+                </div>
             </li>
         }
     </ul>
